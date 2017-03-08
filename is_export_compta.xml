@@ -18,6 +18,7 @@
             <field name="name">Détail des lignes à exporter</field>
             <field name="res_model">is.export.compta.ligne</field>
             <field name="view_type">form</field>
+            <field name="limit">1000</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('export_compta_id','=',active_id)]</field>
             <field name="context">{'default_export_compta_id': active_id}</field>
@@ -57,10 +58,12 @@
         </record>
         <record id="is_export_compta_action" model="ir.actions.act_window">
             <field name="name">Export compta</field>
-            <field name="type">ir.actions.act_window</field>
             <field name="res_model">is.export.compta</field>
+            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+
         </record>
+
 
         <record id="is_export_compta_type_seq" model="ir.sequence.type">
             <field name="name">Folio Export Compta</field>
@@ -93,8 +96,8 @@
                     <field name="compte" />
                     <field name="piece" />
                     <field name="libelle" />
-                    <field name="debit" />
-                    <field name="credit" />
+                    <field name="debit"  sum="Total"/>
+                    <field name="credit" sum="Total"/>
                     <field name="devise" />
                     <field name="commentaire" />
                 </tree>
@@ -132,10 +135,13 @@
                     <field name="compte"/>
                     <field name="piece"/>
                     <field name="libelle"/>
+                    <field name="commentaire" />
+                    <group expand="0" string="Regrouper par...">
+                        <filter string="Compte"        context="{'group_by':'compte'}"/>
+                        <filter string="Pièce"         context="{'group_by':'piece'}"/>
+                    </group>
                </search>
             </field>
         </record>
-
-
     </data>
 </openerp>

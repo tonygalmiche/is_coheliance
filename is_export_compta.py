@@ -35,7 +35,7 @@ class is_export_compta(models.Model):
 
 
             invoices = self.env['account.invoice'].search([
-                ('state'       , '=' , 'open'),
+                ('state'       , 'in' , ['open','paid']),
                 ('date_invoice', '>=', obj.date_debut),
                 ('date_invoice', '<=', obj.date_fin),
                 ('type'        , 'in' , type_facture)
@@ -64,9 +64,7 @@ class is_export_compta(models.Model):
 
                 cr.execute(sql)
                 for row in cr.fetchall():
-                    print row
                     libelle=row[3]+u' - '+row[4]
-
                     vals={
                         'export_compta_id'  : obj.id,
                         'date_facture'      : row[0],
@@ -80,10 +78,6 @@ class is_export_compta(models.Model):
                         'commentaire'       : False,
                     }
                     self.env['is.export.compta.ligne'].create(vals)
-
-
-
-
 
 
 class is_export_compta_ligne(models.Model):
