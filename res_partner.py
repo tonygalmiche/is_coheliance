@@ -33,39 +33,20 @@ class res_partner(osv.osv):
         }
 
 
-
     _columns = {  
-        'is_prenom':  fields.char("Prénom"),
-        'is_siret':  fields.char("SIRET"),
-        'is_ape':  fields.char("APE"),
-        'is_secteur_activite_id': fields.many2one('is.secteur.activite', "Secteur d'activité", required=False),
-        'is_region_id': fields.many2one('is.region', 'Région', required=False),
-        'is_classification_id': fields.many2one('is.classification', 'Classification', required=False),
-        'is_bp':  fields.char("Boite postale"),
-        'is_liste_diffusion':  fields.char("Liste de diffusion"),
-        'is_email_perso':  fields.char("Courriel personnel"),
-        'is_responsable':  fields.boolean("Responsable structure", help="Est le responsable légal de la structure"),
-        'affaire_count': fields.function(_affaire_count, string='# Affaires', type='integer'),
+        'is_prenom'              : fields.char("Prénom"),
+        'is_code_fournisseur'    : fields.char("Code comptable fournisseur"),
+        'is_siret'               : fields.char("SIRET"),
+        'is_ape'                 : fields.char("APE"),
+        'is_secteur_activite_id' : fields.many2one('is.secteur.activite', "Secteur d'activité", required=False),
+        'is_region_id'           : fields.many2one('is.region', 'Région', required=False),
+        'is_classification_id'   : fields.many2one('is.classification', 'Classification', required=False),
+        'is_bp'                  : fields.char("Boite postale"),
+        'is_liste_diffusion'     : fields.char("Liste de diffusion"),
+        'is_email_perso'         : fields.char("Courriel personnel"),
+        'is_responsable'         : fields.boolean("Responsable structure", help="Est le responsable légal de la structure"),
+        'affaire_count'          : fields.function(_affaire_count, string='# Affaires', type='integer'),
     }
-
-
-
-
-
-#    def name_get(self, cr, user, ids, context=None):
-#        if context is None:
-#            context = {}
-#        if isinstance(ids, (int, long)):
-#            ids = [ids]
-#        if not len(ids):
-#            return []
-#        res = []
-#        for partner in self.browse(cr, SUPERUSER_ID, ids, context=context):
-#            name=partner.name
-#            if partner.is_prenom:
-#                name = partner.is_prenom  + ' ' +partner.name
-#            res.append((partner.id, name))
-#        return res
 
 
     def name_get(self, cr, uid, ids, context=None):

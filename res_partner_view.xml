@@ -70,8 +70,9 @@
                 </field>
 
                 <field name="property_account_position" position="before">
-                    <field name="is_siret" attrs="{'invisible': [('is_company','!=', True)]}"/>
-                    <field name="is_ape"   attrs="{'invisible': [('is_company','!=', True)]}"/>
+                    <field name="is_code_fournisseur" attrs="{'invisible': [('is_company','!=', True)]}"/>
+                    <field name="is_siret"            attrs="{'invisible': [('is_company','!=', True)]}"/>
+                    <field name="is_ape"              attrs="{'invisible': [('is_company','!=', True)]}"/>
                 </field>
 
                 <xpath expr="//notebook/page[@string='Contacts']/field[@name='child_ids']/kanban/templates/t/div/div/div/div/table" position="replace">
