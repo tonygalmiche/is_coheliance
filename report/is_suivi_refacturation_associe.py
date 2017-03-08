@@ -16,6 +16,8 @@ class is_suivi_refacturation_associe(models.Model):
     type_frais    = fields.Char(u'Type de frais')
     type_frais_km = fields.Char(u'Frais Km ou autres frais')
     montant       = fields.Float('Montant')
+    km            = fields.Integer('Km')
+    donnee        = fields.Float('Donnée')
     date          = fields.Date('Date')
     commentaire   = fields.Char('Commentaire')
 
@@ -51,6 +53,8 @@ class is_suivi_refacturation_associe(models.Model):
                     '' as type_frais_km, 
                     date, 
                     montant_facture as montant, 
+                    0 as km,
+                    montant_facture as donnee, 
                     commentaire as commentaire
                 from is_affaire_intervention 
                 where associe_id is not null and montant_facture!=0 
@@ -66,9 +70,32 @@ class is_suivi_refacturation_associe(models.Model):
                     is_frais_km(pt.name) as type_frais_km, 
                     ifl.date, 
                     ifl.montant_ht  as montant, 
+                    0 as km,
+                    ifl.montant_ht  as donnee, 
                     '' as commentaire
                 from is_frais if inner join is_frais_ligne ifl on if.id=ifl.frais_id 
                                  left outer join product_template pt on ifl.type_frais_id=pt.id
+
+
+                Union
+
+                select 
+                    ifl.id+3000000       as id, 
+                    'km'                 as type_donnee, 
+                    if.affaire_id, 
+                    if.intervenant_id    as associe_id, 
+                    pt.name              as type_frais, 
+                    is_frais_km(pt.name) as type_frais_km, 
+                    ifl.date, 
+                    0                    as montant, 
+                    ifl.km               as km,
+                    ifl.km               as donnee,
+                    ''                   as commentaire
+                from is_frais if inner join is_frais_ligne ifl on if.id=ifl.frais_id 
+
+                                 left outer join product_template pt on ifl.type_frais_id=pt.id
+
+
             )
         """)
 
