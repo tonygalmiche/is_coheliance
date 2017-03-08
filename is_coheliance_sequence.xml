@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data> 
+    
+        <record id="is_affaire_type_seq" model="ir.sequence.type">
+            <field name="name">Affaire</field>
+            <field name="code">is.affaire</field>
+        </record>
+
+        <record id="is_affaire_seq" model="ir.sequence">
+            <field name="name">Affaire</field>
+            <field name="code">is.affaire</field>
+            <field name="prefix">AF</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+
+
+        <record id="is_frais_type_seq" model="ir.sequence.type">
+            <field name="name">Frais</field>
+            <field name="code">is.frais</field>
+        </record>
+
+        <record id="is_frais_seq" model="ir.sequence">
+            <field name="name">Frais</field>
+            <field name="code">is.frais</field>
+            <field name="prefix">FR</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+     </data>
+</openerp>     
+        

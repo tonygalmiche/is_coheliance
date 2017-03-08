@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            id="report_affaires"
+            model="is.affaire"
+            string="Contrat de prestations"
+            report_type="qweb-pdf"
+            name="is_coheliance.report_affaire"
+            file="is_coheliance.report_affaire"
+        />
+        <report 
+            id="report_conventions"
+            model="is.affaire"
+            string="Convention de formation"
+            report_type="qweb-pdf"
+            name="is_coheliance.report_convention"
+            file="is_coheliance.report_convention"
+        />
+        <report 
+            id="report_contrat_formations"
+            model="is.affaire"
+            string="Contrat de formation"
+            report_type="qweb-pdf"
+            name="is_coheliance.report_contrat_formation"
+            file="is_coheliance.report_contrat_formation"
+        />
+
+
+        <report 
+            id="report_conventions_st"
+            model="is.affaire.intervenant"
+            string="Convention de sous-traitance"
+            report_type="qweb-pdf"
+            name="is_coheliance.report_convention_st"
+            file="is_coheliance.report_convention_st"
+        />
+
+
+    </data>
+</openerp>
