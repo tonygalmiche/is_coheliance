@@ -9,6 +9,13 @@ from openerp.tools.translate import _
 from datetime import datetime, timedelta
 
 
+#TODO, j'ai voulu rendre modifiable le compte des lignes des factures validées et payées, mais ce n'est pas possible
+#class account_invoice_line(models.Model):
+#    _inherit = 'account.invoice.line'
+#    
+#    is_number = fields.Char('N°Facture', related='invoice_id.number', readonly=True)
+
+
 class is_frais(models.Model):
     _name = 'is.frais'
     _description = u"Fiche de frais"

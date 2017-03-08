@@ -25,6 +25,15 @@ class res_partner(osv.osv):
         }
 
 
+    def _affaire_count(self, cr, uid, ids, field_name, arg, context=None):
+        Affaire = self.pool['is.affaire']
+        return {
+            client_id: Affaire.search_count(cr,uid, [('client_id', '=', client_id)], context=context)
+            for client_id in ids
+        }
+
+
+
     _columns = {  
         'is_prenom':  fields.char("Prénom"),
         'is_siret':  fields.char("SIRET"),
@@ -36,6 +45,7 @@ class res_partner(osv.osv):
         'is_liste_diffusion':  fields.char("Liste de diffusion"),
         'is_email_perso':  fields.char("Courriel personnel"),
         'is_responsable':  fields.boolean("Responsable structure", help="Est le responsable légal de la structure"),
+        'affaire_count': fields.function(_affaire_count, string='# Affaires', type='integer'),
     }
 
 

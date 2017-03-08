@@ -151,6 +151,18 @@ class is_affaire(osv.osv):
         return res  
 
 
+    def action_detail_frais(self, cr, uid, ids, context=None):
+        for obj in self.browse(cr, uid, ids, context=context):
+            return {
+                'name': "Détail des frais",
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'res_model': 'is.frais.ligne',
+                'type': 'ir.actions.act_window',
+                'domain': [('affaire_id','=',obj.id)],
+            }
+
+
     def create(self, cr, uid, vals, context=None):
         data_obj = self.pool.get('ir.model.data')
         sequence_ids = data_obj.search(cr, uid, [('name','=','is_affaire_seq')], context=context)

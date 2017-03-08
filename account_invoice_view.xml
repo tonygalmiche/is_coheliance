@@ -20,5 +20,38 @@
             </field>
         </record>   
 
+
+
+        <!--#TODO, j'ai voulu rendre modifiable le compte des lignes des factures validées et payées, mais ce n'est pas possible -->
+        <!-- Accès aux lignes des factures pour corrgier les comptes -->
+        <!--
+        <record id="is_account_invoice_line_tree_view" model="ir.ui.view">
+            <field name="name">is_account_invoice_line_tree_view</field>
+            <field name="model">account.invoice.line</field>
+            <field name="priority">900</field>
+            <field name="arch" type="xml">
+                <tree editable="1">
+                    <field name="is_number"                       readonly="1"/>
+                    <field name="invoice_id"                      readonly="1" widget="many2one_clickable"/>
+                    <field name="name"                            readonly="1"/>
+                    <field name="account_id"/>
+                    <field name="quantity"                        readonly="1"/>
+                    <field name="uos_id"                          readonly="1"/>
+                    <field name="price_unit"                      readonly="1"/>
+                    <field name="price_subtotal"                  readonly="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_account_invoice_line_action" model="ir.actions.act_window">
+            <field name="name">Lignes des factures</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.invoice.line</field>
+            <field name="view_id" ref="is_account_invoice_line_tree_view"/>
+            <field name="domain">[('is_number','!=',False)]</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem   action="is_account_invoice_line_action"  id="is_account_invoice_line_menu" parent="account.menu_finance_receivables" sequence="800"/>
+        -->
+
     </data>
 </openerp>
