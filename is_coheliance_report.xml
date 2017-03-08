@@ -37,5 +37,16 @@
         />
 
 
+        <report 
+            id="report_fraiss"
+            model="is.frais"
+            string="Fiche de frais"
+            report_type="qweb-pdf"
+            name="is_coheliance.report_frais"
+            file="is_coheliance.report_frais"
+        />
+
+
+
     </data>
 </openerp>

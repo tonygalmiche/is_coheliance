@@ -76,6 +76,11 @@ class is_frais(models.Model):
         res = super(is_frais, self).write(vals)
         return res
 
+    @api.multi
+    def print_fiche_frais(self):
+        cr, uid, context = self.env.args
+        for obj in self:
+            return self.pool['report'].get_action(cr, uid, obj.id, 'is_coheliance.report_frais', context=context)
 
 
 

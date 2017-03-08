@@ -147,6 +147,7 @@
                             <group>
                                 <field name="frais_ids" nolabel="1" context="{'default_affaire_id': id}">
                                     <tree string="Frais">
+                                        <button string="Imprimer la fiche de frais" name="print_fiche_frais" type="object" icon="gtk-print" />
                                         <field name="name"/>
                                         <field name="date_creation"/>
                                         <field name="intervenant_id"/>
