@@ -10,9 +10,18 @@ class is_export_compta(models.Model):
     _order='name desc'
 
     name               = fields.Char("N°Folio"      , readonly=True)
-    date_debut         = fields.Date("Date de début", required=True)
-    date_fin           = fields.Date("Date de fin"  , required=True)
+    type_interface     = fields.Selection([('ventes', u'Ventes'),('achats', u'Achats')], "Interface", required=True)
+    date_debut         = fields.Date("Date de début")
+    date_fin           = fields.Date("Date de fin")
+    num_debut          = fields.Char("N° facture début")
+    num_fin            = fields.Char("N° facture fin")
+
     ligne_ids          = fields.One2many('is.export.compta.ligne', 'export_compta_id', u'Lignes')
+
+
+    _defaults = {
+        'type_interface':  'ventes',
+    }
 
 
     @api.model
@@ -31,15 +40,31 @@ class is_export_compta(models.Model):
         cr=self._cr
         for obj in self:
             obj.ligne_ids.unlink()
-            type_facture=['out_invoice', 'out_refund']
 
 
-            invoices = self.env['account.invoice'].search([
+            if obj.type_interface=='ventes':
+                type_facture=['out_invoice', 'out_refund']
+                journal='VTE'
+            else:
+                type_facture=['in_invoice', 'in_refund']
+                journal='AC'
+
+            filter=[
                 ('state'       , 'in' , ['open','paid']),
-                ('date_invoice', '>=', obj.date_debut),
-                ('date_invoice', '<=', obj.date_fin),
                 ('type'        , 'in' , type_facture)
-            ], order="date_invoice,id")
+            ]
+
+            if obj.date_debut:
+                filter.append(('date_invoice', '>=', obj.date_debut))
+            if obj.date_fin:
+                filter.append(('date_invoice', '<=', obj.date_fin))
+            if obj.num_debut:
+                filter.append(('number', '>=', obj.num_debut))
+            if obj.num_fin:
+                filter.append(('number', '<=', obj.num_fin))
+
+
+            invoices = self.env['account.invoice'].search(filter, order="date_invoice,id")
             if len(invoices)==0:
                 raise Warning('Aucune facture à traiter')
             for invoice in invoices:
@@ -51,6 +76,7 @@ class is_export_compta(models.Model):
                         rp.name, 
                         aml.name,
                         ai.type, 
+                        rp.is_code_fournisseur,
                         sum(aml.debit), 
                         sum(aml.credit)
 
@@ -58,21 +84,28 @@ class is_export_compta(models.Model):
                                                inner join account_account aa             on aml.account_id=aa.id
                                                inner join res_partner rp                 on ai.partner_id=rp.id
                     WHERE ai.id="""+str(invoice.id)+"""
-                    GROUP BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier
-                    ORDER BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier
+                    GROUP BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur
+                    ORDER BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur
                 """
 
                 cr.execute(sql)
                 for row in cr.fetchall():
                     libelle=row[3]+u' - '+row[4]
+
+
+                    compte=str(row[1])
+                    if obj.type_interface=='achats' and compte=='401100':
+                        compte=str(row[6])
+
+
                     vals={
                         'export_compta_id'  : obj.id,
                         'date_facture'      : row[0],
-                        'journal'           : 'VTE',
-                        'compte'            : row[1],
+                        'journal'           : journal,
+                        'compte'            : compte,
                         'libelle'           : libelle,
-                        'debit'             : row[6],
-                        'credit'            : row[7],
+                        'debit'             : row[7],
+                        'credit'            : row[8],
                         'devise'            : 'E',
                         'piece'             : row[2],
                         'commentaire'       : False,
