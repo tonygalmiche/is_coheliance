@@ -3,15 +3,17 @@
 from datetime import datetime, timedelta
 import time
 from openerp import pooler
-from openerp.osv import fields, osv
+from openerp import models,fields,api
 from openerp.tools.translate import _
 
-class account_invoice(osv.osv):
+
+class account_invoice(models.Model):
     _inherit = 'account.invoice'
     
-    _columns = {
-        'order_id': fields.many2one('sale.order', 'Commande', readonly=False),
-    }
+    order_id                 = fields.Many2one('sale.order', 'Commande', readonly=False)
+    is_nom_fournisseur       = fields.Char('Nom du fournisseur')
+    is_personne_concernee_id = fields.Many2one('res.users', u'Personne concernée')
+
 
     def create(self, cr, uid, vals, context=None):
         new_id = super(account_invoice, self).create(cr, uid, vals, context=context)
