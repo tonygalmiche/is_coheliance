@@ -42,6 +42,7 @@
             <field name="inherit_id" ref="account.invoice_supplier_form" />
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
+                    <field style="background:orange" name="is_msg_err" readonly="1" attrs="{'invisible':[('is_msg_err','=',False)]}"/>
                     <field name="is_nom_fournisseur" />
                     <field name="is_personne_concernee_id" />
                 </field>

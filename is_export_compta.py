@@ -40,20 +40,16 @@ class is_export_compta(models.Model):
         cr=self._cr
         for obj in self:
             obj.ligne_ids.unlink()
-
-
             if obj.type_interface=='ventes':
                 type_facture=['out_invoice', 'out_refund']
                 journal='VTE'
             else:
                 type_facture=['in_invoice', 'in_refund']
                 journal='AC'
-
             filter=[
                 ('state'       , 'in' , ['open','paid']),
                 ('type'        , 'in' , type_facture)
             ]
-
             if obj.date_debut:
                 filter.append(('date_invoice', '>=', obj.date_debut))
             if obj.date_fin:
@@ -62,8 +58,6 @@ class is_export_compta(models.Model):
                 filter.append(('number', '>=', obj.num_debut))
             if obj.num_fin:
                 filter.append(('number', '<=', obj.num_fin))
-
-
             invoices = self.env['account.invoice'].search(filter, order="date_invoice,id")
             if len(invoices)==0:
                 raise Warning('Aucune facture à traiter')
@@ -77,6 +71,7 @@ class is_export_compta(models.Model):
                         aml.name,
                         ai.type, 
                         rp.is_code_fournisseur,
+                        ai.is_nom_fournisseur,
                         sum(aml.debit), 
                         sum(aml.credit)
 
@@ -84,28 +79,26 @@ class is_export_compta(models.Model):
                                                inner join account_account aa             on aml.account_id=aa.id
                                                inner join res_partner rp                 on ai.partner_id=rp.id
                     WHERE ai.id="""+str(invoice.id)+"""
-                    GROUP BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur
-                    ORDER BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur
+                    GROUP BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur,ai.is_nom_fournisseur
+                    ORDER BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur,ai.is_nom_fournisseur
                 """
-
                 cr.execute(sql)
                 for row in cr.fetchall():
-                    libelle=row[3]+u' - '+row[4]
-
-
+                    nom_fournisseur=str(row[7])
+                    if nom_fournisseur=='None':
+                        nom_fournisseur=row[3]
+                    libelle=nom_fournisseur+u' - '+row[4]
                     compte=str(row[1])
                     if obj.type_interface=='achats' and compte=='401100':
                         compte=str(row[6])
-
-
                     vals={
                         'export_compta_id'  : obj.id,
                         'date_facture'      : row[0],
                         'journal'           : journal,
                         'compte'            : compte,
                         'libelle'           : libelle,
-                        'debit'             : row[7],
-                        'credit'            : row[8],
+                        'debit'             : row[8],
+                        'credit'            : row[9],
                         'devise'            : 'E',
                         'piece'             : row[2],
                         'commentaire'       : False,
