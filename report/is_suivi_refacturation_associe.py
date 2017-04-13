@@ -10,16 +10,17 @@ class is_suivi_refacturation_associe(models.Model):
     _order='date desc'
     _auto = False
 
-    type_donnee   = fields.Char('Type de donnée')
-    affaire_id    = fields.Many2one('is.affaire', u'Affaire')
-    associe_id    = fields.Many2one('res.users', u'Associé')
-    type_frais    = fields.Char(u'Type de frais')
-    type_frais_km = fields.Char(u'Frais Km ou autres frais')
-    montant       = fields.Float('Montant')
-    km            = fields.Integer('Km')
-    donnee        = fields.Float('Donnée')
-    date          = fields.Date('Date')
-    commentaire   = fields.Char('Commentaire')
+    type_donnee           = fields.Char('Type de donnée')
+    affaire_id            = fields.Many2one('is.affaire', u'Affaire')
+    associe_id            = fields.Many2one('res.users', u'Associé')
+    type_frais            = fields.Char(u'Type de frais')
+    type_frais_km         = fields.Char(u'Frais Km ou autres frais')
+    is_type_frais_hors_km = fields.Boolean('Type de frais hors km')
+    montant               = fields.Float('Montant')
+    km                    = fields.Integer('Km')
+    donnee                = fields.Float('Donnée')
+    date                  = fields.Date('Date')
+    commentaire           = fields.Char('Commentaire')
 
 
     def init(self, cr):
@@ -51,6 +52,7 @@ class is_suivi_refacturation_associe(models.Model):
                     associe_id, 
                     '' as type_frais, 
                     '' as type_frais_km, 
+                    'f' as is_type_frais_hors_km, 
                     date, 
                     montant_facture as montant, 
                     0 as km,
@@ -68,6 +70,7 @@ class is_suivi_refacturation_associe(models.Model):
                     if.intervenant_id as associe_id, 
                     pt.name as type_frais, 
                     is_frais_km(pt.name) as type_frais_km, 
+                    pt.is_type_frais_hors_km as is_type_frais_hors_km, 
                     ifl.date, 
                     ifl.montant_ht  as montant, 
                     0 as km,
@@ -86,6 +89,7 @@ class is_suivi_refacturation_associe(models.Model):
                     if.intervenant_id    as associe_id, 
                     pt.name              as type_frais, 
                     is_frais_km(pt.name) as type_frais_km, 
+                    pt.is_type_frais_hors_km as is_type_frais_hors_km, 
                     ifl.date, 
                     0                    as montant, 
                     ifl.km               as km,

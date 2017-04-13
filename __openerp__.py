@@ -36,6 +36,7 @@ InfoSaône - Module Odoo pour Coheliance
   "demo_xml" : [],             # Liste des fichiers XML à installer pour charger les données de démonstration
   "data" : [
     "assets.xml",              # Permet d'ajouter des css et des js
+    "product_view.xml", 
     "res_partner_view.xml", 
     "sale_view.xml",
     "account_invoice_view.xml",    

@@ -253,7 +253,7 @@
                         <field name="ligne_ids" nolabel="1">
                             <tree string="Lignes" editable="bottom">
                                 <field name="date"/>
-                                <field name="type_frais_id" domain="[('type','=','consu')]"/>
+                                <field name="type_frais_id" domain="[('is_type_frais','=',True)]"/>
                                 <field name="refacturable"/>
                                 <field name="km"/>
                                 <field name="montant_ht"/>
