@@ -11,9 +11,15 @@
                 <field name="origin" position="replace">
                     <field name="order_id" />
                 </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Invoice Lines']/field[@name='invoice_line']/tree/field[@name='product_id']" position="replace">
+                    <field 
+                        name="product_id"
+                        domain="[('sale_ok', '=', True)]"
+                        on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, parent.company_id, context)"
+                    />
+                </xpath>
             </field>
         </record>   
-
 
         <!-- account.invoice_tree -->
         <record id="is_invoice_tree" model="ir.ui.view">
@@ -34,7 +40,6 @@
             </field>
         </record>
 
-
         <!-- Facture fournisseur -->
         <record id="is_invoice_supplier_form" model="ir.ui.view">
             <field name="name">is_invoice_supplier_form</field>
@@ -46,8 +51,14 @@
                     <field name="is_nom_fournisseur" />
                     <field name="is_personne_concernee_id" />
                 </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Invoice']/field[@name='invoice_line']/tree/field[@name='product_id']" position="replace">
+                    <field 
+                        name="product_id"
+                        domain="[('purchase_ok', '=', True)]"
+                        on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, parent.company_id, context)"
+                    />
+                </xpath>
             </field>
         </record>
-
     </data>
 </openerp>
