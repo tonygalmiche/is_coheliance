@@ -60,5 +60,46 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="is_view_account_invoice_filter" model="ir.ui.view">
+            <field name="name">is_view_account_invoice_filter</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter" />
+            <field name="arch" type="xml">
+                <field name="number" position="after">
+                    <field name="is_nom_fournisseur" />
+                </field>
+            </field>
+        </record>
+
+
+
+        <!-- CB à refacturer -->
+        <record id="is_cb_a_refacturer_graph" model="ir.ui.view">
+             <field name="name">is_cb_a_refacturer_graph</field>
+             <field name="model">account.invoice</field>
+             <field name="arch" type="xml">
+                 <graph type="pivot">
+                     <field name="create_date"  type="row"/>
+                     <field name="amount_total" type="measure"/>
+
+                 </graph>
+             </field>
+        </record>
+        <record id="is_cb_a_refacturer_action" model="ir.actions.act_window">
+            <field name="name">CB à refacturer</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('reference','=','CB')]</field>
+            <field name="view_mode">graph,tree,form</field>
+            <field name="view_id" ref="is_cb_a_refacturer_graph"/>
+        </record>
+        <menuitem name="CB à refacturer" id="is_cb_a_refacturer_menu" parent="is_crm_analyses_administratif_menu" sequence="20"  action="is_cb_a_refacturer_action"   />
+
+
+
+
+
+
     </data>
 </openerp>

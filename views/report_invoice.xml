@@ -170,32 +170,33 @@
                 <span t-field="o.fiscal_position.note"/>
             </p>
 
-            <div class="row">
-                <div class="col-xs-12">
-                    <p>Règlement par chèque à l'ordre de <b t-field="o.company_id.name"/></p>
-                    <p>ou par virement bancaire (merci de mentionner le n° de la facture lors de tout règlement)</p>
-                    <table style="border:1pt solid black;" width="70%">
-                        <thead>
-                            <tr>
-                                <th>IBAN</th>
-                                <th>Banque</th>
-                                <th>Bic</th>
-                            </tr>
-                        </thead>
-                        <tbody class="invoice_tbody">
+            <t t-if="o.type == 'out_invoice'">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p>Règlement par chèque à l'ordre de <b t-field="o.company_id.name"/></p>
+                        <p>ou par virement bancaire (merci de mentionner le n° de la facture lors de tout règlement)</p>
+                        <table style="border:1pt solid black;" width="70%">
+                            <thead>
+                                <tr>
+                                    <th>IBAN</th>
+                                    <th>Banque</th>
+                                    <th>Bic</th>
+                                </tr>
+                            </thead>
+                            <tbody class="invoice_tbody">
 
-                            <tr t-foreach="o.company_id.bank_ids" t-as="l">
-                                <td><span t-field="l.acc_number"/></td>
-                                <td><span t-field="l.bank_name"/></td>
-                                <td><span t-field="l.bank_bic"/></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <small>En application des dispositions de la loi n° 92-1442 du 31/12/92 modifiée (art. 33 al.2), et à ce titre de clause pénale, le défaut de règlement à 
-                    l'échéance, met de plein droit à la charge du client, une pénalité calculée sur les sommes échues, sur la base de 3 fois le taux de l'intérêt légal.</small>
+                                <tr t-foreach="o.company_id.bank_ids" t-as="l">
+                                    <td><span t-field="l.acc_number"/></td>
+                                    <td><span t-field="l.bank_name"/></td>
+                                    <td><span t-field="l.bank_bic"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <small>En application des dispositions de la loi n° 92-1442 du 31/12/92 modifiée (art. 33 al.2), et à ce titre de clause pénale, le défaut de règlement à 
+                        l'échéance, met de plein droit à la charge du client, une pénalité calculée sur les sommes échues, sur la base de 3 fois le taux de l'intérêt légal.</small>
+                    </div>
                 </div>
-            </div>
-
+            </t>
         </div>
     </xpath>
 </template>
