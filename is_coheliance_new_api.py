@@ -43,12 +43,13 @@ class is_frais(models.Model):
     _description = u"Fiche de frais"
     _order='name desc'
 
-    name           = fields.Char(u"Numéro")
-    date_creation  = fields.Date(u"Date de création")
-    affaire_id     = fields.Many2one('is.affaire', 'Affaire', required=True)
-    intervenant_id = fields.Many2one('res.users', u'Intervenant', required=True)
-    taux_km        = fields.Float(u"Taux indemnité kilométrique")
-    ligne_ids      = fields.One2many('is.frais.ligne', 'frais_id', u'Lignes')
+    name             = fields.Char(u"Numéro")
+    date_creation    = fields.Date(u"Date de création")
+    affaire_id       = fields.Many2one('is.affaire', 'Affaire', required=True)
+    intervenant_id   = fields.Many2one('res.users', u'Associé')
+    sous_traitant_id = fields.Many2one('res.partner', u'Sous-Traitant')
+    taux_km          = fields.Float(u"Taux indemnité kilométrique")
+    ligne_ids        = fields.One2many('is.frais.ligne', 'frais_id', u'Lignes')
 
 
     def _taux_km(self,cr):
@@ -115,16 +116,17 @@ class is_frais_ligne(models.Model):
             obj.montant_ttc=obj.montant_ht*(1+tva)
 
 
-    frais_id       = fields.Many2one('is.frais', 'Frais', required=True)
-    affaire_id     = fields.Many2one('is.affaire', 'Affaire', related='frais_id.affaire_id', readonly=True)
-    intervenant_id = fields.Many2one('res.users', u'Intervenant', related='frais_id.intervenant_id', readonly=True)
-    date           = fields.Date(u"Date")
-    type_frais_id  = fields.Many2one('product.template', u'Type de frais')
-    refacturable   = fields.Selection([('oui','Oui'),('non','Non')], u"Refacturable")
-    km             = fields.Integer(u"Km")
-    montant_ht     = fields.Float(u"Montant HT", digits=(14,2))
-    montant_ttc    = fields.Float('Montant TTC', digits=(14,2), compute='_montant_ttc', readonly=True, store=True)
-    refacture      = fields.Boolean(u"Frais refacturé au client")
+    frais_id         = fields.Many2one('is.frais', 'Frais', required=True)
+    affaire_id       = fields.Many2one('is.affaire', 'Affaire'        , related='frais_id.affaire_id'      , readonly=True)
+    intervenant_id   = fields.Many2one('res.users', u'Intervenant'    , related='frais_id.intervenant_id'  , readonly=True)
+    sous_traitant_id = fields.Many2one('res.partner', u'Sous-Traitant', related='frais_id.sous_traitant_id', readonly=True)
+    date             = fields.Date(u"Date")
+    type_frais_id    = fields.Many2one('product.template', u'Type de frais')
+    refacturable     = fields.Selection([('oui','Oui'),('non','Non')], u"Refacturable")
+    km               = fields.Integer(u"Km")
+    montant_ht       = fields.Float(u"Montant HT", digits=(14,2))
+    montant_ttc      = fields.Float('Montant TTC', digits=(14,2), compute='_montant_ttc', readonly=True, store=True)
+    refacture        = fields.Boolean(u"Frais refacturé au client")
 
     _defaults = {
         'date': lambda *a: _date_creation(),

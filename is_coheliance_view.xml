@@ -157,6 +157,7 @@
                                         <field name="name"/>
                                         <field name="date_creation"/>
                                         <field name="intervenant_id"/>
+                                        <field name="sous_traitant_id"/>
                                         <field name="taux_km"/>
                                     </tree>
                                 </field>
@@ -229,6 +230,7 @@
                 <field name="date_creation" />
                 <field name="affaire_id" />
                 <field name="intervenant_id" />
+                <field name="sous_traitant_id" />
                 <field name="taux_km" />
             </tree>
         </field>
@@ -244,6 +246,7 @@
                             <field name="name" readonly="1" />
                             <field name="affaire_id" />
                             <field name="intervenant_id" />
+                            <field name="sous_traitant_id" />
                         </group>
                         <group>
                             <field name="date_creation" />
@@ -274,6 +277,7 @@
                 <field name="name"/>
                 <field name="affaire_id"/>
                 <field name="intervenant_id"/>
+                <field name="sous_traitant_id"/>
            </search>
         </field>
     </record>
@@ -300,9 +304,10 @@
                 <field name="montant_ht"    readonly="1" sum="Total"/>
                 <field name="montant_ttc"   readonly="1" sum="Total"/>
                 <field name="refacture" />
-                <field name="frais_id"       widget="many2one_clickable" readonly="1"/>
-                <field name="affaire_id"     widget="many2one_clickable"/>
-                <field name="intervenant_id" widget="many2one_clickable"/>
+                <field name="frais_id"         widget="many2one_clickable" readonly="1"/>
+                <field name="affaire_id"       widget="many2one_clickable"/>
+                <field name="intervenant_id"   widget="many2one_clickable"/>
+                <field name="sous_traitant_id" widget="many2one_clickable"/>
             </tree>
         </field>
     </record>
@@ -325,6 +330,7 @@
                             <field name="frais_id" />
                             <field name="affaire_id" />
                             <field name="intervenant_id" />
+                            <field name="sous_traitant_id" />
                         </group>
                     </group>
                 </sheet>
@@ -339,6 +345,7 @@
                 <filter string="A refacturer" domain="[('refacture','!=',True),('refacturable','=','oui')]" name="a_refacturer_filter"/>
                 <field name="affaire_id" />
                 <field name="intervenant_id" />
+                <field name="sous_traitant_id" />
                 <field name="frais_id" />
                 <field name="type_frais_id" />
            </search>
