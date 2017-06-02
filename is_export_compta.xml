@@ -88,7 +88,7 @@
             <field name="domain">[('type_interface','=','ventes')]</field>
             <field name="context">{'default_type_interface': 'ventes'}</field>
         </record>
-        <menuitem   action="is_export_vente_compta_action"  id="is_export_vente_compta_menu" parent="account.menu_finance_receivables" sequence="900"/>
+
 
         <!-- Exportation des achats -->
         <record id="is_export_achat_compta_action" model="ir.actions.act_window">
@@ -99,7 +99,7 @@
             <field name="domain">[('type_interface','=','achats')]</field>
             <field name="context">{'default_type_interface': 'achats'}</field>
         </record>
-        <menuitem   action="is_export_achat_compta_action"  id="is_export_achat_compta_menu" parent="account.menu_finance_payables" sequence="900"/>
+
 
 
         <!-- Lignes -->

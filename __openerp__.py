@@ -55,6 +55,8 @@ InfoSaône - Module Odoo pour Coheliance
     "views/report_frais.xml",
     "report/is_suivi_facture.xml",
     "report/is_suivi_refacturation_associe.xml",
+    "report/is_suivi_intervention.xml",
+    "menu.xml",
     "security/ir.model.access.csv",
   ],                           # Liste des fichiers XML à installer lors d'une mise à jour du module (ou lord de l'installation)
   "installable": True,         # Si False, ce module sera visible mais non installable (intéret ?)

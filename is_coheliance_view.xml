@@ -2,13 +2,6 @@
 <openerp>
     <data>
 
-
-
-    <menuitem id="is_crm_top_menu" sequence="1" name="CRM"/>
-    <menuitem id="is_crm_menu"        name="CRM"     parent="is_crm_top_menu" sequence="10"/>
-    <menuitem id="is_crm_client_menu" name="Clients" parent="is_crm_menu"     sequence="2" action="base.action_partner_form" />
-
-        
     <record id="is_affaire_tree" model="ir.ui.view">
         <field name="name">is.affaire.tree</field>
         <field name="model">is.affaire</field>
@@ -30,7 +23,6 @@
             </tree>
         </field>
     </record>
-    
 
     <record id="is_affaire_form" model="ir.ui.view">
         <field name="name">is.affaire.form</field>
@@ -209,16 +201,11 @@
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="is_affaire_search"/>
     </record>
-    <menuitem   action="is_affaire_action" 
-                id="is_affaire_menu"
-                parent="is_crm_menu"
-                sequence="3"/>
-
 
 
 
     <!-- Frais -->
-    <menuitem id="is_crm_frais_menu"        name="Frais"     parent="is_crm_top_menu" sequence="20"/>
+
     <record id="is_frais_tree" model="ir.ui.view">
         <field name="name">is.frais.tree</field>
         <field name="model">is.frais</field>
@@ -283,10 +270,6 @@
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="is_frais_search"/>
     </record>
-    <menuitem   action="is_frais_action" 
-                id="is_frais_menu"
-                parent="is_crm_frais_menu"
-                sequence="10"/>
 
 
 
@@ -358,14 +341,6 @@
         </field>
 
     </record>
-    <menuitem   
-        action="is_frais_ligne_action" 
-        id="is_frais_ligne_menu"
-        parent="is_crm_frais_menu"
-        sequence="20"
-    />
-
-
 
 
 
@@ -402,10 +377,6 @@
         <field name="view_mode">tree</field>
         <field name="search_view_id" ref="is_acompte_search"/>
     </record>
-    <menuitem   action="is_acompte_action" 
-                id="is_acompte_menu"
-                parent="is_crm_menu"
-                sequence="30"/>
 
 
     <record id="is_action_orders" model="ir.actions.act_window">
@@ -419,12 +390,6 @@
         <field name="domain">[]</field>
     </record>
 
-
-
-
-    <menuitem action="is_action_orders" id="is_sale_order_menu" parent="is_crm_menu" sequence="40" groups="base.group_sale_salesman,base.group_sale_manager"/>
-
-    <menuitem name="Articles" action="product.product_template_action" id="is_menu_product_template_action" parent="is_crm_menu" sequence="50" />
 
 
 

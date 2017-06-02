@@ -327,14 +327,6 @@
     </record>
 
 
-    <menuitem name="Base documentaire"             id="is_base_documentaire_root_menu"  parent="base.menu_base_partner"         sequence="80"/>
-    <menuitem action="is_base_documentaire_action" id="is_base_documentaire_menu"       parent="is_base_documentaire_root_menu" sequence="10"/>
-
-    <menuitem name="Tables"                       id="is_ventes_tables_menu"    parent="base.menu_base_partner" sequence="90"/>
-    <menuitem action="is_region_action"           id="is_region_menu"           parent="is_ventes_tables_menu"  sequence="10"/>
-    <menuitem action="is_secteur_activite_action" id="is_secteur_activite_menu" parent="is_ventes_tables_menu"  sequence="20"/>
-    <menuitem action="is_classification_action"   id="is_classification_menu"   parent="is_ventes_tables_menu"  sequence="30"/>
-
 
 
 

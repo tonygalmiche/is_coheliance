@@ -46,9 +46,5 @@
             <field name="res_model">is.suivi.tresorerie</field>
             <field name="view_mode">tree,form</field>
         </record>
-        <menuitem   action="is_suivi_tresorerie2_action" 
-                    id="is_suivi_tresorerie2_menu"
-                    parent="is_analyses_menu"
-                    sequence="35"/>
-    </data>
+     </data>
 </openerp>
