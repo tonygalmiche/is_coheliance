@@ -132,8 +132,22 @@
                                 </field>
                             </group>
                         </page>
-
-
+                        <page string="Ventes">
+                            <group string="">
+                                <field name="vente_ids" nolabel="1">
+                                    <tree string="Ventes" editable="bottom">
+                                        <field name="date"/>
+                                        <field name="product_id"/>
+                                        <field name="quantite"/>
+                                        <field name="prix_achat"/>
+                                        <field name="prix_vente"/>
+                                        <field name="total_achat"/>
+                                        <field name="total_vente"/>
+                                        <field name="commentaire"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
                         <page string="Frais associés">
                             <button name="action_detail_frais" type="object" string="Détail des frais"/>
                             <group>

@@ -58,6 +58,7 @@ class is_affaire(osv.osv):
         'order_id': fields.many2one('sale.order', 'Commande', readonly=False),
         'intervention_ids': fields.one2many('is.affaire.intervention', 'affaire_id', u'Interventions'),
         'frais_ids': fields.one2many('is.frais', 'affaire_id', u'Frais'),
+        'vente_ids': fields.one2many('is.affaire.vente', 'affaire_id', u'Ventes'),
         'acompte_ids': fields.one2many('is.acompte', 'affaire_id', u'Acomptes'),
         'state': fields.selection([('en_attente', u'En attente'),
                                   ('valide', u'Validé'),

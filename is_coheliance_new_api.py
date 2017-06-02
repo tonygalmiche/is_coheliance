@@ -5,23 +5,37 @@ import time
 from openerp import pooler
 from openerp import models,fields,api
 from openerp.tools.translate import _
-
-#from datetime import datetime, timedelta
 import datetime
 
 
-#TODO, j'ai voulu rendre modifiable le compte des lignes des factures validées et payées, mais ce n'est pas possible
-#class account_invoice_line(models.Model):
-#    _inherit = 'account.invoice.line'
-#    
-#    is_number = fields.Char('N°Facture', related='invoice_id.number', readonly=True)
 
 
 def _date_creation():
     now  = datetime.date.today()
-    #print "now=",datetime.datetime.now().strftime('%H:%M:%S')
     return now.strftime('%Y-%m-%d')
 
+
+class is_affaire_vente(models.Model):
+    _name  = 'is.affaire.vente'
+    _order = 'date'
+
+
+    @api.depends('quantite','prix_achat','prix_vente')
+    def _compute(self):
+        for obj in self:
+            obj.total_achat=obj.quantite*obj.prix_achat
+            obj.total_vente=obj.quantite*obj.prix_vente
+
+
+    affaire_id  = fields.Many2one('is.affaire', 'Affaire', required=True)
+    date        = fields.Date(u"Date", required=True)
+    product_id  = fields.Many2one('product.product', u'Article', required=True)
+    quantite    = fields.Float(u"Quantité")
+    prix_achat  = fields.Float(u"Prix d'achat")
+    prix_vente  = fields.Float(u"Prix de vente")
+    total_achat = fields.Float(u"Total des achats", compute='_compute', readonly=True, store=True)
+    total_vente = fields.Float(u"Total des ventes", compute='_compute', readonly=True, store=True)
+    commentaire = fields.Char(u"Commentaire")
 
 
 class is_frais(models.Model):
@@ -137,6 +151,18 @@ class is_frais_ligne(models.Model):
                 vals['montant_ht']=vals['km']*taux_km
         res = super(is_frais_ligne, self).write(vals)
         return res
+
+
+
+
+
+#TODO, j'ai voulu rendre modifiable le compte des lignes des factures validées et payées, mais ce n'est pas possible
+#class account_invoice_line(models.Model):
+#    _inherit = 'account.invoice.line'
+#    
+#    is_number = fields.Char('N°Facture', related='invoice_id.number', readonly=True)
+
+
 
 
 
