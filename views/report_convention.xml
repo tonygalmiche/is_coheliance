@@ -244,7 +244,7 @@
                                 <td style="padding:5mm"  width="50%">
                                     <div class="titre3">Coût pédagogique :</div>
                                     <table width="100%" class="cout" style="border:none">
-                                        <t t-set="ht"   t-value="o.budget_propose"/>
+                                        <t t-set="ht"   t-value="o.total_budget_prevu"/>
                                         <t t-set="taux" t-value="o.article_id.taxes_id[0].amount"/>
                                         <t t-set="tva"  t-value="ht*taux"/>
                                         <t t-set="ttc"  t-value="ht+tva"/>

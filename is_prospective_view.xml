@@ -118,18 +118,14 @@
                     <field name="article_id"/>
                     <field name="intitule"/>
                     <field name="state"/>
-
                     <group string="Regrouper par">
                         <filter string="Pilote" context="{'group_by': 'pilote_id'}"/>
                         <filter string="Etat"             context="{'group_by': 'state'}"/>
-                        <filter string="Affaire"          context="{'group_by': 'affaire_id'}"/>
                         <filter string="Client"           context="{'group_by': 'client_id'}"/>
                         <filter string="Article"          context="{'group_by': 'article_id'}"/>
                         <filter string="Mois validation"  context="{'group_by': 'date_validation:month'}"/>
                         <filter string="Année validation" context="{'group_by': 'date_validation:year'}"/>
                     </group>
-
-
                </search>
             </field>
         </record>

@@ -55,39 +55,40 @@ class is_prospective(models.Model):
                 affaire_id      = str(row[0])
                 date_creation   = str(row[1])
                 date_solde      = str(row[12])
-                if (date_solde=='None' or date_solde[:4]==str(obj.name)) and date_creation[:4]<=str(obj.name):
-                    associe01     = self.get_montant_intervenant(str(obj.name), affaire_id, 8)      # Olivier
-                    associe02     = self.get_montant_intervenant(str(obj.name), affaire_id, 6)      # JP
-                    associe03     = self.get_montant_intervenant(str(obj.name), affaire_id, 7)      # Patrice
-                    associe04     = self.get_montant_intervenant(str(obj.name), affaire_id, 10)     # Frédérique
-                    associe05     = self.get_montant_intervenant(str(obj.name), affaire_id, 9)      # Isabelle
-                    sous_traitant = self.get_montant_intervenant(str(obj.name), affaire_id, 0)      # Sous-traitance
+                if (date_solde=='None' or date_solde[:4]>=str(obj.name)) and date_creation[:4]<=str(obj.name):
+                    associe01     = self.get_montant_intervenant(str(obj.name), affaire_id, 'o.laval@coheliance.com')      # Olivier
+                    associe02     = self.get_montant_intervenant(str(obj.name), affaire_id, 'jp.fiasson@coheliance.com')   # JP
+                    associe03     = self.get_montant_intervenant(str(obj.name), affaire_id, 'patrice@coheliance.com')      # Patrice
+                    associe04     = self.get_montant_intervenant(str(obj.name), affaire_id, 'f.monjournal@coheliance.com') # Frédérique
+                    associe05     = self.get_montant_intervenant(str(obj.name), affaire_id, 'i.boltz@coheliance.com')      # Isabelle
+                    sous_traitant = self.get_montant_intervenant(str(obj.name), affaire_id, '')                            # Sous-traitance
                     total=associe01+associe02+associe03+associe04+associe05+sous_traitant
-                    vals={
-                        'prospective_id'      : obj.id,
-                        'name'                : row[0],
-                        'date_creation'       : row[1],
-                        'pilote_id'           : row[2],
-                        'client_id'           : row[3],
-                        'article_id'          : row[4],
-                        'intitule'            : row[5],
-                        'duree_prestation'    : row[6],
-                        'budget_bas'          : row[7],
-                        'budget_haut'         : row[8],
-                        'budget_propose'      : row[9],
-                        'budget_propose_annee': row[10],
-                        'date_validation'     : row[11],
-                        'date_solde'          : row[12],
-                        'state'               : row[13],
-                        'associe01'           : associe01,
-                        'associe02'           : associe02,
-                        'associe03'           : associe03,
-                        'associe04'           : associe04,
-                        'associe05'           : associe05,
-                        'sous_traitant'       : sous_traitant,
-                        'total'               : total,
-                    }
-                    line_obj.create(vals)
+                    if total>0:
+                        vals={
+                            'prospective_id'      : obj.id,
+                            'name'                : row[0],
+                            'date_creation'       : row[1],
+                            'pilote_id'           : row[2],
+                            'client_id'           : row[3],
+                            'article_id'          : row[4],
+                            'intitule'            : row[5],
+                            'duree_prestation'    : row[6],
+                            'budget_bas'          : row[7],
+                            'budget_haut'         : row[8],
+                            'budget_propose'      : row[9],
+                            'budget_propose_annee': row[10],
+                            'date_validation'     : row[11],
+                            'date_solde'          : row[12],
+                            'state'               : row[13],
+                            'associe01'           : associe01,
+                            'associe02'           : associe02,
+                            'associe03'           : associe03,
+                            'associe04'           : associe04,
+                            'associe05'           : associe05,
+                            'sous_traitant'       : sous_traitant,
+                            'total'               : total,
+                        }
+                        line_obj.create(vals)
             return self.action_detail_lignes()
 
 
@@ -106,19 +107,19 @@ class is_prospective(models.Model):
 
 
     @api.multi
-    def get_montant_intervenant(self,annee, affaire_id, associe_id):
+    def get_montant_intervenant(self,annee, affaire_id, login):
         cr      = self._cr
         sql="""
-            SELECT sum(budget_prevu)
-            FROM is_affaire_intervenant
+            SELECT sum(iai.budget_prevu)
+            FROM is_affaire_intervenant iai left outer join res_users ru on iai.associe_id=ru.id
             WHERE 
-                annee="""+annee+""" and
-                affaire_id="""+str(affaire_id)+""" 
+                iai.annee="""+annee+""" and
+                iai.affaire_id="""+str(affaire_id)+""" 
         """
-        if associe_id>0:
-            sql=sql+" and associe_id="+str(associe_id)
+        if login!='':
+            sql=sql+" and ru.login='"+login+"' "
         else:
-            sql=sql+" and sous_traitant_id is not null"
+            sql=sql+" and iai.sous_traitant_id is not null"
         cr.execute(sql)
         montant=0
         for row in cr.fetchall():

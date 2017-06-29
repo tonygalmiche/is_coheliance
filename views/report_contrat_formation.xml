@@ -230,7 +230,7 @@
 
 
 
-                    <t t-set="montant_ht"   t-value="o.budget_propose" />
+                    <t t-set="montant_ht"   t-value="o.total_budget_prevu" />
                     <t t-set="tva"          t-value="o.article_id.taxes_id[0].amount" />
                     <t t-set="intitule_tva" t-value="o.article_id.taxes_id[0].name" />
                     <t t-set="montant_tva"  t-value="montant_ht*tva" />
