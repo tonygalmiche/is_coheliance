@@ -58,6 +58,24 @@
             action="is_suivi_refacturation_total_frais_action"
         />
 
+        <menuitem name="Cockpit" id="is_cockpit_menu" parent="is_crm_top_menu" sequence="60" />
+        <menuitem 
+            name="Prospective" 
+            id="is_prospective_menu" 
+            parent="is_cockpit_menu" 
+            sequence="10"  
+            action="is_prospective_action"
+        />
+        <!--
+        <menuitem 
+            name="Lignes de Prospective" 
+            id="is_prospective_line_menu" 
+            parent="is_cockpit_menu" 
+            sequence="10"  
+            action="is_prospective_line_action"
+        />
+        -->
+
 
         <!-- Export Compta -->
         <menuitem   action="is_export_vente_compta_action"  id="is_export_vente_compta_menu" parent="account.menu_finance_receivables" sequence="900"/>

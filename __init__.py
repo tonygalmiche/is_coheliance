@@ -9,5 +9,6 @@ import sale
 import report
 import is_suivi_tresorerie
 import is_export_compta
+import is_prospective
 
 
