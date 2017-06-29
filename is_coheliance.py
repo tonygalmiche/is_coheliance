@@ -8,6 +8,16 @@ from openerp.tools.translate import _
 
 from datetime import datetime, timedelta
 
+
+def _get_annee():
+    now  = datetime.now()
+    return now.strftime('%Y')
+
+#fields.datetime.now
+
+
+
+
 class is_affaire(osv.osv):
     _name = 'is.affaire'
     _description = u"Affaire"
@@ -202,20 +212,24 @@ class is_affaire_intervenant(osv.osv):
     _description = u"Intervenants"
     
     _columns = {
-        'affaire_id': fields.many2one('is.affaire', 'Affaire', required=True),
-        'associe_id': fields.many2one('res.users', u'Associé'),
-        'sous_traitant_id': fields.many2one('res.partner', u'Sous-Traitant'),
-
-        'duree_mission': fields.char(u"Durée mission Sous-Traitant"),
+        'affaire_id'          : fields.many2one('is.affaire', 'Affaire', required=True),
+        'annee'               : fields.integer(u"Année"),
+        'associe_id'          : fields.many2one('res.users', u'Associé'),
+        'sous_traitant_id'    : fields.many2one('res.partner', u'Sous-Traitant'),
+        'duree_mission'       : fields.char(u"Durée mission Sous-Traitant"),
         'condition_financiere': fields.char(u"Conditions financières Sous-Traitant"),
-
-        'budget_prevu': fields.float(u"Budget prévu", help="Budget prévu pour cette personne", required=True),
-
-        'taux1': fields.float(u"Taux horaire"),
-        'taux2': fields.float(u"Taux demi-journée"),
-        'taux3': fields.float(u"Taux journée"),
-
+        'budget_prevu'        : fields.float(u"Budget prévu", help="Budget prévu pour cette personne", required=True),
+        'taux1'               : fields.float(u"Taux horaire"),
+        'taux2'               : fields.float(u"Taux demi-journée"),
+        'taux3'               : fields.float(u"Taux journée"),
     }
+
+
+    _defaults = {
+        'annee': lambda *a: _get_annee(),
+    }
+
+
 
     def print_convention_st(self, cr, uid, ids, context=None):
         return self.pool['report'].get_action(cr, uid, ids, 'is_coheliance.report_convention_st', context=context)

@@ -15,6 +15,21 @@ def _date_creation():
     return now.strftime('%Y-%m-%d')
 
 
+
+class is_affaire(models.Model):
+    _inherit = 'is.affaire'
+    
+    @api.depends('intervenant_ids')
+    def _compute(self):
+        for obj in self:
+            total_budget_prevu=0
+            for row in obj.intervenant_ids:
+                total_budget_prevu=total_budget_prevu+row.budget_prevu
+            obj.total_budget_prevu=total_budget_prevu
+
+    total_budget_prevu = fields.Float('Budget prévu', compute='_compute', readonly=True, store=True)
+
+
 class is_affaire_vente(models.Model):
     _name  = 'is.affaire.vente'
     _order = 'date'

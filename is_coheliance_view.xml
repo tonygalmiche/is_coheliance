@@ -16,7 +16,7 @@
                 <field name="pilote_id" />
                 <field name="interlocutrice_id" />
                 <field name="article_id" />
-                <field name="budget_propose" sum="Total" />
+                <field name="total_budget_prevu" sum="Total" />
                 <field name="date_validation" />
                 <field name="date_solde" />
                 <field name="state" />
@@ -91,9 +91,10 @@
                         </page>
                         -->
                         <page string="Intervenants">
-                            <group string="">
+                            <group>
                                 <field name="intervenant_ids" nolabel="1">
                                     <tree string="Intervenants" editable="bottom">
+                                        <field name="annee"/>
                                         <field name="associe_id"/>
                                         <button string="Convention de sous-traitance" name="print_convention_st" type="object" icon="gtk-print" />
                                         <field name="sous_traitant_id"/>
@@ -107,7 +108,13 @@
                                     </tree>
                                 </field>
                             </group>
+                            <group>
+                                <field name="budget_bas" />
+                                <field name="budget_haut" />
+                                <field name="total_budget_prevu" />
+                            </group>
                         </page>
+                        <!--
                         <page string="Budget">
                             <group string="">
                                 <field name="budget_bas" />
@@ -117,6 +124,7 @@
                                 <field name="ecart_budget"/>
                             </group>
                         </page>
+                        -->
                         <page string="Interventions">
                             <group string="">
                                 <field name="intervention_ids" nolabel="1">

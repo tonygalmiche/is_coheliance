@@ -46,7 +46,7 @@ class is_prospective(models.Model):
                     ia.date_solde,
                     ia.state
                 from is_affaire ia
-                where id>0
+                where state<>'annule' 
             """
             line_obj = self.env['is.prospective.line']
             obj.line_ids.unlink()
@@ -56,12 +56,12 @@ class is_prospective(models.Model):
                 date_creation   = str(row[1])
                 date_solde      = str(row[12])
                 if (date_solde=='None' or date_solde[:4]==str(obj.name)) and date_creation[:4]<=str(obj.name):
-                    associe01     = self.get_montant_interventions(str(obj.name), affaire_id, 8)      # Olivier
-                    associe02     = self.get_montant_interventions(str(obj.name), affaire_id, 6)      # JP
-                    associe03     = self.get_montant_interventions(str(obj.name), affaire_id, 7)      # Patrice
-                    associe04     = self.get_montant_interventions(str(obj.name), affaire_id, 10)     # Frédérique
-                    associe05     = self.get_montant_interventions(str(obj.name), affaire_id, 9)      # Isabelle
-                    sous_traitant = self.get_montant_interventions(str(obj.name), affaire_id, 0)      # Sous-traitance
+                    associe01     = self.get_montant_intervenant(str(obj.name), affaire_id, 8)      # Olivier
+                    associe02     = self.get_montant_intervenant(str(obj.name), affaire_id, 6)      # JP
+                    associe03     = self.get_montant_intervenant(str(obj.name), affaire_id, 7)      # Patrice
+                    associe04     = self.get_montant_intervenant(str(obj.name), affaire_id, 10)     # Frédérique
+                    associe05     = self.get_montant_intervenant(str(obj.name), affaire_id, 9)      # Isabelle
+                    sous_traitant = self.get_montant_intervenant(str(obj.name), affaire_id, 0)      # Sous-traitance
                     total=associe01+associe02+associe03+associe04+associe05+sous_traitant
                     vals={
                         'prospective_id'      : obj.id,
@@ -94,7 +94,6 @@ class is_prospective(models.Model):
     @api.multi
     def action_detail_lignes(self):
         for obj in self:
-            print obj
             return {
                 'name': "Lignes de prospective",
                 'view_type': 'form',
@@ -106,16 +105,14 @@ class is_prospective(models.Model):
             }
 
 
-
-
     @api.multi
-    def get_montant_interventions(self,annee, affaire_id, associe_id):
+    def get_montant_intervenant(self,annee, affaire_id, associe_id):
         cr      = self._cr
         sql="""
-            SELECT sum(montant_facture)
-            FROM is_affaire_intervention
+            SELECT sum(budget_prevu)
+            FROM is_affaire_intervenant
             WHERE 
-                to_char(date,'YYYY')='"""+annee+"""' and
+                annee="""+annee+""" and
                 affaire_id="""+str(affaire_id)+""" 
         """
         if associe_id>0:

@@ -2,16 +2,6 @@
 <openerp>
     <data>
 
-        <!--
-        <record id="is_prospective_lignes_action" model="ir.actions.act_window" >
-            <field name="name">Lignes de prospective</field>
-            <field name="res_model">is.prospective.line</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain">[('prospective_id','=',active_id)]</field>
-        </record>
-        -->
-
         <record id="is_prospective_tree" model="ir.ui.view">
             <field name="name">is.prospective.tree</field>
             <field name="model">is.prospective</field>
@@ -64,7 +54,7 @@
             <field name="name">is.prospective.line.tree</field>
             <field name="model">is.prospective.line</field>
             <field name="arch" type="xml">
-                <tree >
+                <tree colors="grey:state == 'solde';green:state == 'valide';orange:state == 'en_attente';" >
                     <field name="prospective_id" widget="many2one_clickable"/>
                     <field name="name"           widget="many2one_clickable"/>
                     <field name="pilote_id"/>
@@ -72,10 +62,6 @@
                     <field name="intitule"/>
                     <field name="article_id"/>
                     <field name="duree_prestation"/>
-                    <field name="budget_bas"/>
-                    <field name="budget_haut"/>
-                    <field name="budget_propose"/>
-                    <field name="budget_propose_annee"/>
                     <field name="date_creation"/>
                     <field name="date_validation"/>
                     <field name="date_solde"/>
@@ -132,6 +118,18 @@
                     <field name="article_id"/>
                     <field name="intitule"/>
                     <field name="state"/>
+
+                    <group string="Regrouper par">
+                        <filter string="Pilote" context="{'group_by': 'pilote_id'}"/>
+                        <filter string="Etat"             context="{'group_by': 'state'}"/>
+                        <filter string="Affaire"          context="{'group_by': 'affaire_id'}"/>
+                        <filter string="Client"           context="{'group_by': 'client_id'}"/>
+                        <filter string="Article"          context="{'group_by': 'article_id'}"/>
+                        <filter string="Mois validation"  context="{'group_by': 'date_validation:month'}"/>
+                        <filter string="Année validation" context="{'group_by': 'date_validation:year'}"/>
+                    </group>
+
+
                </search>
             </field>
         </record>
