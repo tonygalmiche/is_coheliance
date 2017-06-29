@@ -58,7 +58,10 @@
                                             <th>Montant TTC</th>
                                         </tr>
                                         <tr t-foreach="o.ligne_ids" t-as="l">
-                                            <td><span t-field="l.intervenant_id"/></td>
+                                            <td>
+                                                <span t-field="l.intervenant_id"/>
+                                                <span t-field="l.sous_traitant_id"/>
+                                            </td>
                                             <td><span t-field="l.date"/></td>
                                             <td><span t-field="l.type_frais_id"/></td>
                                             <td><span t-field="l.refacturable"/></td>
