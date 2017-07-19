@@ -92,12 +92,6 @@
                     </div>
                     <br />
 
-<!--
-                    <div class="row">
-                        Adresse de facturation si différente
-                    </div>
-                    <br />
--->
 
                     <div class="row">
                         <table style="width:100%">
@@ -112,9 +106,12 @@
                             <tr t-if="o.intervenant_ids">     
                                 <td>Intervenants </td>
                                 <td>
+                                    <t t-set="annee" t-value="o.get_annee()"></t>
                                     <t t-foreach="o.intervenant_ids" t-as="line">
-                                        <div t-if="line.associe_id"><span t-field="line.associe_id.name"/></div>
-                                        <div t-if="line.sous_traitant_id"><span t-field="line.sous_traitant_id.is_prenom"/> <span t-field="line.sous_traitant_id.name"/></div>
+                                        <t t-if="str(line.annee)==annee">
+                                            <div t-if="line.associe_id"><span t-field="line.associe_id.name"/></div>
+                                            <div t-if="line.sous_traitant_id"><span t-field="line.sous_traitant_id.is_prenom"/> <span t-field="line.sous_traitant_id.name"/></div>
+                                        </t>
                                     </t>
                                 </td>
                             </tr>

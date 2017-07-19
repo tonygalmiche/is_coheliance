@@ -190,10 +190,20 @@
                                     <div class="titre2">Durée de la prestation :</div>
                                     <p class="texte" t-field="o.duree_prestation" />
                                     <div class="titre2">Intervenant(s) :</div>
+                                    <t t-set="annee" t-value="o.get_annee()"></t>
                                     <ul>
                                     <t t-foreach="o.intervenant_ids" t-as="l">
-                                        <t t-if="l.associe_id">       <li style="margin-left:10mm"><span t-field="l.associe_id.name" />      </li></t>
-                                        <t t-if="l.sous_traitant_id"> <li style="margin-left:10mm"><span t-field="l.sous_traitant_id.is_prenom" /> <span t-field="l.sous_traitant_id.name" /></li></t>
+                                        <t t-if="str(l.annee)==annee">
+                                            <t t-if="l.associe_id">
+                                                <li style="margin-left:10mm"><span t-field="l.associe_id.name" /></li>
+                                            </t>
+                                            <t t-if="l.sous_traitant_id"> 
+                                                <li style="margin-left:10mm">
+                                                    <span t-field="l.sous_traitant_id.is_prenom" />
+                                                    <span t-field="l.sous_traitant_id.name" />
+                                                </li>
+                                            </t>
+                                        </t>
                                     </t>
                                     </ul>
                                 </td>

@@ -30,6 +30,14 @@ class is_affaire(models.Model):
     total_budget_prevu = fields.Float('Budget prévu', compute='_compute', readonly=True, store=True)
 
 
+    @api.multi
+    def get_annee(self):
+        now  = datetime.date.today()
+        return now.strftime('%Y')
+
+
+
+
 class is_affaire_vente(models.Model):
     _name  = 'is.affaire.vente'
     _order = 'date'
