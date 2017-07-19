@@ -37,6 +37,7 @@ class res_partner(osv.osv):
         'is_prenom'              : fields.char("Prénom"),
         'is_code_fournisseur'    : fields.char("Code comptable fournisseur"),
         'is_siret'               : fields.char("SIRET"),
+        'is_num_declaration_activite' : fields.char("N° déclaration activité", help=u"N° de déclaration d'activité obligatoire pour les sous-traitants"),
         'is_ape'                 : fields.char("APE"),
         'is_secteur_activite_id' : fields.many2one('is.secteur.activite', "Secteur d'activité", required=False),
         'is_region_id'           : fields.many2one('is.region', 'Région', required=False),
