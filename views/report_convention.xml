@@ -18,6 +18,11 @@
                             border:1pt solid black;
                             text-align:center;
                         }
+                        .sous-titre{
+                            font-size:10pt;
+                            font-weight: bold;
+                            text-align:center;
+                        }
                         table{
                             border:1pt solid black;
                         }
@@ -53,8 +58,6 @@
                         .border-top{
                             border-top:1pt solid black;
                         }
-
-
                         .titre1{
                             font-weight: bold;
                             text-decoration :underline;
@@ -98,14 +101,10 @@
                             border-right:none;
                             border-left:none;
                         }
-
-
-
                     </style>
 
                     <div class="row titre">CONVENTION SIMPLIFIEE DE FORMATION PROFESSIONNELLE n°<span t-field="o.name"/></div>
-                    <br />
-
+                    <div class="row sous-titre">(art. L6353-1 et L6353-2 du Code du Travail)</div>
                     <div class="row">
                         <table style="width:100%">
                             <tr><th>                   </th><th>Le client       </th><th>Le prestataire  </th></tr>
