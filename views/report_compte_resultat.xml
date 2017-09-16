@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_compte_resultat">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report.external_layout">
+                        <div class="page">
+                            <style>
+                                table{
+                                    border:1pt solid black;
+                                }
+                                td{
+                                    border:1pt solid black;
+                                    padding:2pt;
+                                }
+                                th{
+                                    text-align:center;
+                                    border:1pt solid black;
+                                    background-color:#FF99FF;
+                                    padding:2pt;
+                                }
+                            </style>
+
+                            <h2>
+                                Compte de résultat <span t-field="o.name"/>
+                            </h2>
+
+
+                            <t t-set="annee" t-value="o.name"/>
+
+                            <t t-set="x3"/>
+                            <t t-set="x2"/>
+                            <t t-set="x1"/>
+                            <t t-set="x0"/>
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <th>Intitulé</th>
+                                            <th><t t-esc="annee-3"/></th>
+                                            <th><t t-esc="annee-2"/></th>
+                                            <th><t t-esc="annee-1"/></th>
+                                            <th><t t-esc="annee-0"/></th>
+                                        </tr>
+                                        <t t-foreach="o.line_ids" t-as="l">
+                                            <t t-if="(annee-3)==l.annee"> <t t-set="x3" t-value="l.montant"/></t>
+                                            <t t-if="(annee-2)==l.annee"> <t t-set="x2" t-value="l.montant"/></t>
+                                            <t t-if="(annee-1)==l.annee"> <t t-set="x1" t-value="l.montant"/></t>
+                                            <t t-if="(annee-0)==l.annee"> <t t-set="x0" t-value="l.montant"/></t>
+                                            <t t-if="annee==l.annee">
+                                                <tr>
+                                                    <td t-attf-style="background-color: {{ l.couleur }}"><span t-field="l.intitule"/></td>
+                                                    <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x3).replace(","," ").replace(".",",")'  /></td>
+                                                    <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x2).replace(","," ").replace(".",",")'  /></td>
+                                                    <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x1).replace(","," ").replace(".",",")'  /></td>
+                                                    <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x0).replace(","," ").replace(".",",")'  /></td>
+                                                    <t t-set="x3"/>
+                                                    <t t-set="x2"/>
+                                                    <t t-set="x1"/>
+                                                    <t t-set="x0"/>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

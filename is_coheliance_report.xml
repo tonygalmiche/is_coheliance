@@ -46,6 +46,15 @@
             file="is_coheliance.report_frais"
         />
 
+        <report 
+            id="report_compte_resultats"
+            model="is.compte.resultat.annee"
+            string="Compte de résultat"
+            report_type="qweb-pdf"
+            name="is_coheliance.report_compte_resultat"
+            file="is_coheliance.report_compte_resultat"
+        />
+
 
 
     </data>

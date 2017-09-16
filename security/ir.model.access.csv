@@ -18,4 +18,6 @@ access_is_suivi_intervention,access_is_suivi_intervention,model_is_suivi_interve
 access_is_affaire_vente,access_is_affaire_vente,model_is_affaire_vente,base.group_sale_manager,1,1,1,1
 access_is_prospective,access_is_prospective,model_is_prospective,base.group_sale_manager,1,1,1,1
 access_is_prospective_line,access_is_prospective_line,model_is_prospective_line,base.group_sale_manager,1,1,1,1
+access_is_compte_resultat,access_is_compte_resultat,model_is_compte_resultat,base.group_sale_manager,1,1,1,1
+access_is_compte_resultat_annee,access_is_compte_resultat_annee,model_is_compte_resultat_annee,base.group_sale_manager,1,1,1,1
 

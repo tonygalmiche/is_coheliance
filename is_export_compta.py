@@ -84,8 +84,8 @@ class is_export_compta(models.Model):
                 """
                 cr.execute(sql)
                 for row in cr.fetchall():
-                    nom_fournisseur=str(row[7])
-                    if nom_fournisseur=='None':
+                    nom_fournisseur=row[7]
+                    if nom_fournisseur==None:
                         nom_fournisseur=row[3]
                     libelle=nom_fournisseur+u' - '+row[4]
                     compte=str(row[1])

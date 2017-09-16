@@ -67,6 +67,22 @@
             action="is_prospective_action"
         />
 
+        <menuitem name="Compte de résultat" id="is_compte_resultat_main_menu" parent="is_crm_top_menu" sequence="70" />
+        <menuitem 
+            name="Compte de résultat" 
+            id="is_compte_resultat_annee_menu" 
+            parent="is_compte_resultat_main_menu" 
+            sequence="10"  
+            action="is_compte_resultat_annee_action"
+        />
+        <menuitem 
+            name="Paramètrage CR" 
+            id="is_compte_resultat_menu" 
+            parent="is_compte_resultat_main_menu" 
+            sequence="20"  
+            action="is_compte_resultat_action"
+        />
+
 
         <!-- Export Compta -->
         <menuitem   action="is_export_vente_compta_action"  id="is_export_vente_compta_menu" parent="account.menu_finance_receivables" sequence="900"/>
