@@ -180,20 +180,20 @@ class is_compte_resultat(models.Model):
 
 
             if obj.type_champ=='achat':
-                sql="""
-                    SELECT sum(ail.price_subtotal)
-                    FROM account_invoice ai inner join account_invoice_line ail on ai.id=ail.invoice_id
-                    WHERE
-                        ai.type='in_invoice' and
-                        ai.date_invoice>='"""+str(obj.annee)+"""-01-01' and 
-                        ai.date_invoice<='"""+str(obj.annee)+"""-12-31'
+                if obj.article_achat_id.id:
+                    sql="""
+                        SELECT sum(ail.price_subtotal)
+                        FROM account_invoice ai inner join account_invoice_line ail on ai.id=ail.invoice_id
+                        WHERE
+                            ai.type='in_invoice' and
+                            ai.date_invoice>='"""+str(obj.annee)+"""-01-01' and 
+                            ai.date_invoice<='"""+str(obj.annee)+"""-12-31' and 
+                            ail.product_id="""+str(obj.article_achat_id.id)+""" 
 
-                """
-                cr.execute(sql)
-                for row in cr.fetchall():
-                    montant=row[0]
-
-
+                    """
+                    cr.execute(sql)
+                    for row in cr.fetchall():
+                        montant=row[0]
 
 
             if obj.type_champ=='calcul':
