@@ -32,6 +32,18 @@ class is_affaire(osv.osv):
             res[obj.id] = obj.budget_propose-total
         return res
 
+
+    def _nb_stagiaire(self, cr, uid, ids, field_name, arg, context=None):
+        res={}
+        for obj in self.browse(cr, uid, ids, dict(context, active_test=False)):
+            nb_stagiaire=0
+            for intervention in obj.intervention_ids:
+                if intervention.nb_stagiaire>nb_stagiaire:
+                    nb_stagiaire=intervention.nb_stagiaire
+            res[obj.id] = nb_stagiaire
+        return res
+
+
     _columns = {
         'name': fields.char(u"Code de l'affaire"),
         'version': fields.char(u"Version", required=True, size=4),
@@ -44,8 +56,6 @@ class is_affaire(osv.osv):
         'client_id': fields.many2one('res.partner', u'Client', required=True),
         'contact_client_id': fields.many2one('res.partner', u'Contact client', required=False),
         'article_id': fields.many2one('product.template', u'Article', required=True),
-
-
         'intitule': fields.text(u"Intitulé", required=True),
         'objectif': fields.text(u"Objectifs", required=False, help="Pour les conventions de formations"),
         'descriptif': fields.text(u"Descriptif / Programme", required=True),
@@ -66,6 +76,9 @@ class is_affaire(osv.osv):
         'date_validation': fields.date(u"Date de validation"),
         'date_solde': fields.date(u"Date annulé ou soldé"),
         'order_id': fields.many2one('sale.order', 'Commande', readonly=False),
+        'origine_financement_id': fields.many2one('is.origine.financement', 'Origine du financement'),
+        'nb_stagiaire': fields.function(_nb_stagiaire, type='integer', string="Nombre de stagiaires", store=True, ),
+        'typologie_stagiaire_id': fields.many2one('is.typologie.stagiaire', 'Typologie du stagiaire'),
         'intervention_ids': fields.one2many('is.affaire.intervention', 'affaire_id', u'Interventions'),
         'frais_ids': fields.one2many('is.frais', 'affaire_id', u'Frais'),
         'vente_ids': fields.one2many('is.affaire.vente', 'affaire_id', u'Ventes'),
@@ -241,22 +254,14 @@ class is_affaire_intervention(osv.osv):
 
     def _montant_facture(self, cr, uid, ids, field_name, arg, context=None):
         res={}
-
-
-
         for obj in self.browse(cr, uid, ids, dict(context, active_test=False)):
-            print obj
-
-
             intervenant_ids = obj.affaire_id.intervenant_ids
-
             trouve=False
             for intervenant in intervenant_ids:
                 if(obj.associe_id and intervenant.associe_id.id==obj.associe_id.id):
                     trouve=intervenant
                 if(obj.sous_traitant_id and intervenant.sous_traitant_id.id==obj.sous_traitant_id.id):
                     trouve=intervenant
-
             taux=0
             if trouve:
                 if obj.unite_temps=="heure":
@@ -269,6 +274,22 @@ class is_affaire_intervention(osv.osv):
             res[obj.id] = taux*obj.temps_passe
         return res
 
+
+
+    def _temps_formation(self, cr, uid, ids, field_name, arg, context=None):
+        res={}
+        for obj in self.browse(cr, uid, ids, dict(context, active_test=False)):
+            taux=0
+            if obj.unite_temps=="heure":
+                taux=1
+            if obj.unite_temps=="demi-jour":
+                taux=3.5
+            if obj.unite_temps=="jour":
+                taux=7
+            res[obj.id] = obj.temps_passe*obj.nb_stagiaire*taux
+        return res
+
+
     _columns = {
         'affaire_id': fields.many2one('is.affaire', 'Affaire', required=True),
         'date': fields.date(u"Date", required=True),
@@ -276,6 +297,8 @@ class is_affaire_intervention(osv.osv):
         'sous_traitant_id': fields.many2one('res.partner', u'Sous-Traitant'),
         'temps_passe': fields.float(u"Temps passé", required=True),
         'unite_temps': fields.selection([('heure','Heure'),('demi-jour','Demi-journée'),('jour','Jour')], u"Unité de temps", required=True),
+        'nb_stagiaire': fields.integer(u"Nombre de stagiaires"),
+        'temps_formation': fields.function(_temps_formation, type='float', string="Temps de formation", store=True, ),
         'montant_facture': fields.function(_montant_facture, type='float', string="Montant à facturer", store=True, ),
         'commentaire': fields.text(u"Commentaire"),
     }
@@ -297,103 +320,12 @@ class is_affaire_intervention(osv.osv):
         if "sous_traitant_id" in vals:
             new_vals["sous_traitant_id"] = vals["sous_traitant_id"] or 0
         err=False
-        print "new_vals=",new_vals
         if new_vals["associe_id"]>0  and new_vals["sous_traitant_id"]>0:
             err=True
         if err:
             raise osv.except_osv(_('Avertissement'), _(u"Dans les interventions, il faut choisir entre l'associé et le sous-traitant "))
         res = super(is_affaire_intervention, self).write(cr, uid, ids, vals, context=context)
         return res
-
-
-
-#class is_frais(osv.osv):
-#    _name = 'is.frais'
-#    _description = u"Fiche de frais"
-
-#    _columns = {
-#        'name': fields.char(u"Numéro"),
-#        'date_creation': fields.date(u"Date de création"),
-#        'affaire_id': fields.many2one('is.affaire', 'Affaire', required=True),
-#        'intervenant_id': fields.many2one('res.users', u'Intervenant', required=True),
-#        'taux_km': fields.float(u"Taux indemnité kilométrique"),
-#        'ligne_ids': fields.one2many('is.frais.ligne', 'frais_id', u'Lignes'),
-#    }
-
-#    _defaults = {
-#        'name': '',
-#        'intervenant_id': lambda obj, cr, uid, context: uid,
-#        'date_creation': fields.datetime.now,
-#    }
-
-#    def create(self, cr, uid, vals, context=None):
-
-#        company_obj = self.pool.get('res.company')
-#        taux_km = company_obj.browse(cr, uid, 1, context).taux_km
-#        vals["taux_km"]=taux_km
-
-#        data_obj = self.pool.get('ir.model.data')
-#        sequence_ids = data_obj.search(cr, uid, [('name','=','is_frais_seq')], context=context)
-#        if sequence_ids:
-#            sequence_id = data_obj.browse(cr, uid, sequence_ids[0], context).res_id
-#            vals['name'] = self.pool.get('ir.sequence').get_id(cr, uid, sequence_id, 'id', context=context)
-#        new_id = super(is_frais, self).create(cr, uid, vals, context=context)
-#        return new_id
-
-
-
-#class is_frais_ligne(osv.osv):
-#    _name = 'is.frais.ligne'
-#    _description = u"Lignes des fiches de frais"
-
-
-#    def _montant_ttc(self, cr, uid, ids, field_name, arg, context=None):
-#        res={}
-#        for obj in self.browse(cr, uid, ids, dict(context, active_test=False)):
-#            tva=0
-#            if obj.type_frais_id:
-#                if obj.type_frais_id.taxes_id:
-#                    for taxe in obj.type_frais_id.taxes_id:
-#                        tva=taxe.amount
-#            res[obj.id] = obj.montant_ht*(1+tva)
-#        return res
-
-
-
-#    _columns = {
-#        'frais_id': fields.many2one('is.frais', 'Frais', required=True),
-#        'date': fields.date(u"Date"),
-#        'type_frais_id': fields.many2one('product.template', u'Type de frais'),
-#        'refacturable': fields.selection([('oui','Oui'),('non','Non')], u"Refacturable"),
-#        'km': fields.integer(u"Km"),
-#        'montant_ht': fields.float(u"Montant HT"),
-#        'montant_ttc': fields.function(_montant_ttc, type='float', string="Montant TTC", store=True, ),
-#        'refacture': fields.boolean(u"Frais refacturé au client"),
-#    }
-
-#    _defaults = {
-#        'date': fields.datetime.now,
-#        'refacturable': 'oui',
-#        'refacture': False,
-#    }
-
-
-#    def create(self, cr, uid, vals, context=None):
-#        if 'km' in vals:
-#            company_obj = self.pool.get('res.company')
-#            taux_km = company_obj.browse(cr, uid, 1, context).taux_km
-#            vals['montant_ht']=vals['km']*taux_km
-#        res = super(is_frais_ligne, self).create(cr, uid, vals, context=context)
-
-
-
-#    def write(self, cr, uid, ids, vals, context=None):
-#        if 'km' in vals:
-#            company_obj = self.pool.get('res.company')
-#            taux_km = company_obj.browse(cr, uid, 1, context).taux_km
-#            vals['montant_ht']=vals['km']*taux_km
-#        res = super(is_frais_ligne, self).write(cr, uid, ids, vals, context=context)
-
 
 
 

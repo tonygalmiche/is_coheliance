@@ -47,6 +47,7 @@ InfoSaône - Module Odoo pour Coheliance
     "is_coheliance_report.xml",
     "is_prospective_view.xml",
     "is_compte_resultat_view.xml",
+    "is_bilan_pedagogique_view.xml",
     "views/layouts.xml",
     "views/layouts-convention.xml",
     "views/report_affaire.xml",

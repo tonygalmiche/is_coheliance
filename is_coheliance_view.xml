@@ -19,6 +19,8 @@
                 <field name="total_budget_prevu" sum="Total" />
                 <field name="date_validation" />
                 <field name="date_solde" />
+                <field name="origine_financement_id" invisible="context.get('formation',True)"/>
+                <field name="typologie_stagiaire_id" invisible="context.get('formation',True)"/>
                 <field name="state" />
             </tree>
         </field>
@@ -72,24 +74,10 @@
                                 <field name="date_debut" />
                                 <field name="date_fin" />
                                 <field name="duree_prestation" />
+                                <field name="origine_financement_id" />
+                                <field name="typologie_stagiaire_id" />
                             </group>
                         </page>
-
-
-
-
-                        <!--
-                        <page string="Sous-Traitants">
-                            <group string="">
-                                <field name="sous_traitant_ids" nolabel="1">
-                                    <tree string="Sous-Traitant" editable="bottom">
-                                        <field name="sous_traitant_id"/>
-                                        <field name="taux_horaire"/>
-                                    </tree>
-                                </field>
-                            </group>
-                        </page>
-                        -->
                         <page string="Intervenants">
                             <group>
                                 <field name="intervenant_ids" nolabel="1">
@@ -114,17 +102,6 @@
                                 <field name="total_budget_prevu" />
                             </group>
                         </page>
-                        <!--
-                        <page string="Budget">
-                            <group string="">
-                                <field name="budget_bas" />
-                                <field name="budget_haut" />
-                                <field name="budget_propose" />
-                                <field name="budget_propose_annee" />
-                                <field name="ecart_budget"/>
-                            </group>
-                        </page>
-                        -->
                         <page string="Interventions">
                             <group string="">
                                 <field name="intervention_ids" nolabel="1">
@@ -134,10 +111,15 @@
                                         <field name="sous_traitant_id"/>
                                         <field name="temps_passe"/>
                                         <field name="unite_temps" />
-                                        <field name="montant_facture" readonly="1"/>
+                                        <field name="nb_stagiaire" />
+                                        <field name="temps_formation" sum="Total" />
+                                        <field name="montant_facture" sum="Total" readonly="1"/>
                                         <field name="commentaire"/>
                                     </tree>
                                 </field>
+                            </group>
+                            <group>
+                                <field name="nb_stagiaire"/>
                             </group>
                         </page>
                         <page string="Ventes">
@@ -174,7 +156,6 @@
 
                         <page string="Facturation">
                             <group string="">
-                                <!--<field name="montant_acompte" />-->
                                 <field name="modalite_paiement" />
                                 <field name="frais_a_refacturer" />
                             </group>
@@ -189,9 +170,6 @@
                                 </field>
                             </group>
                         </page>
-
-
-
                         <page string="Autres informations">
                             <group>
                                 <field name="order_id" />
@@ -213,6 +191,7 @@
                     <field name="name"/>
                     <field name="client_id"/>
                     <field name="pilote_id"/>
+                    <filter name="formation_filter" filter_domain="[]" context="{'formation':False}" string="Champs suivi Formation"/>
                </search>
             </field>
         </record>
@@ -228,7 +207,6 @@
 
 
     <!-- Frais -->
-
     <record id="is_frais_tree" model="ir.ui.view">
         <field name="name">is.frais.tree</field>
         <field name="model">is.frais</field>
@@ -418,7 +396,6 @@
         <field name="context">{}</field>
         <field name="domain">[]</field>
     </record>
-
 
 
 
