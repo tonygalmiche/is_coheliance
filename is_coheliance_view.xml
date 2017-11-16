@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <tree colors="red:state in ('en_attente') and date_relance &lt; current_date and date_relance not null   ; grey:state == 'annule';" >
                 <field name="name" />
+                <field name="affaire_parent_id" widget="many2one_clickable"/>
                 <field name="version" />
                 <field name="client_id" />
                 <field name="intitule" />
@@ -21,6 +22,7 @@
                 <field name="date_solde" />
                 <field name="origine_financement_id" invisible="context.get('formation',True)"/>
                 <field name="typologie_stagiaire_id" invisible="context.get('formation',True)"/>
+
                 <field name="state" />
             </tree>
         </field>
@@ -39,17 +41,18 @@
                 <sheet class="oe_form_sheet_width_wider">
                     <group>
                         <group>
-                            <field name="name" readonly="1" />
+                            <field name="name" readonly="1"/>
+                            <field name="affaire_parent_id"/>
                             <field name="version" />
-                            <field name="pilote_id" />
+                            <field name="pilote_id"/>
 
                         </group>
                         <group>
-                            <field name="date_creation"   />
-                            <field name="date_signature"  />
-                            <field name="createur_id" />
-                            <field name="interlocutrice_id"  />
-                            <field name="date_relance" />
+                            <field name="date_creation"/>
+                            <field name="date_signature"/>
+                            <field name="createur_id"/>
+                            <field name="interlocutrice_id"/>
+                            <field name="date_relance"/>
                         </group>
                     </group>
                     <notebook>

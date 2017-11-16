@@ -509,44 +509,33 @@ pour l’interprétation du contrat.
 
 
 
+<div class="titre1">Avant le démarrage de l’action de formation, le sous-traitant devra effectuer 
+les démarches suivantes auprès de <span t-field="res_company.name"/> :</div>
 
-<t t-if="res_company.name == 'COHELIANCE'">
-    <ul>
-        <li>Retourner un exemplaire de cette CONVENTION signé et tamponné à <span t-field="res_company.name"/></li>
-        <li>Informer <span t-field="res_company.name"/> de vos besoins en documents minimum une semaine avant votre intervention</li>
-        <li>ENVOYER A <span t-field="res_company.name"/> votre facture d’intervention et éventuellement votre R.I.B.<br />
-                       (si l’ensemble des points ci-dessus nommés et surlignés ne sont pas respectés, <br />
-                       votre facture sera mise en attente de règlement jusqu’au respect de ce suivi administratif).</li>
-    </ul>
-</t>
-<t t-if="res_company.name != 'COHELIANCE'">
-
-    <ul>
-        <li>Retourner un exemplaire de cette CONVENTION signé et tamponné à <span t-field="res_company.name"/></li>
-        <li>Informer <span t-field="res_company.name"/> de vos besoins en documents minimum une semaine avant votre intervention</li>
-        <li>Faire signer les FEUILLES DE PRESENCE aux stagiaires </li>
-        <li>Signer LES FEUILLES DE PRESENCE à côté de votre NOM</li>
-        <li>Remettre aux stagiaires les ATTESTATIONS DE SUIVI DE STAGE</li>
-        <li>Faire remplir aux stagiaires les fiches d'évaluation et le retourner à <span t-field="res_company.name"/> </li>
-        <li>A LA FIN DE L’ACTION renvoyer immédiatement les FEUILLES DE PRESENCE signées à <span t-field="res_company.name"/></li>
-        <li>ENVOYER A <span t-field="res_company.name"/> votre facture d’intervention et éventuellement votre R.I.B.<br />
-                       (si l’ensemble des points ci-dessus nommés et surlignés ne sont pas respectés, <br />
-                       votre facture sera mise en attente de règlement jusqu’au respect de ce suivi administratif).</li>
-    </ul>
-</t>
-
-
-En cas de livrables à adresser à l’entreprise : 
 <ul>
-<li>Remplissage des documents de façon complète par l’INTERVENANT (informations vis-à-vis de l’entreprise, contenu spécifique…)
-    et envoi à <span t-field="res_company.name"/>.</li>
-<li>Relecture par <span t-field="res_company.name"/> pour les éventuelles erreurs de frappes.</li>
-<li>Envoi par <span t-field="res_company.name"/> au CLIENT</li>
+    <li>Fournir la copie de sa déclaration d’activité de formateur (le document ne sera demandé qu’une seule fois, le numéro sera ensuite clairement indiqué dans la convention de sous-traitance)</li>
+    <li>Retourner un exemplaire de la convention de sous-traitance dûment signé</li>
+    <li>Prévenir, minimum 15 jours avant le démarrage de l’action, de ses besoins en matériel pédagogique (vidéoprojecteur, caméra…) et en documentation ou support pédagogique (pour reprographie)</li>
+    <li>Faire parvenir son déroulé pédagogique (dans lequel figurent les pré-requis de la formation, les objectifs généraux et, pour chaque étape de la formation, l’objectif pédagogique recherché) et le questionnaire d’auto-évaluation complété (selon le modèle Evaluation des Acquis joint en annexe)</li>
 </ul>
 
 
+<div class="titre1">Pendant la formation</div>
+
+Dans le cadre de la démarche qualité, nous rappelons que le sous-traitant doit prévoir de rassembler les attentes de chaque participant en début de formation et de vérifier qu’elles soient bien compatibles avec les objectifs pédagogiques. 
+<br />
+Il doit également en se présentant, indiquer le nom et les coordonnées de son superviseur.
 
 
+<div class="titre1">A la fin de la formation, le sous-traitant devra :</div>
+<ul>
+<li>Signer et faire signer les feuilles de présence aux participants </li>
+<li>Faire remplir le questionnaire d’auto-évaluation (Evaluation des acquis) et le signer</li>
+<li>Faire remplir la fiche d’évaluation</li>
+<li>Remettre aux stagiaires les attestations de fin de formation en leur indiquant qu’une copie de l’évaluation des acquis leur sera remise dans un second temps par mail (mail personnel)</li>
+</ul>
+
+<div class="titre1">Récupérer les documents 1-2-3 afin de les envoyer à <span t-field="res_company.name"/>.</div>
 
                                     </div>
                                 </td>

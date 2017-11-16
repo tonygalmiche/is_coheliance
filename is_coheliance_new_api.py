@@ -28,6 +28,7 @@ class is_affaire(models.Model):
             obj.total_budget_prevu=total_budget_prevu
 
     total_budget_prevu = fields.Float('Budget prévu', compute='_compute', readonly=True, store=True)
+    affaire_parent_id  = fields.Many2one('is.affaire', u'Affaire parent')
 
 
     @api.multi
