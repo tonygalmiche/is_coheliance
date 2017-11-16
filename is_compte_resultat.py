@@ -11,24 +11,23 @@ class is_compte_resultat_annee(models.Model):
     _order='name desc'
     _sql_constraints = [('name_uniq','UNIQUE(name)', u'Cette année existe déjà')]
 
-    name     = fields.Integer("Année", required=True, select=True)
-    line_ids = fields.One2many('is.compte.resultat', 'compte_resultat_id', u'Lignes')
+    name       = fields.Integer("Année", required=True, select=True)
+    date_debut = fields.Date("Date début période", required=True, help="Date utilisée pour calculer la colonne 'Période'")
+    date_fin   = fields.Date("Date fin période"  , required=True, help="Date utilisée pour calculer la colonne 'Période'")
+    line_ids   = fields.One2many('is.compte.resultat', 'compte_resultat_id', u'Lignes')
 
     @api.multi
     def action_calculer(self):
         for obj in self:
-            print obj
-
-
             cr_obj=self.env['is.compte.resultat']
-
-            
-
             rows=cr_obj.search([
                 ('annee','=',0),
             ])
-            for i in [0,1,2]:
+            for i in [0,1,2,3]:
                 annee=obj.name-i
+                if i==3:
+                    annee=9999
+
                 for row in rows:
                     vals={
                         'compte_resultat_id' : obj.id,
@@ -64,7 +63,17 @@ class is_compte_resultat_annee(models.Model):
             }
 
 
-
+    @api.multi
+    def action_lignes(self):
+        for obj in self:
+            return {
+                'name': "Compte de résultat "+str(obj.name),
+                'view_type': 'form',
+                'view_mode': 'tree,form,graph',
+                'res_model': 'is.compte.resultat',
+                'type': 'ir.actions.act_window',
+                'domain': [('compte_resultat_id','=',obj.id)],
+            }
 
 
 
@@ -154,17 +163,27 @@ class is_compte_resultat(models.Model):
         cr=self._cr
 
         for obj in self:
+            annee=obj.annee
+            if annee==9999:
+                annee=obj.compte_resultat_id.name
+
+            date_debut = str(obj.annee)+'-01-01'
+            date_fin   = str(obj.annee)+'-12-31'
+            if obj.annee==9999:
+                date_debut = str(obj.compte_resultat_id.date_debut)
+                date_fin   = str(obj.compte_resultat_id.date_fin)
             montant=0
             if obj.type_champ=='budget_prevu':
                 sql="""
                     SELECT sum(budget_prevu)
                     FROM is_affaire_intervenant
                     WHERE 
-                        annee="""+str(obj.annee)+""" 
+                        annee="""+str(annee)+""" 
                 """
                 cr.execute(sql)
                 for row in cr.fetchall():
                     montant=row[0]
+
 
             if obj.type_champ=='intervention' and obj.annee and obj.associe_id:
                 sql="""
@@ -172,8 +191,8 @@ class is_compte_resultat(models.Model):
                     FROM is_affaire_intervention iai
                     WHERE 
                         iai.associe_id="""+str(obj.associe_id.id)+""" and 
-                        iai.date>='"""+str(obj.annee)+"""-01-01' and 
-                        iai.date<='"""+str(obj.annee)+"""-12-31'
+                        iai.date>='"""+date_debut+"""' and 
+                        iai.date<='"""+date_fin+"""'
                 """
                 cr.execute(sql)
                 for row in cr.fetchall():
@@ -186,8 +205,8 @@ class is_compte_resultat(models.Model):
                     FROM is_affaire_vente
                     WHERE 
                         product_id="""+str(obj.article_vente_id.id)+""" and 
-                        date>='"""+str(obj.annee)+"""-01-01' and 
-                        date<='"""+str(obj.annee)+"""-12-31'
+                        date>='"""+date_debut+"""' and 
+                        date<='"""+date_fin+"""'
                 """
                 cr.execute(sql)
                 for row in cr.fetchall():
@@ -200,8 +219,8 @@ class is_compte_resultat(models.Model):
                     FROM is_frais_ligne
                     WHERE 
                         refacturable='oui' and
-                        date>='"""+str(obj.annee)+"""-01-01' and 
-                        date<='"""+str(obj.annee)+"""-12-31'
+                        date>='"""+date_debut+"""' and 
+                        date<='"""+date_fin+"""'
                 """
                 cr.execute(sql)
                 for row in cr.fetchall():
@@ -215,14 +234,17 @@ class is_compte_resultat(models.Model):
                         FROM account_invoice ai inner join account_invoice_line ail on ai.id=ail.invoice_id
                         WHERE
                             ai.type='in_invoice' and
-                            ai.date_invoice>='"""+str(obj.annee)+"""-01-01' and 
-                            ai.date_invoice<='"""+str(obj.annee)+"""-12-31' and 
+                            ai.date_invoice>='"""+date_debut+"""' and 
+                            ai.date_invoice<='"""+date_fin+"""' and 
                             ail.product_id="""+str(obj.article_achat_id.id)+""" 
-
                     """
                     cr.execute(sql)
                     for row in cr.fetchall():
                         montant=row[0]
+
+
+
+
 
 
             if obj.type_champ=='calcul':
