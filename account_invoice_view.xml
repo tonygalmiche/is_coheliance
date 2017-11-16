@@ -99,6 +99,45 @@
 
 
 
+        <record id="is_account_invoice_line_tree_view" model="ir.ui.view">
+            <field name="name">is_account_invoice_line_tree_view</field>
+            <field name="model">account.invoice.line</field>
+            <field name="arch" type="xml">
+                <tree >
+                    <field name="invoice_id" widget="many2one_clickable"/>
+                    <field name="product_id" widget="many2one_clickable"/>
+                    <field name="name"/>
+                    <field name="quantity"       sum="Total"/>
+                    <field name="price_unit"/>
+                    <field name="price_subtotal" sum="Total"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_account_invoice_line_search_view" model="ir.ui.view">
+            <field name="name">is_account_invoice_line_search_view</field>
+            <field name="model">account.invoice.line</field>
+            <field name="arch" type="xml">
+                <search >
+                    <field name="invoice_id"/>
+                    <field name="product_id"/>
+                    <field name="name"/>
+                    <group expand="0" string="Regrouper par">
+                        <filter name="product_id" string="Article" context="{'group_by':'product_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="is_account_invoice_line_action" model="ir.actions.act_window">
+            <field name="name">Lignes de factures</field>
+            <field name="res_model">account.invoice.line</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="is_account_invoice_line_tree_view"/>
+        </record>
+        <menuitem name="Lignes de factures" id="is_account_invoice_line_menu" parent="account.menu_finance_receivables" sequence="800"  action="is_account_invoice_line_action"   />
+
+
 
 
     </data>
