@@ -180,6 +180,21 @@
                                 <field name="date_solde"      readonly="1" />
                             </group>
                         </page>
+
+                        <page string="Affaires liées" attrs="{'invisible': [('affaire_child_ids', '=', [])]}">
+                             <group string="">
+                                <field name="affaire_child_ids" nolabel="1">
+                                    <tree>
+                                        <button string="Voir cette affaire" name="voir_affaire" type="object" icon="gtk-zoom-in" />
+                                        <field name="name"/>
+                                        <field name="pilote_id" widget="many2one_clickable"/>
+                                        <field name="client_id" widget="many2one_clickable"/>
+                                        <field name="total_budget_prevu" sum="Total"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+
                     </notebook>
                 </sheet>
             </form>

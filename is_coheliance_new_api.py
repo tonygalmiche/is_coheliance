@@ -29,12 +29,31 @@ class is_affaire(models.Model):
 
     total_budget_prevu = fields.Float('Budget prévu', compute='_compute', readonly=True, store=True)
     affaire_parent_id  = fields.Many2one('is.affaire', u'Affaire parent')
+    affaire_child_ids  = fields.One2many('is.affaire', 'affaire_parent_id', 'Affaires liées', readonly=True)
 
 
     @api.multi
     def get_annee(self):
         now  = datetime.date.today()
         return now.strftime('%Y')
+
+
+
+    @api.multi
+    def voir_affaire(self):
+        for obj in self:
+            res= {
+                'name': 'Affaire',
+                'view_mode': 'form',
+                'view_type': 'form',
+                'res_model': 'is.affaire',
+                'res_id': obj.id,
+                'type': 'ir.actions.act_window',
+            }
+            return res
+
+
+
 
 
 
