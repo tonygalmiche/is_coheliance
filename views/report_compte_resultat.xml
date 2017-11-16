@@ -32,6 +32,8 @@
                             <t t-set="x2"/>
                             <t t-set="x1"/>
                             <t t-set="x0"/>
+                            <t t-set="objectif"/>
+                            <t t-set="avancement"/>
 
                             <div class="row">
                                 <div class="col-xs-12">
@@ -43,13 +45,23 @@
                                                 <th><t t-esc="annee-2"/></th>
                                                 <th><t t-esc="annee-1"/></th>
                                                 <th><t t-esc="annee-0"/></th>
+                                                <th>Objectif</th>
+                                                <th>% Objectif</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <t t-foreach="o.line_ids" t-as="l">
-                                            <t t-if="(annee-2)==l.annee"> <t t-set="x2" t-value="l.montant"/></t>
-                                            <t t-if="(annee-1)==l.annee"> <t t-set="x1" t-value="l.montant"/></t>
-                                            <t t-if="(annee-0)==l.annee"> <t t-set="x0" t-value="l.montant"/></t>
+                                            <t t-if="(annee-2)==l.annee"> <t t-set="x2"       t-value="l.montant"/></t>
+                                            <t t-if="(annee-1)==l.annee"> <t t-set="x1"       t-value="l.montant"/></t>
+                                            <t t-if="(annee-0)==l.annee"> <t t-set="x0"       t-value="l.montant"/></t>
+                                            <t t-if="(annee-0)==l.annee"> 
+                                                <t t-set="objectif" t-value='"{:,.0f}".format(l.objectif).replace(","," ").replace(".",",")'/>
+                                            </t>
+                                            <t t-if="(annee-0)==l.annee"> 
+                                                <t t-if="l.objectif!=0"> 
+                                                    <t t-set="avancement" t-value='"{:,.0f}".format(l.montant/l.objectif).replace(","," ").replace(".",",")+"%"'/>
+                                                </t>
+                                            </t>
                                             <t t-if="annee==l.annee">
                                                 <tr>
                                                     <td t-attf-style="background-color: {{ l.couleur }}"><span t-field="l.intitule"/></td>
@@ -57,9 +69,13 @@
                                                     <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x2).replace(","," ").replace(".",",")'  /></td>
                                                     <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x1).replace(","," ").replace(".",",")'  /></td>
                                                     <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x0).replace(","," ").replace(".",",")'  /></td>
+                                                    <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='objectif'    /></td>
+                                                    <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='avancement'  /></td>
                                                     <t t-set="x2"/>
                                                     <t t-set="x1"/>
                                                     <t t-set="x0"/>
+                                                    <t t-set="objectif"/>
+                                                    <t t-set="avancement"/>
                                                 </tr>
                                             </t>
                                         </t>

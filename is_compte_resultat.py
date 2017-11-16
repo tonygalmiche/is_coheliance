@@ -41,6 +41,7 @@ class is_compte_resultat_annee(models.Model):
                         'article_vente_id'   : row.article_vente_id.id,
                         'formule'            : row.formule,
                         'couleur'            : row.couleur,
+                        'objectif'           : row.objectif,
                     }
                     res=cr_obj.search([
                         ('annee','=',annee),
@@ -72,6 +73,16 @@ class is_compte_resultat(models.Model):
     _name='is.compte.resultat'
     _order='ordre,annee'
     _sql_constraints = [('ordre_uniq','UNIQUE(annee,ordre)', u'Cet ordre existe déjà')]
+
+
+    @api.multi
+    def name_get(self):
+        res=[]
+        for obj in self:
+            name=str(obj.annee)+u'-'+str(obj.ordre)
+            res.append((obj.id, name))
+        return res
+
 
     @api.depends('montant_calcule','montant_force')
     def _compute(self):
@@ -136,7 +147,7 @@ class is_compte_resultat(models.Model):
     montant_calcule  = fields.Float("Montant calculé", readonly=True)
     montant_force    = fields.Float("Montant forcé")
     montant          = fields.Float("Montant", compute='_compute', readonly=True, store=True)
-
+    objectif         = fields.Float("Objectif année en cours")
 
     @api.multi
     def action_calculer(self):

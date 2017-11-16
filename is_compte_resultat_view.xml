@@ -67,7 +67,8 @@
                     <field name="formule"/>
                     <field name="montant_calcule"/>
                     <field name="montant_force"/>
-                    <field name="montant" sum="Total"/>
+                    <field name="montant"  sum="Total"/>
+                    <field name="objectif" sum="Total"/>
                 </tree>
             </field>
         </record>
@@ -76,9 +77,11 @@
             <field name="model">is.compte.resultat</field>
             <field name="arch" type="xml">
                 <form>
+                    <!--
                     <header>
                         <button name="action_calculer" type="object" string="Calculer" class="oe_highlight"/>
                     </header>
+                    -->
                     <sheet>
                         <group>
                             <group>
@@ -113,6 +116,7 @@
                                 <field name="montant_calcule"/>
                                 <field name="montant_force"/>
                                 <field name="montant"/>
+                                <field name="objectif"/>
                             </group>
                         </group>
                     </sheet>
