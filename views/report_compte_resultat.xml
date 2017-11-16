@@ -29,7 +29,6 @@
 
                             <t t-set="annee" t-value="o.name"/>
 
-                            <t t-set="x3"/>
                             <t t-set="x2"/>
                             <t t-set="x1"/>
                             <t t-set="x0"/>
@@ -37,32 +36,34 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <table style="width:100%">
-                                        <tr>
-                                            <th>Intitulé</th>
-                                            <th><t t-esc="annee-3"/></th>
-                                            <th><t t-esc="annee-2"/></th>
-                                            <th><t t-esc="annee-1"/></th>
-                                            <th><t t-esc="annee-0"/></th>
-                                        </tr>
+                                        <thead>
+                                            <tr>
+                                                <th>Intitulé</th>
+                                                <th>Compte</th>
+                                                <th><t t-esc="annee-2"/></th>
+                                                <th><t t-esc="annee-1"/></th>
+                                                <th><t t-esc="annee-0"/></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                         <t t-foreach="o.line_ids" t-as="l">
-                                            <t t-if="(annee-3)==l.annee"> <t t-set="x3" t-value="l.montant"/></t>
                                             <t t-if="(annee-2)==l.annee"> <t t-set="x2" t-value="l.montant"/></t>
                                             <t t-if="(annee-1)==l.annee"> <t t-set="x1" t-value="l.montant"/></t>
                                             <t t-if="(annee-0)==l.annee"> <t t-set="x0" t-value="l.montant"/></t>
                                             <t t-if="annee==l.annee">
                                                 <tr>
                                                     <td t-attf-style="background-color: {{ l.couleur }}"><span t-field="l.intitule"/></td>
-                                                    <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x3).replace(","," ").replace(".",",")'  /></td>
+                                                    <td t-attf-style="background-color: {{ l.couleur }};text-align:center"><span t-field="l.code_comptable"/></td>
                                                     <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x2).replace(","," ").replace(".",",")'  /></td>
                                                     <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x1).replace(","," ").replace(".",",")'  /></td>
                                                     <td t-attf-style="background-color: {{ l.couleur }};text-align:right;width:10%;"><t t-esc='"{:,.0f}".format(x0).replace(","," ").replace(".",",")'  /></td>
-                                                    <t t-set="x3"/>
                                                     <t t-set="x2"/>
                                                     <t t-set="x1"/>
                                                     <t t-set="x0"/>
                                                 </tr>
                                             </t>
                                         </t>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>

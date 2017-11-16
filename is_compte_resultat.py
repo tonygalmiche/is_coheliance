@@ -27,7 +27,7 @@ class is_compte_resultat_annee(models.Model):
             rows=cr_obj.search([
                 ('annee','=',0),
             ])
-            for i in [0,1,2,3]:
+            for i in [0,1,2]:
                 annee=obj.name-i
                 for row in rows:
                     vals={
@@ -76,10 +76,30 @@ class is_compte_resultat(models.Model):
     @api.depends('montant_calcule','montant_force')
     def _compute(self):
         for obj in self:
+            now   = datetime.date.today()
+            annee = int(now.strftime('%Y'))
+            jour  = int(now.strftime('%j'))
+            if jour>365:
+                jour=365
             montant=obj.montant_calcule
             if obj.montant_force>0:
                 montant=obj.montant_force
+            if obj.type_champ=='saisie_manuelle' and obj.annee==annee:
+                montant=obj.montant_force*jour/365
             obj.montant=montant
+
+
+    @api.depends('article_achat_id','article_vente_id','type_champ')
+    def _compute_code_comptable(self):
+        for obj in self:
+            code_comptable=''
+            if obj.type_champ=='achat':
+                if obj.article_achat_id:
+                    code_comptable=obj.article_achat_id.property_account_expense.code
+            if obj.type_champ=='vente':
+                if obj.article_vente_id:
+                    code_comptable=obj.article_vente_id.property_account_income.code
+            obj.code_comptable=code_comptable
 
 
     compte_resultat_id = fields.Many2one('is.compte.resultat.annee', 'Compte de résultat', ondelete='cascade')
@@ -99,6 +119,7 @@ class is_compte_resultat(models.Model):
     associe_id       = fields.Many2one('res.users', u'Associé')
     article_achat_id = fields.Many2one('product.product', u'Article achat')
     article_vente_id = fields.Many2one('product.product', u'Article vente')
+    code_comptable   = fields.Char("Code comptable", compute='_compute_code_comptable', readonly=True, store=True)
     formule          = fields.Char("Formule")
     couleur = fields.Selection([
         ('#FF0000','rouge'),
@@ -123,7 +144,6 @@ class is_compte_resultat(models.Model):
 
         for obj in self:
             montant=0
-
             if obj.type_champ=='budget_prevu':
                 sql="""
                     SELECT sum(budget_prevu)
@@ -134,8 +154,6 @@ class is_compte_resultat(models.Model):
                 cr.execute(sql)
                 for row in cr.fetchall():
                     montant=row[0]
-
-
 
             if obj.type_champ=='intervention' and obj.annee and obj.associe_id:
                 sql="""
