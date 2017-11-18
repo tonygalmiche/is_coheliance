@@ -260,8 +260,13 @@ class is_compte_resultat(models.Model):
                             ('annee','=',obj.annee),
                             ('ordre','=',eval(ordre)),
                         ])
+                        montant=0
                         for row in rows:
-                            formule=formule.replace(r, str(row.montant))
+                            montant=row.montant
+                        formule=formule.replace(r, str(montant))
+
+
+                print 'formule=',formule
                 montant=eval(formule)
 
 
