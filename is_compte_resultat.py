@@ -40,8 +40,10 @@ class is_compte_resultat_annee(models.Model):
                         'article_vente_id'   : row.article_vente_id.id,
                         'formule'            : row.formule,
                         'couleur'            : row.couleur,
-                        'objectif'           : row.objectif,
                     }
+
+                    #    'objectif'           : row.objectif,
+
                     res=cr_obj.search([
                         ('annee','=',annee),
                         ('ordre','=',row.ordre),
@@ -123,7 +125,7 @@ class is_compte_resultat(models.Model):
 
 
     compte_resultat_id = fields.Many2one('is.compte.resultat.annee', 'Compte de résultat', ondelete='cascade')
-    annee      = fields.Integer("Année", select=True)
+    annee      = fields.Integer("Année", select=True,default=0)
     intitule   = fields.Char("Intitulé", required=True, select=True)
     ordre      = fields.Integer("Ordre", required=True, select=True)
     type_champ = fields.Selection([
@@ -163,9 +165,22 @@ class is_compte_resultat(models.Model):
         cr=self._cr
 
         for obj in self:
+            #** Nombre de jours entre date_debut et date_fin *******************
+            debut=obj.compte_resultat_id.date_debut
+            debut=datetime.datetime.strptime(debut, '%Y-%m-%d')
+            fin=obj.compte_resultat_id.date_fin
+            fin=datetime.datetime.strptime(fin, '%Y-%m-%d')
+            nbjours=(fin-debut).days
+            if nbjours>365:
+                nbjours=365
+            if nbjours<0:
+                nbjours=0
+
             annee=obj.annee
             if annee==9999:
-                annee=obj.compte_resultat_id.name
+                debut=obj.compte_resultat_id.date_debut
+                debut=datetime.datetime.strptime(debut, '%Y-%m-%d')
+                annee=datetime.datetime.strftime(debut, '%Y')
 
             date_debut = str(obj.annee)+'-01-01'
             date_fin   = str(obj.annee)+'-12-31'
@@ -183,7 +198,8 @@ class is_compte_resultat(models.Model):
                 cr.execute(sql)
                 for row in cr.fetchall():
                     montant=row[0]
-
+                if obj.annee==9999:
+                    montant=montant*nbjours/365
 
             if obj.type_champ=='intervention' and obj.annee and obj.associe_id:
                 sql="""
@@ -250,25 +266,45 @@ class is_compte_resultat(models.Model):
             if obj.type_champ=='calcul':
                 cr_obj = self.env['is.compte.resultat']
                 formule=obj.formule
-                p = re.compile('\[\d+\]')
+
+                #** Somme entre 2 ordres ***************************************
+                p = re.compile('\[\d+:\d+\]')
                 res=p.findall(formule)
-                for r in res:
-                    p = re.compile('\d+')
-                    ordres=p.findall(r)
-                    for ordre in ordres:
-                        rows=cr_obj.search([
-                            ('annee','=',obj.annee),
-                            ('ordre','=',eval(ordre)),
-                        ])
-                        montant=0
-                        for row in rows:
-                            montant=row.montant
-                        formule=formule.replace(r, str(montant))
+                if len(res)==1:
+                    for r in res:
+                        p = re.compile('\d+')
+                        res2=p.findall(r)
+                        if len(res2)==2:
+                            debut=res2[0]
+                            fin=res2[1]
+                            rows=cr_obj.search([
+                                ('annee','=',obj.annee),
+                                ('ordre','>=',eval(debut)),
+                                ('ordre','<=',eval(fin)),
+                            ])
+                            montant=0
+                            for row in rows:
+                                montant=montant+row.montant
+                #***************************************************************
 
-
-                print 'formule=',formule
-                montant=eval(formule)
-
+                #** Somme des ordres indiqués **********************************
+                if len(res)==0:
+                    p = re.compile('\[\d+\]')
+                    res=p.findall(formule)
+                    for r in res:
+                        p = re.compile('\d+')
+                        ordres=p.findall(r)
+                        for ordre in ordres:
+                            rows=cr_obj.search([
+                                ('annee','=',obj.annee),
+                                ('ordre','=',eval(ordre)),
+                            ])
+                            montant=0
+                            for row in rows:
+                                montant=row.montant
+                            formule=formule.replace(r, str(montant))
+                    montant=eval(formule)
+                #***************************************************************
 
             if str(montant)=='None':
                 montant=0

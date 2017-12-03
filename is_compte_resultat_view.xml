@@ -82,11 +82,11 @@
             <field name="model">is.compte.resultat</field>
             <field name="arch" type="xml">
                 <form>
-
+                    <!--
                     <header>
                         <button name="action_calculer" type="object" string="Calculer" class="oe_highlight"/>
                     </header>
-
+                    -->
                     <sheet>
                         <group>
                             <group>
@@ -114,15 +114,15 @@
                                     'required':[('type_champ','=','calcul')],
                                     'readonly':[('annee','>',0)]}"
                                 />
-                                <field name="couleur"/>
+                                <field name="couleur" attrs="{'readonly':[('annee','>',0)]}"/>
                             </group>
                             <group>
-                                <field name="annee"/>
-                                <field name="montant_calcule"/>
-                                <field name="montant_force"/>
-                                <field name="montant"/>
-                                <field name="objectif"/>
-                                <field name="compte_resultat_id" readonly="1"/>
+                                <field name="annee"              attrs="{'invisible':[('annee','=',0)], 'readonly':1}"/>
+                                <field name="montant_calcule"    attrs="{'invisible':[('annee','=',0)]}"/>
+                                <field name="montant_force"      attrs="{'invisible':[('annee','=',0)]}"/>
+                                <field name="montant"            attrs="{'invisible':[('annee','=',0)]}"/>
+                                <field name="objectif"           attrs="{'invisible':[('annee','=',0)]}"/>
+                                <field name="compte_resultat_id" attrs="{'invisible':[('annee','=',0)], 'readonly':1}"/>
                             </group>
                         </group>
                     </sheet>
