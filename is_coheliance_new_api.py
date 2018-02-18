@@ -27,9 +27,22 @@ class is_affaire(models.Model):
                 total_budget_prevu=total_budget_prevu+row.budget_prevu
             obj.total_budget_prevu=total_budget_prevu
 
+
+    @api.depends('facture_ids')
+    def _compute_total_refacturable(self):
+        for obj in self:
+            total_refacturable=0
+            for row in obj.facture_ids:
+                if row.is_refacturable=='oui':
+                    total_refacturable=total_refacturable+row.amount_untaxed
+            obj.total_refacturable=total_refacturable
+
+
     total_budget_prevu = fields.Float('Budget prévu', compute='_compute', readonly=True, store=True)
     affaire_parent_id  = fields.Many2one('is.affaire', u'Affaire parent')
     affaire_child_ids  = fields.One2many('is.affaire', 'affaire_parent_id', 'Affaires liées', readonly=True)
+    facture_ids        = fields.One2many('account.invoice', 'is_affaire_id', u'Factures fournisseur', readonly=True)
+    total_refacturable = fields.Float('Total refacturable HT', compute='_compute_total_refacturable', readonly=True, store=False)
 
 
     @api.multi

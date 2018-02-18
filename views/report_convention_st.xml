@@ -206,7 +206,7 @@
                                 <td style="padding:5mm"  width="50%">
                                     <div class="titre1">CONTEXTE</div>
                                     <p class="texte">
-                                        La SARL <span t-field="res_company.name"/> a été retenue comme Prestataire dans le cadre d’une mission de formation
+                                        La SAS <span t-field="res_company.name"/> a été retenue comme Prestataire dans le cadre d’une mission de formation
                                         qui sera menée pour la Société <span t-field="o.affaire_id.client_id.name"/> à <span t-field="o.affaire_id.client_id.city"/> sur le thème :
                                     </p>
                                     <div class="intitule" t-field="o.affaire_id.intitule" />
@@ -247,7 +247,7 @@
                                             L’intervenant(e) est <span t-field="o.sous_traitant_id.title"/> <span t-field="o.sous_traitant_id.is_prenom"/> <span t-field="o.sous_traitant_id.name"/>. 
                                             Il (ou Elle)  animera :   <p class="texte" t-field="o.duree_mission" /></li>
                                             <li>dans le respect des règles déontologiques et professionnelles des formateurs/consultants/coachs</li>
-                                            <li>dans le respect des conditions générales de prestations spécifiques à la SARL <span t-field="res_company.name"/> 
+                                            <li>dans le respect des conditions générales de prestations spécifiques à la SAS <span t-field="res_company.name"/> 
                                             et acceptées par le Client (et notamment les dates, heures et lieux d’intervention qui sont déterminées par le Client).</li>
                                         </ul>
                                         Statut de l’exécutant : Le ou les Intervenant(e)s affecté(e)s à l’exécution de la mission sont des intervenants 
@@ -369,7 +369,7 @@ Les honoraires de l’intervention seront versés à réception du règlement pa
                                     <div class="contrat">
 
 
-A l’égard du Client,  la SARL <span t-field="res_company.name"/>  demeure seule responsable.
+A l’égard du Client,  la SAS <span t-field="res_company.name"/>  demeure seule responsable.
 <br />
 En revanche, pour répondre des conséquences de tout manquement, de toute erreur ou faute commise dans le cadre des ses interventions, 
 <span t-field="o.sous_traitant_id.parent_id.name"/> s’engage à justifier à l’égard de <span t-field="res_company.name"/> 
@@ -413,7 +413,7 @@ veillera à se présenter systématiquement en qualité de sous-traitant de <spa
                                     <div class="contrat">
 
 En cas de litige entre les parties, l’article « Droit applicable et attribution de compétence – Interprétation du contrat » 
-des conditions générales de prestations de la SARL <span t-field="res_company.name"/> sera applicable.
+des conditions générales de prestations de la SAS <span t-field="res_company.name"/> sera applicable.
 <br />
 La loi du présent contrat est la loi française. Les litiges relatifs à la formation, l’interprétation et l’exécution des commandes, même 
 en cas d’appel en garantie, de pluralité de défendeurs ou de connexité, sont  soumis à la compétence exclusive du Tribunal de Commerce de Dijon, 

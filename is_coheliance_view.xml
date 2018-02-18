@@ -157,6 +157,29 @@
                             </group>
                         </page>
 
+                        <page string="Factures fournisseurs">
+                            <group>
+                                <field name="facture_ids" nolabel="1">
+                                    <tree>
+                                        <button string="Facture fournisseur" name="voir_facture_fournisseur" type="object" icon="gtk-zoom-in" />
+                                        <field name="internal_number"/>
+                                        <field name="is_refacturable"/>
+                                        <field name="partner_id"     string="Fournisseur" widget="many2one_clickable"/>
+                                        <field name="is_nom_fournisseur"/>
+                                        <field name="is_personne_concernee_id"/> 
+                                        <field name="date_invoice"/>
+                                        <field name="supplier_invoice_number"/>
+                                        <field name="amount_untaxed" string="Total HT"  sum="Total"/>
+                                        <field name="amount_total"   string="Total TTC" sum="Total"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group>
+                                <field name="total_refacturable"/>
+                            </group>
+                        </page>
+
                         <page string="Facturation">
                             <group string="">
                                 <field name="modalite_paiement" />

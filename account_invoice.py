@@ -27,6 +27,8 @@ class account_invoice(models.Model):
 
 
     order_id                 = fields.Many2one('sale.order', 'Commande', readonly=False)
+    is_affaire_id            = fields.Many2one('is.affaire', 'Affaire')
+    is_refacturable          = fields.Selection([('oui','Oui'),('non','Non')], u"Refacturable")
     is_nom_fournisseur       = fields.Char('Nom du fournisseur')
     is_personne_concernee_id = fields.Many2one('res.users', u'Personne concernée')
     is_msg_err               = fields.Char('Message', compute='_compute', readonly=True)
@@ -44,6 +46,24 @@ class account_invoice(models.Model):
                 if order_id:
                     self.write(cr, uid, new_id, {'order_id': order_id}, context=context)
         return new_id
+
+
+
+    @api.multi
+    def voir_facture_fournisseur(self):
+        for obj in self:
+            res= {
+                'name': 'Facture',
+                'view_mode': 'form',
+                'view_type': 'form',
+                'res_model': 'account.invoice',
+                'res_id': obj.id,
+                'type': 'ir.actions.act_window',
+            }
+            return res
+
+
+
 
 
 class account_invoice_line(models.Model):
