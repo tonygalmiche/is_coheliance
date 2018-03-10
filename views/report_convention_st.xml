@@ -64,7 +64,7 @@
                         .titre2{
                             text-decoration :underline;
                             margin-left:0mm;
-                            margin-top:5mm;
+                            margin-top:4mm;
                             margin-bottom:2mm;
                         }
                         .titre3{
@@ -76,17 +76,17 @@
                             text-align: center;
                             font-weight: bold;
                             margin-left:0mm;
-                            margin-top:5mm;
-                            margin-bottom:5mm;
+                            margin-top:4mm;
+                            margin-bottom:4mm;
                         }
                         .texte{
                             margin-top:1mm;
-                            margin-bottom:3mm;
+                            margin-bottom:2mm;
                         }
 
                         .cadre{
                             border:1pt solid black;
-                            padding-bottom:3mm;
+                            padding-bottom:2mm;
                             padding-left:3mm;
                             padding-right:5mm;
                         }
