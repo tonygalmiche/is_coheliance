@@ -506,7 +506,7 @@ pour l’interprétation du contrat.
                             <tr>
                                 <td style="padding:5mm">
                                     <div class="contrat">
-<div style="text-align:center">(dans le cadre UNIQUEMENT d'une action de FORMATION)</div>
+<div style="text-align:center"><b>(dans le cadre UNIQUEMENT d'une action de FORMATION)</b></div>
 
 <div class="titre1">Avant le démarrage de l’action de formation, le sous-traitant devra effectuer 
 les démarches suivantes auprès de <span t-field="res_company.name"/> :</div>
