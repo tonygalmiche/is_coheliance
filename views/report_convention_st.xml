@@ -104,7 +104,7 @@
 
                     </style>
 
-                    <div class="row titre">CONVENTION DE SOUS-TRAITANCE n°<span t-field="o.affaire_id.name"/></div>
+                    <div class="row titre">CONTRAT DE SOUS-TRAITANCE n°<span t-field="o.affaire_id.name"/></div>
                     <div class="text-center">(art L6353-1 du Code du Travail)</div>
                     <br />
 
@@ -192,7 +192,7 @@
                     <div class="row border-top" /><br />
 
                     <div class="row text-justify">
-                        Entre le prestataire et le sous-traitant ci-dessus désignés est conclue la convention suivante :
+                        Entre le prestataire et le sous-traitant ci-dessus désignés est conclu le contrat suivant :
                     </div>
 
 
@@ -206,7 +206,7 @@
                                 <td style="padding:5mm"  width="50%">
                                     <div class="titre1">CONTEXTE</div>
                                     <p class="texte">
-                                        La SAS <span t-field="res_company.name"/> a été retenue comme Prestataire dans le cadre d’une mission de formation
+                                        La SAS <span t-field="res_company.name"/> a été retenue comme Prestataire dans le cadre d’une mission
                                         qui sera menée pour la Société <span t-field="o.affaire_id.client_id.name"/> à <span t-field="o.affaire_id.client_id.city"/> sur le thème :
                                     </p>
                                     <div class="intitule" t-field="o.affaire_id.intitule" />
@@ -269,7 +269,7 @@
 <span t-field="res_company.name"/> peut à tout moment mandater, sous condition de l’accord du sous-traitant, un membre de son personnel 
 pour accompagner le Sous-Traitant dans l’exécution de la mission, où les rapports humains et psychologiques peuvent être prédominants (principe de supervision)
 <br />
-Les règles de fonctionnement suivantes devront être respectées par l’intervenant qui anime les différents modules de la formation :
+Les règles de fonctionnement suivantes devront être respectées par l’intervenant qui réalise la prestation :
 <br />
 
 
@@ -484,7 +484,7 @@ pour l’interprétation du contrat.
                                 </td>
 
                                 <td style="padding:5mm" width="33%">
-                                        <b>L'animateur :</b> <br />
+                                        <b>L'intervenant :</b> <br />
                                         date, nom et qualité du signataire<br />signature et cachet  <br /><br />
                                         <span t-field="o.sous_traitant_id.title"/> <span t-field="o.sous_traitant_id.is_prenom"/> <span t-field="o.sous_traitant_id.name"/>
                                 </td>
@@ -506,8 +506,7 @@ pour l’interprétation du contrat.
                             <tr>
                                 <td style="padding:5mm">
                                     <div class="contrat">
-
-
+<div style="text-align:center">(dans le cadre UNIQUEMENT d'une action de FORMATION)</div>
 
 <div class="titre1">Avant le démarrage de l’action de formation, le sous-traitant devra effectuer 
 les démarches suivantes auprès de <span t-field="res_company.name"/> :</div>
