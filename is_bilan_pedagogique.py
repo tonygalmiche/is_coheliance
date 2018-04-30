@@ -12,14 +12,15 @@ class is_bilan_pedagogique(models.Model):
     _order='name desc'
     _sql_constraints = [('name_uniq','UNIQUE(name)', u'Cette année existe déjà')]
 
-    name               = fields.Integer("Année", required=True, select=True)
-    financier_ids      = fields.One2many('is.bilan.pedagogique.financier', 'bilan_id', string='C - Bilan financier par origine du financement')
-    vente_outil        = fields.Integer("C - Produits résultant de la vente d'outils pédagogique")
-    sous_traitance     = fields.Integer("D - Honoraires de sous-traitance")
-    heure_formation    = fields.Integer("E - Nombre d'heure de formation associés")
-    heure_formation_st = fields.Integer("E - Nombre d'heures de formation des sous-traitant")
-    typologie_ids      = fields.One2many('is.bilan.pedagogique.typologie', 'bilan_id', string="F - Nombre de stagiaires et d'heures par typologie")
-
+    name                  = fields.Integer("Année", required=True, select=True)
+    financier_ids         = fields.One2many('is.bilan.pedagogique.financier', 'bilan_id', string='C - Bilan financier par origine du financement')
+    vente_outil           = fields.Integer("C - Produits résultant de la vente d'outils pédagogique")
+    sous_traitance        = fields.Integer("D - Honoraires de sous-traitance")
+    heure_formation       = fields.Integer("E - Nombre d'heures de formation associés")
+    heure_formation_st    = fields.Integer("E - Nombre d'heures de formation des sous-traitant")
+    typologie_ids         = fields.One2many('is.bilan.pedagogique.typologie', 'bilan_id', string="F - Nombre de stagiaires et d'heures par typologie")
+    nb_stagiaire_autre    = fields.Integer("G - Nombre de stagiaires confiés à un autre organisme de formation")
+    heure_formation_autre = fields.Integer("G - Total heures formation stagiaires confiés à un autre organisme de formation")
 
     @api.multi
     def action_calculer(self):
@@ -65,14 +66,26 @@ class is_bilan_pedagogique(models.Model):
             obj.vente_outil=vente_outil
 
             # D - Honoraires de sous-traitance *********************************
+#            sql="""
+#                select sum(ail.quantity*price_unit)
+#                from account_invoice_line ail inner join account_invoice ai on ail.invoice_id=ai.id
+#                                              inner join product_product pp on ail.product_id=pp.id
+#                where ai.date_invoice>='"""+str(obj.name)+"""-01-01' and 
+#                      ai.date_invoice<='"""+str(obj.name)+"""-12-31' and
+#                      pp.name_template='HONORAIRES FORMATEURS' 
+#            """
+
             sql="""
                 select sum(ail.quantity*price_unit)
                 from account_invoice_line ail inner join account_invoice ai on ail.invoice_id=ai.id
                                               inner join product_product pp on ail.product_id=pp.id
+                                              inner join res_partner     rp on ai.partner_id=rp.id 
                 where ai.date_invoice>='"""+str(obj.name)+"""-01-01' and 
                       ai.date_invoice<='"""+str(obj.name)+"""-12-31' and
-                      pp.name_template='HONORAIRES FORMATEURS' 
+                      ai.type='in_invoice' and
+                      rp.name='SOUS-TRAITANTS' 
             """
+
             cr.execute(sql)
             sous_traitance=0
             for row in cr.fetchall():
@@ -80,9 +93,11 @@ class is_bilan_pedagogique(models.Model):
                     sous_traitance=row[0]
             obj.sous_traitance=sous_traitance
 
+
+
             # E - Nombre d'heure de formation associés *************************
             sql="""
-                select sum(iai.temps_formation)
+                select sum(iai.temps_formation/coalesce(NULLIF(iai.nb_stagiaire,0),1))
                 from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
                 where iai.date>='"""+str(obj.name)+"""-01-01' and 
                       iai.date<='"""+str(obj.name)+"""-12-31' and
@@ -98,11 +113,11 @@ class is_bilan_pedagogique(models.Model):
 
             # E - Nombre d'heures de formation des sous-traitant ***************
             sql="""
-                select sum(iai.temps_formation)
+                select sum(iai.temps_formation/coalesce(NULLIF(iai.nb_stagiaire,0),1))
                 from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
                 where iai.date>='"""+str(obj.name)+"""-01-01' and 
                       iai.date<='"""+str(obj.name)+"""-12-31' and
-                      iai.associe_id is null and iai.sous_traitant_id is not null
+                      iai.associe_id is null and iai.sous_traitant_id is not null  
             """
             cr.execute(sql)
             heure_formation_st=0
@@ -114,17 +129,24 @@ class is_bilan_pedagogique(models.Model):
 
             # F - Nombre de stagiaires et d'heures par typologie ***************
             obj.typologie_ids.unlink()
-            typologies=self.env['is.typologie.stagiaire'].search([])
+            res=self.env['is.typologie.stagiaire'].search([])
+            typologies=[]
+            typologies.append(False)
+            for r in res:
+                typologies.append(r.id)
             for typologie in typologies:
                 # nb_stagiaire
                 sql="""
                     select ia.id, max(ia.nb_stagiaire)
                     from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
                     where iai.date>='"""+str(obj.name)+"""-01-01' and 
-                          iai.date<='"""+str(obj.name)+"""-12-31' and
-                          ia.typologie_stagiaire_id="""+str(typologie.id)+"""
-                    group by ia.id
+                          iai.date<='"""+str(obj.name)+"""-12-31'
                 """
+                if typologie:
+                    sql=sql+" and ia.typologie_stagiaire_id="""+str(typologie)+" "
+                else:
+                    sql=sql+" and ia.typologie_stagiaire_id is null "
+                sql=sql+"group by ia.id"
                 cr.execute(sql)
                 nb_stagiaire=0
                 for row in cr.fetchall():
@@ -136,9 +158,13 @@ class is_bilan_pedagogique(models.Model):
                     select sum(iai.temps_formation)
                     from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
                     where iai.date>='"""+str(obj.name)+"""-01-01' and 
-                          iai.date<='"""+str(obj.name)+"""-12-31' and
-                          ia.typologie_stagiaire_id="""+str(typologie.id)+"""
+                          iai.date<='"""+str(obj.name)+"""-12-31'
                 """
+                if typologie:
+                    sql=sql+" and ia.typologie_stagiaire_id="""+str(typologie)+" "
+                else:
+                    sql=sql+" and ia.typologie_stagiaire_id is null "
+                sql=sql+"group by ia.id"
                 cr.execute(sql)
                 nb_heure=0
                 for row in cr.fetchall():
@@ -146,13 +172,42 @@ class is_bilan_pedagogique(models.Model):
                         nb_heure     = row[0]
                 vals={
                     'bilan_id'     : obj.id,
-                    'typologie_id' : typologie.id,
+                    'typologie_id' : typologie,
                     'nb_stagiaire' : nb_stagiaire ,
                     'nb_heure'     : nb_heure,
                 }
                 self.env['is.bilan.pedagogique.typologie'].create(vals)
 
 
+            # G - Nombre de stagiaires confiés à un autre organisme de formation
+            sql="""
+                select ia.id, max(ia.nb_stagiaire)
+                from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                where iai.date>='"""+str(obj.name)+"""-01-01' and 
+                      iai.date<='"""+str(obj.name)+"""-12-31' and
+                      iai.sous_traitant_id is not null
+                group by ia.id
+            """
+            cr.execute(sql)
+            nb_stagiaire_autre=0
+            for row in cr.fetchall():
+                nb_stagiaire_autre=nb_stagiaire_autre+row[1]
+            obj.nb_stagiaire_autre=nb_stagiaire_autre
+
+
+            # G - Total heures formation stagiaires confiés à un autre organisme de formation
+            sql="""
+                select sum(iai.temps_formation)
+                from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                where iai.date>='"""+str(obj.name)+"""-01-01' and 
+                      iai.date<='"""+str(obj.name)+"""-12-31' and
+                      iai.sous_traitant_id is not null
+            """
+            cr.execute(sql)
+            heure_formation_autre = 0
+            for row in cr.fetchall():
+                heure_formation_autre=row[0]
+            obj.heure_formation_autre=heure_formation_autre
 
 
 class is_bilan_pedagogique_financier(models.Model):

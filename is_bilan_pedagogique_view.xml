@@ -49,6 +49,10 @@
                                 </tree>
                             </field>
                         </group>
+                        <group>
+                            <field name="nb_stagiaire_autre"/>
+                            <field name="heure_formation_autre"/>
+                        </group>
                     </sheet>
                 </form>
             </field>
