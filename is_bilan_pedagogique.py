@@ -164,7 +164,7 @@ class is_bilan_pedagogique(models.Model):
                     sql=sql+" and ia.typologie_stagiaire_id="""+str(typologie)+" "
                 else:
                     sql=sql+" and ia.typologie_stagiaire_id is null "
-                sql=sql+"group by ia.id"
+                #sql=sql+"group by ia.id"
                 cr.execute(sql)
                 nb_heure=0
                 for row in cr.fetchall():
@@ -226,7 +226,7 @@ class is_bilan_pedagogique_typologie(models.Model):
     bilan_id     = fields.Many2one('is.bilan.pedagogique', string='Bilan Pédagogique')
     typologie_id = fields.Many2one('is.typologie.stagiaire', string='Typologie Stagiaire')
     nb_stagiaire = fields.Float("Nombre de stagiaires")
-    nb_heure     = fields.Float("Nombre d'heures")
+    nb_heure     = fields.Float("Nombre total d'heures de formation suivies par l'ensemble des stagiaires")
 
 
 class is_origine_financement(models.Model):
