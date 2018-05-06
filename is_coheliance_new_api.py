@@ -183,6 +183,7 @@ class is_frais_ligne(models.Model):
     montant_ht       = fields.Float(u"Montant HT", digits=(14,2))
     montant_ttc      = fields.Float('Montant TTC', digits=(14,2), compute='_montant_ttc', readonly=True, store=True)
     refacture        = fields.Boolean(u"Frais refacturé au client")
+    commentaire      = fields.Char(u"Commentaire")
 
     _defaults = {
         'date': lambda *a: _date_creation(),
