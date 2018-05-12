@@ -186,14 +186,6 @@ class is_bilan_pedagogique(models.Model):
                 self.env['is.bilan.pedagogique.typologie'].create(vals)
 
 
-
-#    f2a_nb_stagiaire    = fields.Integer("F2a - Formés par votre organisme pour son propre compte - Nombre de stagiaires")
-#    f2a_heure_formation = fields.Integer("F2a - Formés par votre organisme pour son propre compte - Nombre total d'heures")
-
-#    f2b_nb_stagiaire    = fields.Integer("F2b - Formés par votre organisme pour le compte d'un autre organisme - Nombre de stagiaires")
-#    f2b_heure_formation = fields.Integer("F2b - Formés par votre organisme pour le compte d'un autre organisme - Nombre total d'heures")
-
-
             # F2a - Nombre de stagiaires
             sql="""
                 select ia.id, max(ia.nb_stagiaire)
@@ -207,7 +199,8 @@ class is_bilan_pedagogique(models.Model):
             cr.execute(sql)
             f2a_nb_stagiaire=0
             for row in cr.fetchall():
-                f2a_nb_stagiaire=f2a_nb_stagiaire+row[1]
+                if row[1]:
+                    f2a_nb_stagiaire=f2a_nb_stagiaire+row[1]
             obj.f2a_nb_stagiaire=f2a_nb_stagiaire
 
 
@@ -223,7 +216,8 @@ class is_bilan_pedagogique(models.Model):
             cr.execute(sql)
             f2a_heure_formation=0
             for row in cr.fetchall():
-                f2a_heure_formation=f2a_heure_formation+row[0]
+                if row[0]:
+                    f2a_heure_formation=f2a_heure_formation+row[0]
             obj.f2a_heure_formation=f2a_heure_formation
 
 
@@ -241,7 +235,8 @@ class is_bilan_pedagogique(models.Model):
             cr.execute(sql)
             f2b_nb_stagiaire=0
             for row in cr.fetchall():
-                f2b_nb_stagiaire=f2b_nb_stagiaire+row[1]
+                if row[1]:
+                    f2b_nb_stagiaire=f2b_nb_stagiaire+row[1]
             obj.f2b_nb_stagiaire=f2b_nb_stagiaire
 
 
@@ -257,7 +252,8 @@ class is_bilan_pedagogique(models.Model):
             cr.execute(sql)
             f2b_heure_formation=0
             for row in cr.fetchall():
-                f2b_heure_formation=f2b_heure_formation+row[0]
+                if row[0]:
+                    f2b_heure_formation=f2b_heure_formation+row[0]
             obj.f2b_heure_formation=f2b_heure_formation
 
 
@@ -273,7 +269,8 @@ class is_bilan_pedagogique(models.Model):
             cr.execute(sql)
             nb_stagiaire_autre=0
             for row in cr.fetchall():
-                nb_stagiaire_autre=nb_stagiaire_autre+row[1]
+                if row[1]:
+                    nb_stagiaire_autre=nb_stagiaire_autre+row[1]
             obj.nb_stagiaire_autre=nb_stagiaire_autre
 
 
