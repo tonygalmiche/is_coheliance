@@ -19,6 +19,13 @@ class is_bilan_pedagogique(models.Model):
     heure_formation       = fields.Integer("E - Nombre d'heures de formation associés")
     heure_formation_st    = fields.Integer("E - Nombre d'heures de formation des sous-traitant")
     typologie_ids         = fields.One2many('is.bilan.pedagogique.typologie', 'bilan_id', string="F - Nombre de stagiaires et d'heures par typologie")
+
+    f2a_nb_stagiaire    = fields.Integer("F2a - Formés par votre organisme pour son propre compte - Nombre de stagiaires")
+    f2a_heure_formation = fields.Integer("F2a - Formés par votre organisme pour son propre compte - Nombre total d'heures")
+
+    f2b_nb_stagiaire    = fields.Integer("F2b - Formés par votre organisme pour le compte d'un autre organisme - Nombre de stagiaires")
+    f2b_heure_formation = fields.Integer("F2b - Formés par votre organisme pour le compte d'un autre organisme - Nombre total d'heures")
+
     nb_stagiaire_autre    = fields.Integer("G - Nombre de stagiaires confiés à un autre organisme de formation")
     heure_formation_autre = fields.Integer("G - Total heures formation stagiaires confiés à un autre organisme de formation")
 
@@ -177,6 +184,81 @@ class is_bilan_pedagogique(models.Model):
                     'nb_heure'     : nb_heure,
                 }
                 self.env['is.bilan.pedagogique.typologie'].create(vals)
+
+
+
+#    f2a_nb_stagiaire    = fields.Integer("F2a - Formés par votre organisme pour son propre compte - Nombre de stagiaires")
+#    f2a_heure_formation = fields.Integer("F2a - Formés par votre organisme pour son propre compte - Nombre total d'heures")
+
+#    f2b_nb_stagiaire    = fields.Integer("F2b - Formés par votre organisme pour le compte d'un autre organisme - Nombre de stagiaires")
+#    f2b_heure_formation = fields.Integer("F2b - Formés par votre organisme pour le compte d'un autre organisme - Nombre total d'heures")
+
+
+            # F2a - Nombre de stagiaires
+            sql="""
+                select ia.id, max(ia.nb_stagiaire)
+                from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                 left outer join is_origine_financement iof on ia.origine_financement_id=iof.id
+                where iai.date>='"""+str(obj.name)+"""-01-01' and 
+                      iai.date<='"""+str(obj.name)+"""-12-31' and
+                      iof.name like '11%'
+                group by ia.id
+            """
+            cr.execute(sql)
+            f2a_nb_stagiaire=0
+            for row in cr.fetchall():
+                f2a_nb_stagiaire=f2a_nb_stagiaire+row[1]
+            obj.f2a_nb_stagiaire=f2a_nb_stagiaire
+
+
+            # F2a - Nombre total d'heures
+            sql="""
+                select sum(iai.temps_formation)
+                from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                 left outer join is_origine_financement iof on ia.origine_financement_id=iof.id
+                where iai.date>='"""+str(obj.name)+"""-01-01' and 
+                      iai.date<='"""+str(obj.name)+"""-12-31' and
+                      iof.name like '11%'
+            """
+            cr.execute(sql)
+            f2a_heure_formation=0
+            for row in cr.fetchall():
+                f2a_heure_formation=f2a_heure_formation+row[0]
+            obj.f2a_heure_formation=f2a_heure_formation
+
+
+
+            # F2b - Nombre de stagiaires
+            sql="""
+                select ia.id, max(ia.nb_stagiaire)
+                from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                 left outer join is_origine_financement iof on ia.origine_financement_id=iof.id
+                where iai.date>='"""+str(obj.name)+"""-01-01' and 
+                      iai.date<='"""+str(obj.name)+"""-12-31' and
+                      (iof.name not like '11%' or iof.name is null)
+                group by ia.id
+            """
+            cr.execute(sql)
+            f2b_nb_stagiaire=0
+            for row in cr.fetchall():
+                f2b_nb_stagiaire=f2b_nb_stagiaire+row[1]
+            obj.f2b_nb_stagiaire=f2b_nb_stagiaire
+
+
+            # F2b - Nombre total d'heures
+            sql="""
+                select sum(iai.temps_formation)
+                from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                 left outer join is_origine_financement iof on ia.origine_financement_id=iof.id
+                where iai.date>='"""+str(obj.name)+"""-01-01' and 
+                      iai.date<='"""+str(obj.name)+"""-12-31' and
+                      (iof.name not like '11%' or iof.name is null)
+            """
+            cr.execute(sql)
+            f2b_heure_formation=0
+            for row in cr.fetchall():
+                f2b_heure_formation=f2b_heure_formation+row[0]
+            obj.f2b_heure_formation=f2b_heure_formation
 
 
             # G - Nombre de stagiaires confiés à un autre organisme de formation

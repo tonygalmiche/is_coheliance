@@ -50,6 +50,10 @@
                             </field>
                         </group>
                         <group>
+                            <field name="f2a_nb_stagiaire"/>
+                            <field name="f2a_heure_formation"/>
+                            <field name="f2b_nb_stagiaire"/>
+                            <field name="f2b_heure_formation"/>
                             <field name="nb_stagiaire_autre"/>
                             <field name="heure_formation_autre"/>
                         </group>
