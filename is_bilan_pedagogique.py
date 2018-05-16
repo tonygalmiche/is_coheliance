@@ -18,13 +18,16 @@ class is_bilan_pedagogique(models.Model):
     sous_traitance        = fields.Integer("D - Honoraires de sous-traitance")
     heure_formation       = fields.Integer("E - Nombre d'heures de formation associés")
     heure_formation_st    = fields.Integer("E - Nombre d'heures de formation des sous-traitant")
-    typologie_ids         = fields.One2many('is.bilan.pedagogique.typologie', 'bilan_id', string="F - Nombre de stagiaires et d'heures par typologie")
+
+    type_stagiaire_ids    = fields.One2many('is.bilan.pedagogique.type.stagiaire', 'bilan_id', string="F1 - Type de stagiaires de l'organisme")
 
     f2a_nb_stagiaire    = fields.Integer("F2a - Formés par votre organisme pour son propre compte - Nombre de stagiaires")
     f2a_heure_formation = fields.Integer("F2a - Formés par votre organisme pour son propre compte - Nombre total d'heures")
 
     f2b_nb_stagiaire    = fields.Integer("F2b - Formés par votre organisme pour le compte d'un autre organisme - Nombre de stagiaires")
     f2b_heure_formation = fields.Integer("F2b - Formés par votre organisme pour le compte d'un autre organisme - Nombre total d'heures")
+
+    typologie_ids         = fields.One2many('is.bilan.pedagogique.typologie', 'bilan_id', string="F3 - Objectif général des formations dispensées")
 
     nb_stagiaire_autre    = fields.Integer("G - Nombre de stagiaires confiés à un autre organisme de formation")
     heure_formation_autre = fields.Integer("G - Total heures formation stagiaires confiés à un autre organisme de formation")
@@ -71,16 +74,6 @@ class is_bilan_pedagogique(models.Model):
                 if row[0]:
                     vente_outil=row[0]
             obj.vente_outil=vente_outil
-
-            # D - Honoraires de sous-traitance *********************************
-#            sql="""
-#                select sum(ail.quantity*price_unit)
-#                from account_invoice_line ail inner join account_invoice ai on ail.invoice_id=ai.id
-#                                              inner join product_product pp on ail.product_id=pp.id
-#                where ai.date_invoice>='"""+str(obj.name)+"""-01-01' and 
-#                      ai.date_invoice<='"""+str(obj.name)+"""-12-31' and
-#                      pp.name_template='HONORAIRES FORMATEURS' 
-#            """
 
             sql="""
                 select sum(ail.quantity*price_unit)
@@ -134,7 +127,61 @@ class is_bilan_pedagogique(models.Model):
             obj.heure_formation_st=heure_formation_st
 
 
-            # F - Nombre de stagiaires et d'heures par typologie ***************
+
+
+
+            # F1 - Type de stagiaire de l'organisme ****************************
+            obj.type_stagiaire_ids.unlink()
+            res=self.env['is.type.stagiaire.organisme'].search([])
+            type_stagiaires=[]
+            type_stagiaires.append(False)
+            for r in res:
+                type_stagiaires.append(r.id)
+            for type_stagiaire in type_stagiaires:
+                # nb_stagiaire
+                sql="""
+                    select ia.id, max(ia.nb_stagiaire)
+                    from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                    where iai.date>='"""+str(obj.name)+"""-01-01' and 
+                          iai.date<='"""+str(obj.name)+"""-12-31'
+                """
+                if type_stagiaire:
+                    sql=sql+" and ia.type_stagiaire_organisme_id="""+str(type_stagiaire)+" "
+                else:
+                    sql=sql+" and ia.type_stagiaire_organisme_id is null "
+                sql=sql+"group by ia.id"
+                cr.execute(sql)
+                nb_stagiaire=0
+                for row in cr.fetchall():
+                    if row[1]:
+                        nb_stagiaire=nb_stagiaire+row[1]
+
+                # nb_heure
+                sql="""
+                    select sum(iai.temps_formation)
+                    from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                    where iai.date>='"""+str(obj.name)+"""-01-01' and 
+                          iai.date<='"""+str(obj.name)+"""-12-31'
+                """
+                if type_stagiaire:
+                    sql=sql+" and ia.type_stagiaire_organisme_id="""+str(type_stagiaire)+" "
+                else:
+                    sql=sql+" and ia.type_stagiaire_organisme_id is null "
+                cr.execute(sql)
+                nb_heure=0
+                for row in cr.fetchall():
+                    if row[0]:
+                        nb_heure     = row[0]
+                vals={
+                    'bilan_id'     : obj.id,
+                    'type_stagiaire_organisme_id' : type_stagiaire,
+                    'nb_stagiaire' : nb_stagiaire ,
+                    'nb_heure'     : nb_heure,
+                }
+                self.env['is.bilan.pedagogique.type.stagiaire'].create(vals)
+
+
+            # F3 - Objectif général des formations dispensées ***************
             obj.typologie_ids.unlink()
             res=self.env['is.typologie.stagiaire'].search([])
             typologies=[]
@@ -298,12 +345,24 @@ class is_bilan_pedagogique_financier(models.Model):
     bilan_financier        = fields.Float("Bilan Financier")
 
 
+
+class is_bilan_pedagogique_type_stagiaire(models.Model):
+    _name='is.bilan.pedagogique.type.stagiaire'
+    _order='type_stagiaire_organisme_id'
+
+    bilan_id                    = fields.Many2one('is.bilan.pedagogique', string='Bilan Pédagogique')
+    type_stagiaire_organisme_id = fields.Many2one('is.type.stagiaire.organisme', string="Type de stagiaire de l'organisme")
+    nb_stagiaire                = fields.Float("Nombre de stagiaires")
+    nb_heure                    = fields.Float("Nombre total d'heures de formation suivies par l'ensemble des stagiaires")
+
+
+
 class is_bilan_pedagogique_typologie(models.Model):
     _name='is.bilan.pedagogique.typologie'
     _order='typologie_id'
 
     bilan_id     = fields.Many2one('is.bilan.pedagogique', string='Bilan Pédagogique')
-    typologie_id = fields.Many2one('is.typologie.stagiaire', string='Typologie Stagiaire')
+    typologie_id = fields.Many2one('is.typologie.stagiaire', string='Objectif général des prestations dispensées')
     nb_stagiaire = fields.Float("Nombre de stagiaires")
     nb_heure     = fields.Float("Nombre total d'heures de formation suivies par l'ensemble des stagiaires")
 
@@ -312,14 +371,21 @@ class is_origine_financement(models.Model):
     _name = 'is.origine.financement'
     _order='name'
 
-    name         = fields.Char('Origine financement', required=True)
+    name = fields.Char('Origine financement', required=True)
+
+
+class is_type_stagiaire_organisme(models.Model):
+    _name = 'is.type.stagiaire.organisme'
+    _order='name'
+
+    name = fields.Char("Type de stagiaire de l'organisme", required=True)
 
 
 class is_typologie_stagiaire(models.Model):
     _name = 'is.typologie.stagiaire'
     _order='name'
 
-    name         = fields.Char('Typologie du stagiaire', required=True)
+    name = fields.Char('Objectif général des prestations dispensées', required=True)
 
 
 

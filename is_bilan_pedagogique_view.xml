@@ -41,9 +41,9 @@
                             <field name="heure_formation_st"/>
                         </group>
                         <group>
-                            <field name="typologie_ids">
+                            <field name="type_stagiaire_ids">
                                 <tree editable="top">
-                                    <field name="typologie_id" />
+                                    <field name="type_stagiaire_organisme_id" />
                                     <field name="nb_stagiaire" />
                                     <field name="nb_heure" />
                                 </tree>
@@ -54,9 +54,21 @@
                             <field name="f2a_heure_formation"/>
                             <field name="f2b_nb_stagiaire"/>
                             <field name="f2b_heure_formation"/>
+                        </group>
+                        <group>
+                            <field name="typologie_ids">
+                                <tree editable="top">
+                                    <field name="typologie_id" />
+                                    <field name="nb_stagiaire" />
+                                    <field name="nb_heure" />
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
                             <field name="nb_stagiaire_autre"/>
                             <field name="heure_formation_autre"/>
                         </group>
+
                     </sheet>
                 </form>
             </field>
@@ -133,11 +145,44 @@
             </field>
         </record>
         <record id="is_typologie_stagiaire_action" model="ir.actions.act_window">
-            <field name="name">Typologie du stagiaire</field>
+            <field name="name">Objectif général des prestations dispensées</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">is.typologie.stagiaire</field>
             <field name="view_mode">tree,form</field>
         </record>
+
+
+
+        <!-- is_type_stagiaire_organisme -->
+        <record model="ir.ui.view" id="is_type_stagiaire_organisme_tree_view">
+            <field name="name">is_type_stagiaire_organisme_tree_view</field>
+            <field name="model">is.type.stagiaire.organisme</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_type_stagiaire_organisme_form_view">
+            <field name="name">is_type_stagiaire_organisme_form_view</field>
+            <field name="model">is.type.stagiaire.organisme</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_type_stagiaire_organisme_action" model="ir.actions.act_window">
+            <field name="name">Type de stagiaire de l'organisme</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.type.stagiaire.organisme</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
 
     </data>
 </openerp>

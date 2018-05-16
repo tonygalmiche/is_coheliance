@@ -91,10 +91,16 @@
             sequence="20"
         />
         <menuitem 
+            action="is_type_stagiaire_organisme_action" 
+            id="is_type_stagiaire_organisme_menu" 
+            parent="is_bilan_pedagogique_main_menu"  
+            sequence="30"
+        />
+        <menuitem 
             action="is_typologie_stagiaire_action" 
             id="is_typologie_stagiaire_menu" 
             parent="is_bilan_pedagogique_main_menu"  
-            sequence="30"
+            sequence="40"
         />
 
 

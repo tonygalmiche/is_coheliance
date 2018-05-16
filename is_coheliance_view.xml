@@ -20,9 +20,9 @@
                 <field name="total_budget_prevu" sum="Total" />
                 <field name="date_validation" />
                 <field name="date_solde" />
-                <field name="origine_financement_id" invisible="context.get('formation',True)"/>
-                <field name="typologie_stagiaire_id" invisible="context.get('formation',True)"/>
-
+                <field name="origine_financement_id"      invisible="context.get('formation',True)"/>
+                <field name="type_stagiaire_organisme_id" invisible="context.get('formation',True)"/>
+                <field name="typologie_stagiaire_id"      invisible="context.get('formation',True)"/>
                 <field name="state" />
             </tree>
         </field>
@@ -78,6 +78,7 @@
                                 <field name="date_fin" />
                                 <field name="duree_prestation" />
                                 <field name="origine_financement_id" />
+                                <field name="type_stagiaire_organisme_id"/>
                                 <field name="typologie_stagiaire_id" />
                             </group>
                         </page>
