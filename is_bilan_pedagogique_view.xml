@@ -30,7 +30,7 @@
                             <field name="financier_ids">
                                 <tree editable="top">
                                     <field name="origine_financement_id" />
-                                    <field name="bilan_financier" />
+                                    <field name="bilan_financier" sum="Total"/>
                                 </tree>
                             </field>
                         </group>
@@ -44,8 +44,8 @@
                             <field name="type_stagiaire_ids">
                                 <tree editable="top">
                                     <field name="type_stagiaire_organisme_id" />
-                                    <field name="nb_stagiaire" />
-                                    <field name="nb_heure" />
+                                    <field name="nb_stagiaire"  sum="Total"/>
+                                    <field name="nb_heure"      sum="Total"/>
                                 </tree>
                             </field>
                         </group>
@@ -59,8 +59,8 @@
                             <field name="typologie_ids">
                                 <tree editable="top">
                                     <field name="typologie_id" />
-                                    <field name="nb_stagiaire" />
-                                    <field name="nb_heure" />
+                                    <field name="nb_stagiaire" sum="Total"/>
+                                    <field name="nb_heure"     sum="Total"/>
                                 </tree>
                             </field>
                         </group>

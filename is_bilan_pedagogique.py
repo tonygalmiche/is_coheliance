@@ -64,9 +64,11 @@ class is_bilan_pedagogique(models.Model):
             sql="""
                 select sum(iav.total_vente)
                 from is_affaire_vente iav inner join is_affaire ia on iav.affaire_id=ia.id
+                                          inner join product_template pt on ia.article_id=pt.id
                 where iav.date>='"""+str(obj.name)+"""-01-01' and 
                       iav.date<='"""+str(obj.name)+"""-12-31' and
-                      iav.product_id is not null 
+                      iav.product_id is not null and
+                      (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
             """
             cr.execute(sql)
             vente_outil=0
@@ -99,9 +101,11 @@ class is_bilan_pedagogique(models.Model):
             sql="""
                 select sum(iai.temps_formation/coalesce(NULLIF(iai.nb_stagiaire,0),1))
                 from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                 inner join product_template pt on ia.article_id=pt.id
                 where iai.date>='"""+str(obj.name)+"""-01-01' and 
                       iai.date<='"""+str(obj.name)+"""-12-31' and
-                      iai.associe_id is not null
+                      iai.associe_id is not null and
+                      (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
             """
             cr.execute(sql)
             heure_formation=0
@@ -115,9 +119,11 @@ class is_bilan_pedagogique(models.Model):
             sql="""
                 select sum(iai.temps_formation/coalesce(NULLIF(iai.nb_stagiaire,0),1))
                 from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                 inner join product_template pt on ia.article_id=pt.id
                 where iai.date>='"""+str(obj.name)+"""-01-01' and 
                       iai.date<='"""+str(obj.name)+"""-12-31' and
-                      iai.associe_id is null and iai.sous_traitant_id is not null  
+                      iai.associe_id is null and iai.sous_traitant_id is not null  and
+                      (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
             """
             cr.execute(sql)
             heure_formation_st=0
@@ -142,8 +148,10 @@ class is_bilan_pedagogique(models.Model):
                 sql="""
                     select ia.id, max(ia.nb_stagiaire)
                     from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                     inner join product_template pt on ia.article_id=pt.id
                     where iai.date>='"""+str(obj.name)+"""-01-01' and 
-                          iai.date<='"""+str(obj.name)+"""-12-31'
+                          iai.date<='"""+str(obj.name)+"""-12-31' and
+                          (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
                 """
                 if type_stagiaire:
                     sql=sql+" and ia.type_stagiaire_organisme_id="""+str(type_stagiaire)+" "
@@ -160,8 +168,10 @@ class is_bilan_pedagogique(models.Model):
                 sql="""
                     select sum(iai.temps_formation)
                     from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                     inner join product_template pt on ia.article_id=pt.id
                     where iai.date>='"""+str(obj.name)+"""-01-01' and 
-                          iai.date<='"""+str(obj.name)+"""-12-31'
+                          iai.date<='"""+str(obj.name)+"""-12-31' and
+                          (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
                 """
                 if type_stagiaire:
                     sql=sql+" and ia.type_stagiaire_organisme_id="""+str(type_stagiaire)+" "
@@ -193,8 +203,10 @@ class is_bilan_pedagogique(models.Model):
                 sql="""
                     select ia.id, max(ia.nb_stagiaire)
                     from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                     inner join product_template pt on ia.article_id=pt.id
                     where iai.date>='"""+str(obj.name)+"""-01-01' and 
-                          iai.date<='"""+str(obj.name)+"""-12-31'
+                          iai.date<='"""+str(obj.name)+"""-12-31' and
+                          (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
                 """
                 if typologie:
                     sql=sql+" and ia.typologie_stagiaire_id="""+str(typologie)+" "
@@ -211,8 +223,10 @@ class is_bilan_pedagogique(models.Model):
                 sql="""
                     select sum(iai.temps_formation)
                     from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                     inner join product_template pt on ia.article_id=pt.id
                     where iai.date>='"""+str(obj.name)+"""-01-01' and 
-                          iai.date<='"""+str(obj.name)+"""-12-31'
+                          iai.date<='"""+str(obj.name)+"""-12-31' and
+                          (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
                 """
                 if typologie:
                     sql=sql+" and ia.typologie_stagiaire_id="""+str(typologie)+" "
@@ -237,10 +251,12 @@ class is_bilan_pedagogique(models.Model):
             sql="""
                 select ia.id, max(ia.nb_stagiaire)
                 from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                 inner join product_template pt on ia.article_id=pt.id
                                                  left outer join is_origine_financement iof on ia.origine_financement_id=iof.id
                 where iai.date>='"""+str(obj.name)+"""-01-01' and 
                       iai.date<='"""+str(obj.name)+"""-12-31' and
-                      iof.name like '11%'
+                      (iof.name not like '11%' or iof.name is null) and 
+                      (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
                 group by ia.id
             """
             cr.execute(sql)
@@ -255,10 +271,12 @@ class is_bilan_pedagogique(models.Model):
             sql="""
                 select sum(iai.temps_formation)
                 from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                 inner join product_template pt on ia.article_id=pt.id
                                                  left outer join is_origine_financement iof on ia.origine_financement_id=iof.id
                 where iai.date>='"""+str(obj.name)+"""-01-01' and 
                       iai.date<='"""+str(obj.name)+"""-12-31' and
-                      iof.name like '11%'
+                      (iof.name not like '11%' or iof.name is null) and
+                      (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
             """
             cr.execute(sql)
             f2a_heure_formation=0
@@ -273,10 +291,12 @@ class is_bilan_pedagogique(models.Model):
             sql="""
                 select ia.id, max(ia.nb_stagiaire)
                 from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                 inner join product_template pt on ia.article_id=pt.id
                                                  left outer join is_origine_financement iof on ia.origine_financement_id=iof.id
                 where iai.date>='"""+str(obj.name)+"""-01-01' and 
                       iai.date<='"""+str(obj.name)+"""-12-31' and
-                      (iof.name not like '11%' or iof.name is null)
+                      iof.name like '11%' and
+                      (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
                 group by ia.id
             """
             cr.execute(sql)
@@ -291,10 +311,12 @@ class is_bilan_pedagogique(models.Model):
             sql="""
                 select sum(iai.temps_formation)
                 from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                 inner join product_template pt on ia.article_id=pt.id
                                                  left outer join is_origine_financement iof on ia.origine_financement_id=iof.id
                 where iai.date>='"""+str(obj.name)+"""-01-01' and 
                       iai.date<='"""+str(obj.name)+"""-12-31' and
-                      (iof.name not like '11%' or iof.name is null)
+                      iof.name like '11%' and
+                      (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
             """
             cr.execute(sql)
             f2b_heure_formation=0
@@ -308,9 +330,11 @@ class is_bilan_pedagogique(models.Model):
             sql="""
                 select ia.id, max(ia.nb_stagiaire)
                 from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                 inner join product_template pt on ia.article_id=pt.id
                 where iai.date>='"""+str(obj.name)+"""-01-01' and 
                       iai.date<='"""+str(obj.name)+"""-12-31' and
-                      iai.sous_traitant_id is not null
+                      iai.sous_traitant_id is not null and
+                      (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
                 group by ia.id
             """
             cr.execute(sql)
@@ -325,9 +349,11 @@ class is_bilan_pedagogique(models.Model):
             sql="""
                 select sum(iai.temps_formation)
                 from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
+                                                 inner join product_template pt on ia.article_id=pt.id
                 where iai.date>='"""+str(obj.name)+"""-01-01' and 
                       iai.date<='"""+str(obj.name)+"""-12-31' and
-                      iai.sous_traitant_id is not null
+                      iai.sous_traitant_id is not null and
+                      (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
             """
             cr.execute(sql)
             heure_formation_autre = 0
