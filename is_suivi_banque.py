@@ -12,12 +12,6 @@ def _date_creation():
     return now.strftime('%Y-%m-%d')
 
 
-
-#Compte	Date opération	Libellé	Référence (n°carte réduit)	Montant
-#15021645989	03/09/2018	G.C.L 21CHENOVE	CB****2016	-66,6
-
-
-
 class IsSuiviBanque(models.Model):
     _name='is.suivi.banque'
     _order='import_banque_id desc,ligne, id'
@@ -55,13 +49,13 @@ class IsImportBanque(models.Model):
     @api.multi
     def action_importer_fichier(self):
         for obj in self:
+            ct=0
             obj.ligne_ids.unlink()
             for attachment in obj.file_operation_ids:
                 attachment=base64.decodestring(attachment.datas)
                 attachment=attachment.decode('iso-8859-1').encode('utf8')
                 csvfile=attachment.split("\n")
                 tab=[]
-                ct=0
                 for row in csvfile:
                     ct=ct+1
                     if ct>1:
@@ -94,7 +88,6 @@ class IsImportBanque(models.Model):
                 attachment=attachment.decode('iso-8859-1').encode('utf8')
                 csvfile=attachment.split("\n")
                 tab=[]
-                ct=0
                 for row in csvfile:
                     ct=ct+1
                     if ct>1:
