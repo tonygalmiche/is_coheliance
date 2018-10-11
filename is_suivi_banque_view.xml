@@ -77,6 +77,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
+                <field name="banque"/>
                 <field name="file_operation_ids"/>
                 <field name="file_cb_ids"/>
             </tree>
@@ -99,8 +100,9 @@
                     <group>
                         <group>
                             <field name="name" />
+                            <field name="banque"/>
                             <field name="file_operation_ids" widget="many2many_binary"/>
-                            <field name="file_cb_ids"        widget="many2many_binary"/>
+                            <field name="file_cb_ids"        widget="many2many_binary"  attrs="{'invisible': [('banque', 'not in', ['BP'])]}"/>
                         </group>
                     </group>
                 </sheet>
@@ -113,6 +115,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
+                <field name="banque"/>
            </search>
         </field>
     </record>
