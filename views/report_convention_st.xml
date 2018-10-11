@@ -311,6 +311,23 @@ Par ailleurs, le sous-traitant s’engage :
     en charge du dossier.</li>
 
 </ul>
+
+
+
+<div class="titre1">CLAUSE DE PROTECTION DES DONNÉES PERSONNELLES</div>
+
+Le Règlement Général sur la Protection des Données (RGPD) entré en vigueur le 25 mai 2018, renforce et unifie la protection des données personnelles des résidents européens.
+<br />
+
+Afin de respecter les obligations de ce règlement, l’intervenant/sous-traitant s’engage à :
+<ul>
+    <li>Traiter les données personnelles du client uniquement pour les finalités qui font l’objet de la sous-traitance</li>
+    <li>Garantir la confidentialité et la sécurité des données personnelles traitées dans le présent contrat</li>
+    <li>Détruire toutes les données du client à la fin de la prestation</li>
+</ul>
+
+
+
                                     </div>
                                 </td>
                             </tr>
@@ -348,11 +365,18 @@ par volonté expresse ou à la suite d’un désaccord ayant entraîné une rés
                                 <td style="padding:5mm">
                                     <div class="contrat">
 
-L’intervention du sous-traitant sera rémunérée sur la base de :
-<br />
-<span t-field="o.condition_financiere"/>
+<b>L’intervention du sous-traitant sera rémunérée sur la base de :</b>
 <br />
 Les honoraires de l’intervention seront versés à réception du règlement par <span t-field="o.affaire_id.client_id.name"/> selon le plan de financement prévu avec le client final.
+
+<br />
+<b>Délai de prévenance :</b
+><br />
+Le délai de prévenance et la politique de remboursement de frais qui s’y attache seront conformes à ceux du client pour lequel l’intervenant/sous-traitant intervient.
+<br />
+Pour toute annulation de la part du client ou du prestataire, plus de 3 semaines avant la date d’intervention du sous-traitant, le remboursement des frais engagés ne pourra s’effectuer.
+
+ 
 
 
                                     </div>
