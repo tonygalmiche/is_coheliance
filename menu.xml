@@ -109,11 +109,15 @@
         <menuitem action="is_secteur_activite_action"    id="is_secteur_activite_menu"    parent="is_ventes_tables_menu"  sequence="20"/>
         <menuitem action="is_classification_action"      id="is_classification_menu"      parent="is_ventes_tables_menu"  sequence="30"/>
 
+        <menuitem name="Suivi banque et caisse" id="is_suivi_banque_caisse_menu" parent="account.menu_finance" sequence="2" />
+        <menuitem name="Import banque"                   id="is_import_banque_menu"      parent="is_suivi_banque_caisse_menu" sequence="10" action="is_import_banque_action"/>
+        <menuitem name="Suivi banque"                    id="is_suivi_banque_menu"       parent="is_suivi_banque_caisse_menu" sequence="20" action="is_suivi_banque_action"/>
+        <menuitem name="Suivi caisse"                    id="is_suivi_caisse_menu"       parent="is_suivi_banque_caisse_menu" sequence="30" action="is_suivi_caisse_action"/>
 
-        <menuitem name="Analyses" id="is_analyses_menu" parent="account.menu_finance" sequence="2" />
+        <menuitem name="Analyses" id="is_analyses_menu" parent="account.menu_finance" sequence="3" />
         <menuitem name="Suivi des factures"              id="is_analyses_menu_10"        parent="is_analyses_menu" sequence="10" action="is_suivi_facture_action"   />
         <menuitem name="Suivi des règlements"            id="is_analyses_menu_20"        parent="is_analyses_menu" sequence="20" action="is_suivi_reglement_action"   />
-        <menuitem name="Suivi de trésorerie"             id="is_suivi_tresorerie2_menu"  parent="is_analyses_menu" sequence="35" action="is_suivi_tresorerie2_action"/>
+        <menuitem name="Suivi de trésorerie"             id="is_suivi_tresorerie2_menu"  parent="is_analyses_menu" sequence="30" action="is_suivi_tresorerie2_action"/>
 
 
 

@@ -12,5 +12,7 @@ import is_export_compta
 import is_prospective
 import is_compte_resultat
 import is_bilan_pedagogique
+import is_suivi_banque
+import is_suivi_caisse
 
 
