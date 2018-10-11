@@ -60,7 +60,7 @@ class IsImportBanque(models.Model):
         for obj in self:
             vals={
                 'import_banque_id'  : obj.id,
-                'ligne'             : (ligne-1),
+                'ligne'             : (1000-ligne+1),
                 'date'              : date,
                 'libelle'           : libelle,
                 'debit'             : debit,
