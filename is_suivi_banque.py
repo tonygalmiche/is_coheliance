@@ -13,6 +13,11 @@ def _date_creation():
 
 
 
+#Compte	Date opération	Libellé	Référence (n°carte réduit)	Montant
+#15021645989	03/09/2018	G.C.L 21CHENOVE	CB****2016	-66,6
+
+
+
 class IsSuiviBanque(models.Model):
     _name='is.suivi.banque'
     _order='import_banque_id desc,ligne, id'
@@ -24,18 +29,12 @@ class IsSuiviBanque(models.Model):
             cr.execute("select sum(credit-debit) from is_suivi_banque where date<='"+str(obj.date)+"' and ligne>="+str(obj.ligne)+" ")
             obj.solde=cr.fetchone()[0] or 0.0
 
-            #x1 = cr.fetchone()[0] or 0.0
-            #cr.execute("select sum(value) from kmn_account_move where account2_id="+str(obj.id))
-            #x2 = cr.fetchone()[0] or 0.0
-            #obj.bal_solde=x2-x1
-
-
-
 
     import_banque_id = fields.Many2one('is.import.banque', 'Import Banque', required=True, ondelete='cascade')
     ligne            = fields.Integer("Ligne", select=True)
     date             = fields.Date("Date"   , required=True, select=True)
     libelle          = fields.Char("Libellé", required=True)
+    ref_cb           = fields.Char("Réf CB")
     invoice_id       = fields.Many2one('account.invoice', u'Facture')
     debit            = fields.Float("Débit" , digits=(14,2))
     credit           = fields.Float("Crédit", digits=(14,2))
@@ -63,16 +62,11 @@ class IsImportBanque(models.Model):
                 csvfile=attachment.split("\n")
                 tab=[]
                 ct=0
-
-                nb_lignes=len(csvfile)
-
-
                 for row in csvfile:
                     ct=ct+1
                     if ct>1:
                         lig=row.split(";")
                         if len(lig)>5:
-                            print lig
                             date    = lig[1]
                             libelle = lig[3]
                             montant = lig[6].replace(',', '.')
@@ -91,6 +85,41 @@ class IsImportBanque(models.Model):
                                 'ligne'             : (ct-1),
                                 'date'              : date,
                                 'libelle'           : libelle,
+                                'debit'             : debit,
+                                'credit'            : credit,
+                            }
+                            self.env['is.suivi.banque'].create(vals)
+            for attachment in obj.file_cb_ids:
+                attachment=base64.decodestring(attachment.datas)
+                attachment=attachment.decode('iso-8859-1').encode('utf8')
+                csvfile=attachment.split("\n")
+                tab=[]
+                ct=0
+                for row in csvfile:
+                    ct=ct+1
+                    if ct>1:
+                        lig=row.split(";")
+                        if len(lig)>5:
+                            date    = lig[1]
+                            libelle = lig[2]
+                            ref_cb  = lig[3]
+                            montant = lig[4].replace(',', '.')
+                            try:
+                                montant = float(montant)
+                            except ValueError:
+                                montant=0
+                            debit=0
+                            credit=0
+                            if montant<0:
+                                debit=-montant
+                            else:
+                                credit=montant
+                            vals={
+                                'import_banque_id'  : obj.id,
+                                'ligne'             : (ct-1),
+                                'date'              : date,
+                                'libelle'           : libelle,
+                                'ref_cb'            : ref_cb,
                                 'debit'             : debit,
                                 'credit'            : credit,
                             }

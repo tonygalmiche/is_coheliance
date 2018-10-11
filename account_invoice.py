@@ -66,6 +66,40 @@ class account_invoice(models.Model):
 
 
 
+    def name_search(self, cr, user, name='', args=None, operator='ilike', context=None, limit=100):
+        if not args:
+            args = []
+#        if name:
+#            try:
+#                id = int(name)
+#            except ValueError:
+#                id = 0
+#            if id>0:
+#                filtre=['|','|','|',('product_id.is_code','ilike', name),('picking_id.name','ilike', name),('origin','ilike', name),('id','=', name)]
+#            else:
+#                filtre=['|','|',('product_id.is_code','ilike', name),('picking_id.name','ilike', name),('origin','ilike', name)]
+#            ids = self.search(cr, user, filtre, limit=limit, context=context)
+#        else:
+#            ids = self.search(cr, user, args, limit=limit, context=context)
+
+
+        if name:
+            filtre=['|',('name','ilike', name),('internal_number','ilike', name)]
+            ids = self.search(cr, user, filtre, limit=limit, context=context)
+        else:
+            ids = self.search(cr, user, args, limit=limit, context=context)
+
+
+        result = self.name_get(cr, user, ids, context=context)
+        return result
+
+
+
+
+
+
+
+
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
 

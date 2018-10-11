@@ -11,10 +11,11 @@
                 <field name="import_banque_id" widget="many2one_clickable"/>
                 <field name="ligne" />
                 <field name="date" />
-                <field name="libelle" />
+                <field name="libelle"/>
+                <field name="ref_cb"/>
                 <field name="invoice_id" widget="many2one_clickable"/>
-                <field name="debit" />
-                <field name="credit" />
+                <field name="debit"  sum="Total"/>
+                <field name="credit" sum="Total"/>
                 <field name="solde" />
                 <field name="commentaire" />
             </tree>
@@ -32,6 +33,7 @@
                             <field name="ligne" />
                             <field name="date" />
                             <field name="libelle" />
+                            <field name="ref_cb"/>
                             <field name="invoice_id"/>
                             <field name="debit" />
                             <field name="credit" />
@@ -51,7 +53,11 @@
                 <field name="import_banque_id"/>
                 <field name="date"/>
                 <field name="libelle"/>
+                <field name="ref_cb"/>
                 <field name="invoice_id"/>
+                <group expand="0" string="Regroupé par...">
+                    <filter name="group_ref_cb" string="Réf CB" context="{'group_by':'ref_cb'}"/>
+                </group>
            </search>
         </field>
     </record>
@@ -86,6 +92,7 @@
                         name="action_importer_fichier"
                         type="object"
                         string="Importer fichier banque"
+                        confirm="Cela va écraser vos modifications !"
                     />
                 </header>
                 <sheet>

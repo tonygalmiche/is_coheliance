@@ -5,13 +5,14 @@
         <field name="name">is.suivi.caisse.tree</field>
         <field name="model">is.suivi.caisse</field>
         <field name="arch" type="xml">
-            <tree>
-                <field name="date" />
-                <field name="libelle" />
+            <tree editable="top" create="true" colors="red:solde &lt; 0">
+                <field name="date"/>
+                <field name="libelle"/>
                 <field name="invoice_id" widget="many2one_clickable"/>
-                <field name="debit" />
-                <field name="credit" />
-                <field name="commentaire" />
+                <field name="debit"/>
+                <field name="credit"/>
+                <field name="solde"/>
+                <field name="commentaire"/>
             </tree>
         </field>
     </record>
@@ -23,12 +24,13 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="date" />
-                            <field name="libelle" />
+                            <field name="date"/>
+                            <field name="libelle"/>
                             <field name="invoice_id"/>
-                            <field name="debit" />
-                            <field name="credit" />
-                            <field name="commentaire" />
+                            <field name="debit"/>
+                            <field name="credit"/>
+                            <field name="solde"/>
+                            <field name="commentaire"/>
                         </group>
                     </group>
                 </sheet>
