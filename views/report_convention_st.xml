@@ -333,7 +333,9 @@ Afin de respecter les obligations de ce règlement, l’intervenant/sous-traitan
                             </tr>
                         </table>
                     </div>
-                    <br />
+
+                    <div style="page-break-before:always"/>
+
                     <div class="row">
                         <table style="width:100%">
                             <tr><th>Durée de la mission</th></tr>
@@ -365,7 +367,8 @@ par volonté expresse ou à la suite d’un désaccord ayant entraîné une rés
                                 <td style="padding:5mm">
                                     <div class="contrat">
 
-<b>L’intervention du sous-traitant sera rémunérée sur la base de :</b>
+<b>L’intervention du sous-traitant sera rémunérée sur la base de :</b><br />
+<span t-field="o.condition_financiere"/> 
 <br />
 Les honoraires de l’intervention seront versés à réception du règlement par <span t-field="o.affaire_id.client_id.name"/> selon le plan de financement prévu avec le client final.
 
