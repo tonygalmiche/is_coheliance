@@ -64,8 +64,8 @@
                         .titre2{
                             text-decoration :underline;
                             margin-left:0mm;
-                            margin-top:4mm;
-                            margin-bottom:2mm;
+                            margin-top:3mm;
+                            margin-bottom:1mm;
                         }
                         .titre3{
                             text-decoration :underline;
