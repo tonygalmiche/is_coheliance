@@ -40,6 +40,7 @@ class res_partner(osv.osv):
         'is_num_declaration_activite' : fields.char("N° déclaration activité", help=u"N° de déclaration d'activité obligatoire pour les sous-traitants"),
         'is_ape'                 : fields.char("APE"),
         'is_secteur_activite_id' : fields.many2one('is.secteur.activite', "Secteur d'activité", required=False),
+        'is_typologie_id'        : fields.many2one('is.typologie', "Typologie"),
         'is_region_id'           : fields.many2one('is.region', 'Région', required=False),
         'is_classification_id'   : fields.many2one('is.classification', 'Classification', required=False),
         'is_bp'                  : fields.char("Boite postale"),
@@ -99,17 +100,19 @@ class is_secteur_activite(osv.osv):
         'name': fields.char("Secteur d'activité", required=True),
     }
 
+class is_typologie(osv.osv):
+    _name = 'is.typologie'
+    _description = u"Typologie"
+    _columns = {
+        'name': fields.char("Typologie", required=True),
+    }
+
 class is_classification(osv.osv):
     _name = 'is.classification'
     _description = u"Classification"
     _columns = {
         'name': fields.char("Classification", required=True),
     }
-
-
-
-
-
 
 class is_base_documentaire(osv.osv):
     _name = 'is.base.documentaire'

@@ -10,17 +10,19 @@ class is_suivi_intervention(models.Model):
     _order='date desc, affaire_id'
     _auto = False
 
-    affaire_id       = fields.Many2one('is.affaire', u'Affaire')
-    client_id        = fields.Many2one('res.partner', u'Client')
-    intitule         = fields.Text(u"Intitulé")
-    article_id       = fields.Many2one('product.template', u'Article')
-    date             = fields.Date(u"Date", required=True)
-    associe_id       = fields.Many2one('res.users', u'Associé')
-    sous_traitant_id = fields.Many2one('res.partner', u'Sous-Traitant')
-    temps_passe      = fields.Float(u"Temps passé")
-    unite_temps      = fields.Selection([('heure','Heure'),('demi-jour','Demi-journée'),('jour','Jour')], u"Unité de temps")
-    montant_facture  = fields.Float('Montant à facturer')
-    commentaire      = fields.Text(u"Commentaire")
+    affaire_id          = fields.Many2one('is.affaire', u'Affaire')
+    client_id           = fields.Many2one('res.partner', u'Client')
+    secteur_activite_id = fields.Many2one('is.secteur.activite', "Secteur d'activité")
+    typologie_id        = fields.Many2one('is.typologie', "Typologie")
+    intitule            = fields.Text(u"Intitulé")
+    article_id          = fields.Many2one('product.template', u'Article')
+    date                = fields.Date(u"Date", required=True)
+    associe_id          = fields.Many2one('res.users', u'Associé')
+    sous_traitant_id    = fields.Many2one('res.partner', u'Sous-Traitant')
+    temps_passe         = fields.Float(u"Temps passé")
+    unite_temps         = fields.Selection([('heure','Heure'),('demi-jour','Demi-journée'),('jour','Jour')], u"Unité de temps")
+    montant_facture     = fields.Float('Montant à facturer')
+    commentaire         = fields.Text(u"Commentaire")
 
     def init(self, cr):
         tools.drop_view_if_exists(cr, 'is_suivi_intervention')
@@ -38,8 +40,11 @@ class is_suivi_intervention(models.Model):
                     iai.temps_passe,
                     iai.unite_temps,
                     iai.montant_facture,
-                    iai.commentaire
+                    iai.commentaire,
+                    rp.is_secteur_activite_id secteur_activite_id ,
+                    rp.is_typologie_id        typologie_id
                 from is_affaire ia inner join is_affaire_intervention iai on ia.id=iai.affaire_id
+                                   inner join res_partner rp on ia.client_id=rp.id
             )
         """)
 

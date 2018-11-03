@@ -106,7 +106,9 @@
 
         <menuitem name="Tables"                          id="is_ventes_tables_menu"       parent="is_crm_top_menu" sequence="90"/>
         <menuitem action="is_region_action"              id="is_region_menu"              parent="is_ventes_tables_menu"  sequence="10"/>
+        <menuitem action="is_res_partner_title_action"   id="is_res_partner_title_menu"   parent="is_ventes_tables_menu"  sequence="15"/>
         <menuitem action="is_secteur_activite_action"    id="is_secteur_activite_menu"    parent="is_ventes_tables_menu"  sequence="20"/>
+        <menuitem action="is_typologie_action"           id="is_typologie_menu"           parent="is_ventes_tables_menu"  sequence="25"/>
         <menuitem action="is_classification_action"      id="is_classification_menu"      parent="is_ventes_tables_menu"  sequence="30"/>
 
         <menuitem name="Suivi banque et caisse" id="is_suivi_banque_caisse_menu" parent="account.menu_finance" sequence="2" />
