@@ -104,7 +104,7 @@
 
 
 
-
+        <!--
         <record id="is_account_invoice_line_tree_view" model="ir.ui.view">
             <field name="name">is_account_invoice_line_tree_view</field>
             <field name="model">account.invoice.line</field>
@@ -142,7 +142,7 @@
             <field name="view_id" ref="is_account_invoice_line_tree_view"/>
         </record>
         <menuitem name="Lignes de factures" id="is_account_invoice_line_menu" parent="account.menu_finance_receivables" sequence="800"  action="is_account_invoice_line_action"   />
-
+        -->
 
 
 

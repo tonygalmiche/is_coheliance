@@ -31,6 +31,5 @@ access_is_bilan_pedagogique_type_stagiaire,access_is_bilan_pedagogique_type_stag
 access_is_import_banque,access_is_import_banque,model_is_import_banque,base.group_sale_manager,1,1,1,1
 access_is_suivi_banque,access_is_suivi_banque,model_is_suivi_banque,base.group_sale_manager,1,1,1,1
 access_is_suivi_caisse,access_is_suivi_caisse,model_is_suivi_caisse,base.group_sale_manager,1,1,1,1
-
-
+access_is_account_invoice_line,access_is_account_invoice_line,model_is_account_invoice_line,base.group_sale_manager,1,0,0,0
 

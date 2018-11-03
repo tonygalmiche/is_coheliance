@@ -161,6 +161,9 @@
                     <field name="is_email_perso"/>
                     <field name="is_secteur_activite_id"/>
                     <field name="is_typologie_id"/>
+                    <field name="property_account_receivable"/>
+                    <field name="property_account_payable"/>
+                    <field name="is_code_fournisseur"/>
                 </field>
             </field>
         </record>
