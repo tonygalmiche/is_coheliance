@@ -34,20 +34,20 @@ class res_partner(osv.osv):
 
 
     _columns = {  
-        'is_prenom'              : fields.char("Prénom"),
-        'is_code_fournisseur'    : fields.char("Code comptable fournisseur"),
-        'is_siret'               : fields.char("SIRET"),
-        'is_num_declaration_activite' : fields.char("N° déclaration activité", help=u"N° de déclaration d'activité obligatoire pour les sous-traitants"),
-        'is_ape'                 : fields.char("APE"),
-        'is_secteur_activite_id' : fields.many2one('is.secteur.activite', "Secteur d'activité", required=False),
-        'is_typologie_id'        : fields.many2one('is.typologie', "Typologie"),
-        'is_region_id'           : fields.many2one('is.region', 'Région', required=False),
-        'is_classification_id'   : fields.many2one('is.classification', 'Classification', required=False),
-        'is_bp'                  : fields.char("Boite postale"),
-        'is_liste_diffusion'     : fields.char("Liste de diffusion"),
-        'is_email_perso'         : fields.char("Courriel personnel"),
-        'is_responsable'         : fields.boolean("Responsable structure", help="Est le responsable légal de la structure"),
-        'affaire_count'          : fields.function(_affaire_count, string='# Affaires', type='integer'),
+        'is_prenom'              : fields.char(u"Prénom"),
+        'is_code_fournisseur'    : fields.char(u"Code comptable fournisseur"),
+        'is_siret'               : fields.char(u"SIRET"),
+        'is_num_declaration_activite' : fields.char(u"N° déclaration activité", help=u"N° de déclaration d'activité obligatoire pour les sous-traitants"),
+        'is_ape'                 : fields.char(u"APE"),
+        'is_secteur_activite_id' : fields.many2one('is.secteur.activite', u"Secteur d'activité", required=False),
+        'is_typologie_id'        : fields.many2one('is.typologie', u"Typologie"),
+        'is_region_id'           : fields.many2one('is.region', u'Région', required=False),
+        'is_classification_id'   : fields.many2one('is.classification', u'Classification', required=False),
+        'is_bp'                  : fields.char(u"Boite postale"),
+        'is_liste_diffusion'     : fields.char(u"Liste de diffusion"),
+        'is_email_perso'         : fields.char(u"Courriel personnel"),
+        'is_responsable'         : fields.boolean(u"Responsable structure", help="Est le responsable légal de la structure"),
+        'affaire_count'          : fields.function(_affaire_count, string=u'# Affaires', type='integer'),
     }
 
 
@@ -90,35 +90,35 @@ class is_region(osv.osv):
     _name = 'is.region'
     _description = u"Région"
     _columns = {
-        'name': fields.char("Région", required=True),
+        'name': fields.char(u"Région", required=True),
     }
 
 class is_secteur_activite(osv.osv):
     _name = 'is.secteur.activite'
     _description = u"Secteur d'activité"
     _columns = {
-        'name': fields.char("Secteur d'activité", required=True),
+        'name': fields.char(u"Secteur d'activité", required=True),
     }
 
 class is_typologie(osv.osv):
     _name = 'is.typologie'
     _description = u"Typologie"
     _columns = {
-        'name': fields.char("Typologie", required=True),
+        'name': fields.char(u"Typologie", required=True),
     }
 
 class is_classification(osv.osv):
     _name = 'is.classification'
     _description = u"Classification"
     _columns = {
-        'name': fields.char("Classification", required=True),
+        'name': fields.char(u"Classification", required=True),
     }
 
 class is_base_documentaire(osv.osv):
     _name = 'is.base.documentaire'
     _description = "Base documentaire"
     _columns = {
-        'name': fields.char("Nom du document", required=True),
+        'name': fields.char(u"Nom du document", required=True),
     }
 
 
