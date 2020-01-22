@@ -113,6 +113,7 @@
                     <field name="compte" />
                     <field name="piece" />
                     <field name="libelle" />
+                    <field name="affaire" />
                     <field name="debit"  sum="Total"/>
                     <field name="credit" sum="Total"/>
                     <field name="devise" />
@@ -134,6 +135,7 @@
                                 <field name="compte" />
                                 <field name="piece" />
                                 <field name="libelle" />
+                                <field name="affaire" />
                                 <field name="debit" />
                                 <field name="credit" />
                                 <field name="devise" />
@@ -152,6 +154,7 @@
                     <field name="compte"/>
                     <field name="piece"/>
                     <field name="libelle"/>
+                    <field name="affaire"/>
                     <field name="commentaire" />
                     <group expand="0" string="Regrouper par...">
                         <filter string="Compte"        context="{'group_by':'compte'}"/>
