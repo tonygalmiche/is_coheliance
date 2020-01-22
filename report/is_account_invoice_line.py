@@ -31,6 +31,7 @@ class is_account_invoice_line(models.Model):
         ], u"État")
     product_id      = fields.Many2one('product.product', u'Article')
     description     = fields.Char(u'Description')
+    affaire_id      = fields.Many2one('is.affaire', u'Affaire')
     account_line_id = fields.Many2one('account.account', u'Compte Ligne')
     quantity        = fields.Float(u'Quantité', digits=(14,2))
     price_unit      = fields.Float(u'Prix unitaire', digits=(14,2))
@@ -52,6 +53,7 @@ class is_account_invoice_line(models.Model):
                     ai.state           as state,
                     ail.product_id     as product_id,
                     ail.name           as description,
+                    COALESCE (ail.is_affaire_id, ai.is_affaire_id) as affaire_id,
                     ail.account_id     as account_line_id,
                     ail.quantity       as quantity,
                     ail.price_unit     as price_unit,

@@ -62,6 +62,15 @@ class account_invoice(models.Model):
 
 
     @api.multi
+    def actualiser_affaire_sur_ligne_action(self):
+        for obj in self:
+            if obj.is_affaire_id:
+                for line in obj.invoice_line:
+                    if not line.is_affaire_id:
+                        line.is_affaire_id = obj.is_affaire_id.id
+
+
+    @api.multi
     def voir_facture_fournisseur(self):
         for obj in self:
             res= {
@@ -75,26 +84,9 @@ class account_invoice(models.Model):
             return res
 
 
-
-
-
     def name_search(self, cr, user, name='', args=None, operator='ilike', context=None, limit=100):
         if not args:
             args = []
-#        if name:
-#            try:
-#                id = int(name)
-#            except ValueError:
-#                id = 0
-#            if id>0:
-#                filtre=['|','|','|',('product_id.is_code','ilike', name),('picking_id.name','ilike', name),('origin','ilike', name),('id','=', name)]
-#            else:
-#                filtre=['|','|',('product_id.is_code','ilike', name),('picking_id.name','ilike', name),('origin','ilike', name)]
-#            ids = self.search(cr, user, filtre, limit=limit, context=context)
-#        else:
-#            ids = self.search(cr, user, args, limit=limit, context=context)
-
-
         if name:
             filtre=['|',('name','ilike', name),('internal_number','ilike', name)]
             ids = self.search(cr, user, filtre, limit=limit, context=context)
@@ -106,26 +98,24 @@ class account_invoice(models.Model):
         return result
 
 
-
-
-
-
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
 
+    is_affaire_id = fields.Many2one('is.affaire', u'Affaire')
 
     @api.multi
     def product_id_change(self, product, uom_id, qty=0, name='', type='out_invoice',
             partner_id=False, fposition_id=False, price_unit=False, currency_id=False,
-            company_id=None):
+            company_id=None, is_affaire_id=False):
         res = super(account_invoice_line, self).product_id_change(product, uom_id, qty=qty, name=name, type=type,
             partner_id=partner_id, fposition_id=fposition_id, price_unit=price_unit, currency_id=currency_id,
             company_id=company_id)
         if 'value' in res:
             if 'name' in res['value']:
                 res['value']['name']=False
+            if is_affaire_id:
+                res['value']['is_affaire_id']=is_affaire_id
         return res
-
 
 
 
