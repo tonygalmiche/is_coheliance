@@ -74,6 +74,7 @@ class is_export_compta(models.Model):
                         ai.is_nom_fournisseur,
                         aml.account_id,
                         ai.is_affaire_id,
+                        ai.id,
                         sum(aml.debit), 
                         sum(aml.credit)
 
@@ -81,8 +82,8 @@ class is_export_compta(models.Model):
                                                inner join account_account aa             on aml.account_id=aa.id
                                                inner join res_partner rp                 on ai.partner_id=rp.id
                     WHERE ai.id="""+str(invoice.id)+"""
-                    GROUP BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur,ai.is_nom_fournisseur,aml.account_id,ai.is_affaire_id
-                    ORDER BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur,ai.is_nom_fournisseur,aml.account_id,ai.is_affaire_id
+                    GROUP BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur,ai.is_nom_fournisseur,aml.account_id,ai.is_affaire_id,ai.id
+                    ORDER BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur,ai.is_nom_fournisseur,aml.account_id,ai.is_affaire_id,ai.id
                 """
                 cr.execute(sql)
                 for row in cr.fetchall():
@@ -91,6 +92,7 @@ class is_export_compta(models.Model):
                     affaire    = ''
                     affaire_id = row[9] or False
                     filter=[
+                        ('invoice_id', '=', row[10]),
                         ('account_id', '=', row[8]),
                         ('name'      , '=', row[4]),
                     ]
@@ -116,8 +118,8 @@ class is_export_compta(models.Model):
                         'compte'            : compte,
                         'libelle'           : libelle,
                         'affaire'           : affaire,
-                        'debit'             : row[10],
-                        'credit'            : row[11],
+                        'debit'             : row[11],
+                        'credit'            : row[12],
                         'devise'            : 'E',
                         'piece'             : row[2],
                         'commentaire'       : False,
