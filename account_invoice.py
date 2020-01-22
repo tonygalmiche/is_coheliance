@@ -38,15 +38,27 @@ class account_invoice(models.Model):
         new_id = super(account_invoice, self).create(cr, uid, vals, context=context)
         origin = self.browse(cr, uid, new_id, context).origin
         if origin:
-            sql="select id from sale_order where name= '"+origin+"' order by id desc limit 1"
+            sql="select id,affaire_id from sale_order where name= '"+origin+"' order by id desc limit 1"
             cr.execute(sql)
             res=cr.fetchone()
             if res:
-                order_id=res[0] or False
+                order_id      = res[0] or False
+                is_affaire_id = res[1] or False
                 if order_id:
-                    self.write(cr, uid, new_id, {'order_id': order_id}, context=context)
+                    vals={
+                        'order_id'     : order_id,
+                        'is_affaire_id': is_affaire_id,
+                    }
+                    self.write(cr, uid, new_id, vals, context=context)
         return new_id
 
+
+
+    @api.multi
+    def actualiser_affaire_sur_facture_action(self):
+        for obj in self:
+            if obj.order_id and not obj.is_affaire_id:
+                obj.is_affaire_id = obj.order_id.affaire_id
 
 
     @api.multi
@@ -92,8 +104,6 @@ class account_invoice(models.Model):
 
         result = self.name_get(cr, user, ids, context=context)
         return result
-
-
 
 
 
