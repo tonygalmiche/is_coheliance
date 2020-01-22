@@ -19,6 +19,7 @@ InfoSaône - Module Odoo pour Coheliance
     "mail",
     "calendar",               # Agenda
     "crm",                    # CRM
+    "account",
     "account_voucher",        # eFacturation & Règlements
     "account_accountant",     # Comptabilité et finance
     "sale",                   # Gestion des ventes
@@ -39,7 +40,8 @@ InfoSaône - Module Odoo pour Coheliance
     "product_view.xml", 
     "res_partner_view.xml", 
     "sale_view.xml",
-    "account_invoice_view.xml",    
+    "account_invoice_view.xml",
+    "account_bank_statement_view.xml",
     "is_coheliance_view.xml",
     "is_coheliance_sequence.xml",
     "is_suivi_tresorerie_view.xml",

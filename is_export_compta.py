@@ -40,91 +40,96 @@ class is_export_compta(models.Model):
         cr=self._cr
         for obj in self:
             obj.ligne_ids.unlink()
-            if obj.type_interface=='ventes':
-                type_facture=['out_invoice', 'out_refund']
-                journal='VTE'
-            else:
-                type_facture=['in_invoice', 'in_refund']
-                journal='AC'
-            filter=[
-                ('state'       , 'in' , ['open','paid']),
-                ('type'        , 'in' , type_facture)
-            ]
-            if obj.date_debut:
-                filter.append(('date_invoice', '>=', obj.date_debut))
-            if obj.date_fin:
-                filter.append(('date_invoice', '<=', obj.date_fin))
-            if obj.num_debut:
-                filter.append(('number', '>=', obj.num_debut))
-            if obj.num_fin:
-                filter.append(('number', '<=', obj.num_fin))
-            invoices = self.env['account.invoice'].search(filter, order="date_invoice,id")
-            if len(invoices)==0:
-                raise Warning('Aucune facture à traiter')
-            for invoice in invoices:
-                sql="""
-                    SELECT  
-                        ai.date_invoice,
-                        aa.code, 
-                        ai.number, 
-                        rp.name, 
-                        aml.name,
-                        ai.type, 
-                        rp.is_code_fournisseur,
-                        ai.is_nom_fournisseur,
-                        aml.account_id,
-                        ai.is_affaire_id,
-                        ai.id,
-                        sum(aml.debit), 
-                        sum(aml.credit)
 
-                    FROM account_move_line aml inner join account_invoice ai             on aml.move_id=ai.move_id
-                                               inner join account_account aa             on aml.account_id=aa.id
-                                               inner join res_partner rp                 on ai.partner_id=rp.id
-                    WHERE ai.id="""+str(invoice.id)+"""
-                    GROUP BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur,ai.is_nom_fournisseur,aml.account_id,ai.is_affaire_id,ai.id
-                    ORDER BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur,ai.is_nom_fournisseur,aml.account_id,ai.is_affaire_id,ai.id
-                """
-                cr.execute(sql)
-                for row in cr.fetchall():
+            if obj.type_interface=='ventes' or obj.type_interface=='achats':
 
-                    #** Recherche de l'affaire *********************************
-                    affaire    = ''
-                    affaire_id = row[9] or False
-                    filter=[
-                        ('invoice_id', '=', row[10]),
-                        ('account_id', '=', row[8]),
-                        ('name'      , '=', row[4]),
-                    ]
-                    lines = self.env['account.invoice.line'].search(filter)
-                    for line in lines:
-                        if line.is_affaire_id.id:
-                            affaire_id = line.is_affaire_id.id
-                    if affaire_id : 
-                        affaire = self.env['is.affaire'].browse(affaire_id).name
-                    #***********************************************************
+                if obj.type_interface=='ventes':
+                    type_facture=['out_invoice', 'out_refund']
+                    journal='VTE'
+                else:
+                    type_facture=['in_invoice', 'in_refund']
+                    journal='AC'
+                filter=[
+                    ('state'       , 'in' , ['open','paid']),
+                    ('type'        , 'in' , type_facture)
+                ]
+                if obj.date_debut:
+                    filter.append(('date_invoice', '>=', obj.date_debut))
+                if obj.date_fin:
+                    filter.append(('date_invoice', '<=', obj.date_fin))
+                if obj.num_debut:
+                    filter.append(('number', '>=', obj.num_debut))
+                if obj.num_fin:
+                    filter.append(('number', '<=', obj.num_fin))
+                invoices = self.env['account.invoice'].search(filter, order="date_invoice,id")
+                if len(invoices)==0:
+                    raise Warning('Aucune facture à traiter')
+                for invoice in invoices:
+                    sql="""
+                        SELECT  
+                            ai.date_invoice,
+                            aa.code, 
+                            ai.number, 
+                            rp.name, 
+                            aml.name,
+                            ai.type, 
+                            rp.is_code_fournisseur,
+                            ai.is_nom_fournisseur,
+                            aml.account_id,
+                            ai.is_affaire_id,
+                            ai.id,
+                            sum(aml.debit), 
+                            sum(aml.credit)
 
-                    nom_fournisseur=row[7]
-                    if nom_fournisseur==None:
-                        nom_fournisseur=row[3]
-                    libelle=nom_fournisseur+u' - '+row[4]
-                    compte=str(row[1])
-                    if obj.type_interface=='achats' and compte=='401100':
-                        compte=str(row[6])
-                    vals={
-                        'export_compta_id'  : obj.id,
-                        'date_facture'      : row[0],
-                        'journal'           : journal,
-                        'compte'            : compte,
-                        'libelle'           : libelle,
-                        'affaire'           : affaire,
-                        'debit'             : row[11],
-                        'credit'            : row[12],
-                        'devise'            : 'E',
-                        'piece'             : row[2],
-                        'commentaire'       : False,
-                    }
-                    self.env['is.export.compta.ligne'].create(vals)
+                        FROM account_move_line aml inner join account_invoice ai             on aml.move_id=ai.move_id
+                                                   inner join account_account aa             on aml.account_id=aa.id
+                                                   inner join res_partner rp                 on ai.partner_id=rp.id
+                        WHERE ai.id="""+str(invoice.id)+"""
+                        GROUP BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur,ai.is_nom_fournisseur,aml.account_id,ai.is_affaire_id,ai.id
+                        ORDER BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, ai.date_due, rp.supplier,rp.is_code_fournisseur,ai.is_nom_fournisseur,aml.account_id,ai.is_affaire_id,ai.id
+                    """
+                    cr.execute(sql)
+                    for row in cr.fetchall():
+
+                        #** Recherche de l'affaire *********************************
+                        affaire    = ''
+                        affaire_id = row[9] or False
+                        filter=[
+                            ('invoice_id', '=', row[10]),
+                            ('account_id', '=', row[8]),
+                            ('name'      , '=', row[4]),
+                        ]
+                        lines = self.env['account.invoice.line'].search(filter)
+                        for line in lines:
+                            if line.is_affaire_id.id:
+                                affaire_id = line.is_affaire_id.id
+                        if affaire_id : 
+                            affaire = self.env['is.affaire'].browse(affaire_id).name
+                        #***********************************************************
+
+                        nom_fournisseur=row[7]
+                        if nom_fournisseur==None:
+                            nom_fournisseur=row[3]
+                        libelle=nom_fournisseur+u' - '+row[4]
+                        compte=str(row[1])
+                        if obj.type_interface=='achats' and compte=='401100':
+                            compte=str(row[6])
+                        vals={
+                            'export_compta_id'  : obj.id,
+                            'date_facture'      : row[0],
+                            'journal'           : journal,
+                            'compte'            : compte,
+                            'libelle'           : libelle,
+                            'affaire'           : affaire,
+                            'debit'             : row[11],
+                            'credit'            : row[12],
+                            'devise'            : 'E',
+                            'piece'             : row[2],
+                            'commentaire'       : False,
+                        }
+                        self.env['is.export.compta.ligne'].create(vals)
+
+
 
 
 class is_export_compta_ligne(models.Model):

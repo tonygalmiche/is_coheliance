@@ -90,6 +90,19 @@
         </record>
 
 
+        <!-- Exportation banque -->
+        <!--
+        <record id="is_export_banque_compta_action" model="ir.actions.act_window">
+            <field name="name">Export banque</field>
+            <field name="res_model">is.export.compta</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type_interface','=','banque')]</field>
+            <field name="context">{'default_type_interface': 'banque'}</field>
+        </record>
+        -->
+
+
         <!-- Exportation des achats -->
         <record id="is_export_achat_compta_action" model="ir.actions.act_window">
             <field name="name">Export achats</field>
