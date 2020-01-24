@@ -38,11 +38,34 @@ class is_affaire(models.Model):
             obj.total_refacturable=total_refacturable
 
 
-    total_budget_prevu = fields.Float('Budget prévu', compute='_compute', readonly=True, store=True)
-    affaire_parent_id  = fields.Many2one('is.affaire', u'Affaire parent')
-    affaire_child_ids  = fields.One2many('is.affaire', 'affaire_parent_id', 'Affaires liées', readonly=True)
-    facture_ids        = fields.One2many('account.invoice', 'is_affaire_id', u'Factures fournisseur', readonly=True)
-    total_refacturable = fields.Float('Total refacturable HT', compute='_compute_total_refacturable', readonly=True, store=False)
+    @api.depends('acompte_ids','intervention_ids','facture_ids')
+    def _compute_analyse(self):
+        for obj in self:
+            total_acompte        = 0
+            total_non_facturable = 0
+            total_fournisseur    = 0
+            for line in obj.acompte_ids:
+                total_acompte += line.montant_acompte
+            for line in obj.intervention_ids:
+                total_non_facturable += line.montant_non_facturable
+            for line in obj.facture_ids:
+                total_fournisseur += line.amount_untaxed
+            resultat_net = total_acompte - total_non_facturable - total_fournisseur
+            obj.total_acompte        = total_acompte
+            obj.total_non_facturable = total_non_facturable
+            obj.total_fournisseur    = total_fournisseur
+            obj.resultat_net         = resultat_net
+
+
+    total_budget_prevu   = fields.Float('Budget prévu', compute='_compute', readonly=True, store=True)
+    affaire_parent_id    = fields.Many2one('is.affaire', u'Affaire parent')
+    affaire_child_ids    = fields.One2many('is.affaire', 'affaire_parent_id', 'Affaires liées', readonly=True)
+    facture_ids          = fields.One2many('account.invoice', 'is_affaire_id', u'Factures fournisseur', readonly=True, domain=[('type', 'in', ['in_invoice', 'in_refund'])])
+    total_refacturable   = fields.Float(u'Total refacturable HT', compute='_compute_total_refacturable', readonly=True, store=False)
+    total_acompte        = fields.Float(u'Total des accomptes' , compute='_compute_analyse', readonly=True, store=False, help=u"Total des lignes des accomptes de l'onglet 'Facturation'")
+    total_non_facturable = fields.Float(u'Total non facturable', compute='_compute_analyse', readonly=True, store=False, help=u"Total non facturable de l'onglet 'Interventions'")
+    total_fournisseur    = fields.Float(u'Total fournisseur'   , compute='_compute_analyse', readonly=True, store=False, help=u"Total des factures de l'onglet 'Factures Fournisseurs'")
+    resultat_net         = fields.Float(u'Résultat net affaire', compute='_compute_analyse', readonly=True, store=False, help=u"Résultat net affaire = Total des accomptes - Total non facturable - Total fournisseur")
 
 
     @api.multi

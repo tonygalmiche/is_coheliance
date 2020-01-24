@@ -23,6 +23,7 @@
                 <field name="origine_financement_id"      invisible="context.get('formation',True)"/>
                 <field name="type_stagiaire_organisme_id" invisible="context.get('formation',True)"/>
                 <field name="typologie_stagiaire_id"      invisible="context.get('formation',True)"/>
+                <field name="resultat_net" sum="Total"/>
                 <field name="state" />
             </tree>
         </field>
@@ -192,13 +193,22 @@
                                 <field name="acompte_ids" nolabel="1" context="{'default_affaire_id': id}">
                                     <tree string="Acomptes" editable="bottom">
                                         <field name="date_acompte"/>
-                                        <field name="montant_acompte"/>
+                                        <field name="montant_acompte" sum="Total"/>
                                         <field name="account_id"/>
                                         <field name="commentaire"/>
                                     </tree>
                                 </field>
                             </group>
                         </page>
+                        <page string="Analyse">
+                            <group>
+                                <field name="total_acompte"/>
+                                <field name="total_non_facturable"/>
+                                <field name="total_fournisseur"/>
+                                <field name="resultat_net"/>
+                            </group>
+                        </page>
+
                         <page string="Autres informations">
                             <group>
                                 <field name="order_id" />
