@@ -253,28 +253,63 @@ class is_affaire_intervention(osv.osv):
     _name = 'is.affaire.intervention'
     _description = u"Interventions"
 
+
+    def get_montant_facture(self, obj):
+        intervenant_ids = obj.affaire_id.intervenant_ids
+        trouve=False
+        for intervenant in intervenant_ids:
+            if(obj.associe_id and intervenant.associe_id.id==obj.associe_id.id):
+                trouve=intervenant
+            if(obj.sous_traitant_id and intervenant.sous_traitant_id.id==obj.sous_traitant_id.id):
+                trouve=intervenant
+        taux=0
+        if trouve:
+            if obj.unite_temps=="heure":
+                taux=trouve.taux1
+            if obj.unite_temps=="demi-jour":
+                taux=trouve.taux2
+            if obj.unite_temps=="jour":
+                taux=trouve.taux3
+        montant = taux*obj.temps_passe
+        return montant
+
+
     def _montant_facture(self, cr, uid, ids, field_name, arg, context=None):
         res={}
         for obj in self.browse(cr, uid, ids, dict(context, active_test=False)):
-            intervenant_ids = obj.affaire_id.intervenant_ids
-            trouve=False
-            for intervenant in intervenant_ids:
-                if(obj.associe_id and intervenant.associe_id.id==obj.associe_id.id):
-                    trouve=intervenant
-                if(obj.sous_traitant_id and intervenant.sous_traitant_id.id==obj.sous_traitant_id.id):
-                    trouve=intervenant
-            taux=0
-            if trouve:
-                if obj.unite_temps=="heure":
-                    taux=trouve.taux1
-                if obj.unite_temps=="demi-jour":
-                    taux=trouve.taux2
-                if obj.unite_temps=="jour":
-                    taux=trouve.taux3
-
-            res[obj.id] = taux*obj.temps_passe
+            montant = 0
+            if obj.facturable:
+                montant = self.get_montant_facture(obj)
+#            montant = 0
+#            if obj.facturable:
+#                intervenant_ids = obj.affaire_id.intervenant_ids
+#                trouve=False
+#                for intervenant in intervenant_ids:
+#                    if(obj.associe_id and intervenant.associe_id.id==obj.associe_id.id):
+#                        trouve=intervenant
+#                    if(obj.sous_traitant_id and intervenant.sous_traitant_id.id==obj.sous_traitant_id.id):
+#                        trouve=intervenant
+#                taux=0
+#                if trouve:
+#                    if obj.unite_temps=="heure":
+#                        taux=trouve.taux1
+#                    if obj.unite_temps=="demi-jour":
+#                        taux=trouve.taux2
+#                    if obj.unite_temps=="jour":
+#                        taux=trouve.taux3
+#                montant = taux*obj.temps_passe
+            res[obj.id] = montant
         return res
 
+
+    def _montant_non_facturable(self, cr, uid, ids, field_name, arg, context=None):
+        res={}
+        for obj in self.browse(cr, uid, ids, dict(context, active_test=False)):
+            montant = 0
+            if not obj.facturable:
+                montant = self.get_montant_facture(obj)
+            res[obj.id] = montant
+        return res
 
 
     def _temps_formation(self, cr, uid, ids, field_name, arg, context=None):
@@ -292,22 +327,25 @@ class is_affaire_intervention(osv.osv):
 
 
     _columns = {
-        'affaire_id': fields.many2one('is.affaire', 'Affaire', required=True),
-        'date': fields.date(u"Date", required=True),
-        'associe_id': fields.many2one('res.users', u'Associé'),
-        'sous_traitant_id': fields.many2one('res.partner', u'Sous-Traitant'),
-        'temps_passe': fields.float(u"Temps passé", required=True),
-        'unite_temps': fields.selection([('heure','Heure'),('demi-jour','Demi-journée'),('jour','Jour')], u"Unité de temps", required=True),
-        'nb_stagiaire': fields.integer(u"Nombre de stagiaires"),
-        'temps_formation': fields.function(_temps_formation, type='float', string="Temps de formation", store=True, ),
-        'montant_facture': fields.function(_montant_facture, type='float', string="Montant à facturer", store=True, ),
-        'commentaire': fields.text(u"Commentaire"),
+        'affaire_id'            : fields.many2one('is.affaire', 'Affaire', required=True),
+        'date'                  : fields.date(u"Date", required=True),
+        'associe_id'            : fields.many2one('res.users', u'Associé'),
+        'sous_traitant_id'      : fields.many2one('res.partner', u'Sous-Traitant'),
+        'temps_passe'           : fields.float(u"Temps passé", required=True),
+        'unite_temps'           : fields.selection([('heure','Heure'),('demi-jour','Demi-journée'),('jour','Jour')], u"Unité de temps", required=True),
+        'nb_stagiaire'          : fields.integer(u"Nombre de stagiaires"),
+        'temps_formation'       : fields.function(_temps_formation, type='float', string="Temps de formation", store=True, ),
+        'facturable'            : fields.boolean(u"Facturable"),
+        'montant_facture'       : fields.function(_montant_facture       , type='float', string="Montant à facturer"    , store=True),
+        'montant_non_facturable': fields.function(_montant_non_facturable, type='float', string="Montant non facturable", store=True),
+        'commentaire'           : fields.text(u"Commentaire"),
     }
 
     _defaults = {
         'associe_id': lambda obj, cr, uid, context: uid,
         'date': fields.datetime.now,
         'unite_temps': 'heure',
+        'facturable': True,
     }
 
 

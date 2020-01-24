@@ -117,7 +117,9 @@
                                         <field name="unite_temps" />
                                         <field name="nb_stagiaire" />
                                         <field name="temps_formation" sum="Total" />
-                                        <field name="montant_facture" sum="Total" readonly="1"/>
+                                        <field name="facturable"/>
+                                        <field name="montant_facture"        sum="Total" readonly="1"/>
+                                        <field name="montant_non_facturable" sum="Total" readonly="1"/>
                                         <field name="commentaire"/>
                                     </tree>
                                 </field>
