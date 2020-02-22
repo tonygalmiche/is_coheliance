@@ -453,6 +453,52 @@
     </record>
 
 
+    <!-- is.fiche.frais -->
+    <record id="is_fiche_frais_form" model="ir.ui.view">
+        <field name="name">is.fiche.frais.form</field>
+        <field name="model">is.fiche.frais</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="user_id"/>
+                        <field name="date_debut"/>
+                        <field name="date_fin"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="is_fiche_frais_tree" model="ir.ui.view">
+        <field name="name">is.fiche.frais.tree</field>
+        <field name="model">is.fiche.frais</field>
+        <field name="arch" type="xml">
+            <tree >
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="date_debut"/>
+                <field name="date_fin"/>
+            </tree>
+        </field>
+    </record>
+    <record id="is_fiche_frais_search" model="ir.ui.view">
+        <field name="name">is.fiche.frais.search</field>
+        <field name="model">is.fiche.frais</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="user_id"/>
+           </search>
+        </field>
+    </record>
+    <record id="is_fiche_frais_action" model="ir.actions.act_window">
+        <field name="name">Déclaration Frais</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">is.fiche.frais</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="is_fiche_frais_search"/>
+    </record>
 
     </data>
 </openerp>

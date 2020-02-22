@@ -235,6 +235,63 @@ class is_frais_ligne(models.Model):
         return res
 
 
+class is_fiche_frais(models.Model):
+    _name = 'is.fiche.frais'
+    _description = u"Fiche de frais mensuelle"
+    _order='name desc'
+
+
+    def _date_debut(self):
+        now  = datetime.date.today()              # Ce jour
+        j    = now.day                            # Numéro du jour dans le mois
+        d    = now - datetime.timedelta(days=j)   # Dernier jour du mois précédent
+        j    = d.day                              # Numéro jour mois précédent
+        d    = d - datetime.timedelta(days=(j-1)) # Premier jour du mois précédent
+        return d.strftime('%Y-%m-%d')
+
+
+    def _date_fin(self):
+        now  = datetime.date.today()            # Ce jour
+        j    = now.day                          # Numéro du jour dans le mois
+        d    = now - datetime.timedelta(days=j) # Dernier jour du mois précédent
+        return d.strftime('%Y-%m-%d')
+
+
+
+    name       = fields.Char(u"Numéro")
+    user_id    = fields.Many2one('res.users', u'Associé', required=True, default=lambda self: self.env.user)
+    date_debut = fields.Date(u"Date de début"           , required=True, default=lambda self: self._date_debut())
+    date_fin   = fields.Date(u"Date de fin"             , required=True, default=lambda self: self._date_fin())
+
+
+    @api.model
+    def create(self, vals):
+        data_obj = self.env['ir.model.data']
+        sequence_ids = data_obj.search([('name','=','is_fiche_frais_seq')])
+        if sequence_ids:
+            sequence_id = data_obj.browse(sequence_ids[0].id).res_id
+            vals['name'] = self.env['ir.sequence'].get_id(sequence_id, 'id')
+        res = super(is_fiche_frais, self).create(vals)
+        return res
+
+
+    @api.multi
+    def get_frais(self):
+        for obj in self:
+            filtre=[
+                ('intervenant_id','=',obj.user_id.id),
+                ('date','>=',obj.date_debut),
+                ('date','<=',obj.date_fin),
+                ('km','>',0),
+            ]
+            frais = self.env['is.frais.ligne'].search(filtre,order='date',limit=5000)
+            return frais
+
+
+
+
+
+
 
 
 

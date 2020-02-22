@@ -60,6 +60,7 @@ InfoSaône - Module Odoo pour Coheliance
     "views/report_contrat_formation.xml",
     "views/report_invoice.xml",
     "views/report_frais.xml",
+    "views/report_fiche_frais.xml",
     "views/report_compte_resultat.xml",
     "report/is_suivi_facture.xml",
     "report/is_suivi_refacturation_associe.xml",
