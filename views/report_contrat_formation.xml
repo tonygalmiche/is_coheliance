@@ -37,30 +37,9 @@
                             background-color:#FF99FF;
                             padding:2pt;
                         }
-                        .contrat{
-                            font-size:8.5pt;
-                            text-align: justify;
-                        }
-                        .contrat h2{
-                            margin-top:7pt;
-                            margin-bottom:3pt;
-                            font-size:10pt;
-                            font-weight: bold;
-                            text-align: left;
-                        }
-                        .contrat h3{
-                            margin-top:7pt;
-                            margin-bottom:3pt;
-                            font-size:9pt;
-                            font-weight: bold;
-                            text-align: left;
-                        }
-
                         .border-top{
                             border-top:1pt solid black;
                         }
-
-
                         .titre1{
                             font-weight: bold;
                             text-decoration :underline;
@@ -106,25 +85,30 @@
                         }
 
                         .contrat{
-                            font-size:8pt;
+                            font-size:9pt;
                             text-align: justify;
                         }
                         .contrat h2{
                             margin-top:7pt;
                             margin-bottom:3pt;
-                            font-size:10pt;
+                            font-size:12pt;
                             font-weight: bold;
                             text-align: left;
                         }
                         .contrat h3{
                             margin-top:1mm;
                             margin-bottom:0;
-                            font-size:8.5pt;
+                            font-size:10pt;
                             font-weight: bold;
                             text-align: left;
                         }
-
-
+                        .contrat h4{
+                            margin-top:3pt;
+                            margin-bottom:2pt;
+                            font-size:10pt;
+                            text-align: left;
+                            text-decoration: underline;
+                        }
 
                     </style>
 
@@ -307,7 +291,7 @@
                     <div class="row contrat">
 
                         <table style="width:100%">
-                            <tr><th>Modalités</th></tr>
+                            <tr><th>Contrat de formation - Conditions Générales de Ventes</th></tr>
                             <tr><td style="text-align: justify;"> 
 
 <h3>Validité du contrat</h3>
@@ -316,8 +300,22 @@ Les parties sont engagées sur les conditions particulières et générales du c
 <h3>Délai de rétractation</h3>
 A compter de la date de signature du présent contrat, le stagiaire a un délai de dix jours pour se rétracter. Il en informe l’organisme de formation par lettre recommandée avec demande d’avis de réception.
 
+<h4>Cas particulier d’une prestation en collectif payée via une plateforme internet :</h4>
+Si le paiement a été effectué via une plateforme internet, le délai de Rétractation de 14 jours est valable : le stagiaire a le droit de se rétracter mais passé un délai de dix jours avant le 1er jour de la prestation, il ne pourra être remboursé. En effet, le stagiaire participant à un collectif, l’équilibre général serait alors ébranlé et son absence pourrait mettre en danger la réalisation même de la prestation.
+
+<h4>Cas d’une prestation en individuel payée via une plateforme internet  :</h4>
+Si le paiement a été effectué via une plateforme internet, le délai de Rétractation de 14 jours est valable : le stagiaire a le droit de se rétracter mais passé un délai de deux jours avant le 1er jour, il ne pourra être remboursé. En effet, le stagiaire en rdv individuel avec un coach engage une charge qui ne pourra être remplacée en 48h ; son absence pourrait mettre en danger l’équilibre général financier.<br />
+En cas d’inscription au dernier moment (en dessous du délai), il n’est pas possible de faire valoir une demande de remboursement.
+
 <h3>Exécution de la commande</h3>
-L’organisme de formation s’engage à exécuter la commande. Le Stagiaire reste seul responsable des solutions choisies et mises en place par ses soins, ainsi que de l’analyse des études effectuées à sa demande. Les délais d’exécution stipulés sont de rigueur ; en cas de dépassement, les parties peuvent simplement avoir recours au paragraphe « résiliation », sauf stipulation expresse contraire.
+L’organisme de formation s’engage à exécuter la commande. Le Stagiaire reste seul responsable des solutions choisies et mises en place par ses soins, ainsi que de l’analyse des études effectuées à sa demande. Les délais d’exécution stipulés sont de rigueur ; en cas de dépassement, les parties peuvent simplement avoir recours au paragraphe « résiliation », sauf stipulation expresse contraire.<br />
+Coheliance garantit l’accès aux personnes handicapées dans ses locaux.<br />
+Dans tous les cas, il est vivement recommandé au Client de prévenir en amont (au minimum 15 jours ouvrés avant le 1er jour de l’intervention) s’il est porteur d’un handicap nécessitant un accès spécifique et/ou une adaptation pédagogique de la formation.
+
+<h3>Modalites d’évaluation</h3>
+- Le prestataire propose une évaluation initiale facultative avec un Profil Payant (à ce jour : PPI, PXT, HBDI, PCM)<br />
+- Le stagiaire complète une évaluation des compétences acquises en fin de parcours (en cas de parcours comprenant plusieurs journées séparées, à la fin de chaque journée)<br />
+- Le stagiaire complète une évaluation du formateur et de la formation en générale en fin de parcours<br />
 
 <h3>Confidentialité et propriété des résultats</h3>
 L’organisme de formation considérera comme strictement confidentiels et s’interdit de divulguer, toute information, document, donnée ou concept, dont il pourrait avoir connaissance à l’occasion du présent contrat. De convention expresse, les résultats de la mission seront en la pleine maîtrise du Stagiaire, à dater du paiement intégral de la prestation et il pourra en disposer comme il l’entend. Pour sa part, l’Organisme de Formation s’interdit de faire état des résultats et de les utiliser de quelque manière, sauf à obtenir préalablement l’autorisation écrite du Stagiaire.
@@ -334,13 +332,16 @@ Tous les droits relatifs à la protection des données personnelles peuvent se f
 <h3>Prix, modalités de paiement et de facturation</h3>
 Le prix de la commande est celui indiqué aux conditions particulières. Une modification de prix ne peut résulter que d’un avenant au présent contrat.
 A noter : si un ou plusieurs rendez-vous ne sont pas honorés par le Stagiaire, et cela sans préavis, les séances seront facturées.
-Les factures sont adressées au Stagiaire et rappellent l’objet du contrat et le nom de l’Intervenant(e). Sauf stipulations contraires, le règlement des factures doit être effectué comptant à réception de facture. Lorsque le règlement n’est pas réceptionné dans le délai convenu, l’Organisme de Formation est en droit de poursuivre le recouvrement du principal et des intérêts de retard facturés et calculés de la date de facture à la date du paiement effectif, sur la base du taux d’intérêt légal augmenté de 7 points. Lorsque l’Organisme de Formation doit établir une facture de ces intérêts, il est en droit de facturer de plus une pénalité de retard égale à 10% du montant impayé afin de couvrir les frais de recouvrement de cette facture.
+Les factures sont adressées au Stagiaire et rappellent l’objet du contrat et le nom de l’Intervenant(e).<br />
+Sauf stipulations contraires, le règlement des factures doit être effectué comptant avant le début de la formation. Lorsque le règlement n’est pas réceptionné dans le délai convenu, l’Organisme de Formation est en droit de poursuivre le recouvrement du principal et des intérêts de retard facturés et calculés de la date de facture à la date du paiement effectif, sur la base du taux d’intérêt légal augmenté de 7 points. Lorsque l’Organisme de Formation doit établir une facture de ces intérêts, il est en droit de facturer de plus une pénalité de retard égale à 10% du montant impayé afin de couvrir les frais de recouvrement de cette facture.
 
 <h3>Responsabilités</h3>
 L’organisme de formation déclare être assuré en responsabilité civile professionnelle. Il limite sa responsabilité résultant de l’exécution ou de l’inexécution des obligations décrites au présent contrat, à un montant égal au plafond annuel par sinistre défini par la police en vigueur à la date de la souscription du contrat. Le Stagiaire accepte de renoncer à un recours contre l’organisme de formation au-delà de la limite des sommes assurées et s’engage à y faire renoncer son assureur dans les mêmes conditions.
 
 <h3>Suspension du contrat</h3>
 Lorsque l’exécution du contrat est confiée à un Intervenant unique, la maladie ou l’accident entraînant un arrêt de travail d’une durée inférieure à trois (3) mois suspendent l’exécution du contrat et en prorogent d’autant la durée.
+
+<div style="page-break-before:always"/>
 
 <h3>Résiliation du contrat</h3>
 En cas de cessation anticipée de la formation du fait de l’organisme de formation ou l’abandon du stage par le stagiaire pour un autre motif que la force majeure dûment reconnue, le présent contrat est résilié selon les modalités financières suivantes :<br />
@@ -352,9 +353,11 @@ C) de plein droit, en cas de rupture du contrat de travail entre l’Organisme d
 D) lorsque la mission objet du contrat est d’une durée initiale supérieure à trois (3) mois ou après reconduction, une résiliation peut intervenir à la demande de l’une ou l’autre des parties sous réserve d’un préavis de six (6) semaines à dater de la première présentation de la lettre recommandée avec accusé de réception.
 Dans tous les cas, les sommes perçues et celles facturées par l’organisme de formation pour les travaux effectués lui demeureront acquises et le délai de règlement est ramené au plus tard à la date d’effet de la résiliation.
 En cas d’interruption unilatérale du contrat par le stagiaire sans possibilité de trouver une solution amiable, celui-ci s’engage à verser à l’organisme de formation 50% du montant des actions suivantes non encore réalisées.<br />
+En cas d’interruption unilatérale du contrat par le stagiaire sans possibilité de trouver une solution amiable, celui-ci s’engage à verser à l’organisme de formation 100% du montant des actions suivantes non encore réalisées.
 
 <h3>Règlement Intérieur</h3>
-Le Règlement Intérieur établi conformément aux articles L6352-3 et L6352-4 et R6352-1 à R6352-15 du Code du Travail est affiché dans ses locaux et consultable/téléchargeable sur son site internet www.coheliance.com 
+Le Règlement Intérieur établi conformément aux articles L6352-3 et L6352-4 et R6352-1 à R6352-15 du Code du Travail est affiché dans ses locaux et consultable/téléchargeable sur son site internet : <br />
+https://www.coheliance.com/wp-content/uploads/2018/07/REGLEMENT_INTERIEUR_COHELIANCE_v5.pdf 
 
 <h3>Cas de Différend</h3>
 Si une constatation ou un différend n’ont pu être réglés à l’amiable, le Tribunal de Dijon sera seul compétent pour régler le litige.

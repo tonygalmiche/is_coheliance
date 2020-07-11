@@ -31,7 +31,7 @@
                             padding:2pt;
                         }
                         .contrat{
-                            font-size:8pt;
+                            font-size:9pt;
                             text-align: justify;
                         }
                         .contrat h2{
@@ -44,9 +44,16 @@
                         .contrat h3{
                             margin-top:5pt;
                             margin-bottom:2pt;
-                            font-size:9pt;
+                            font-size:10pt;
                             font-weight: bold;
                             text-align: left;
+                        }
+                        .contrat h4{
+                            margin-top:3pt;
+                            margin-bottom:2pt;
+                            font-size:10pt;
+                            text-align: left;
+                            text-decoration: underline;
                         }
 
 
@@ -226,15 +233,17 @@
                     <div style="page-break-before:always"/>
 
                     <div class="row contrat">
-
-<h2>Modalités de collaboration</h2>
+<br />
+<h2>Contrat de prestation - Conditions Générales des Ventes</h2>
 
 
 <h3>Validité du contrat</h3>
 Les parties sont engagées sur les conditions particulières et générales du contrat lorsqu’il a été approuvé par le Client et par le Prestataire, par la signature d’une personne habilitée à engager la société en vertu d’un mandat général ou spécial. Lorsqu’il est requis, le visa de l’Intervenant désigné manifeste seulement son accord personnel pour exécuter la mission. Toute modification se fait par voie d’avenant.
 
 <h3>Exécution de la commande</h3>
-Le Prestataire s’engage à exécuter la commande conformément aux règles de l’art. Le Client reste seul responsable des solutions choisies et mises en place par ses soins, ainsi que de l’analyse des études effectuées à sa demande. Le Client s’engage à fournir les éléments et moyens matériels et techniques nécessaires à l’exécution de la mission et notamment à fournir toute la documentation qu’il détient pouvant influer sur l’objet de l’étude. Les délais d’exécution stipulés sont de rigueur ; en cas de dépassement, les parties peuvent simplement avoir recours au paragraphe « résiliation », sauf stipulation expresse contraire.
+Le Prestataire s’engage à exécuter la commande conformément aux règles de l’art. Le Client reste seul responsable des solutions choisies et mises en place par ses soins, ainsi que de l’analyse des études effectuées à sa demande. Le Client s’engage à fournir les éléments et moyens matériels et techniques nécessaires à l’exécution de la mission et notamment à fournir toute la documentation qu’il détient pouvant influer sur l’objet de l’étude. Les délais d’exécution stipulés sont de rigueur ; en cas de dépassement, les parties peuvent simplement avoir recours au paragraphe « résiliation », sauf stipulation expresse contraire.<br />
+Coheliance garantit l’accès aux personnes handicapées dans ses locaux.<br />
+Dans tous les cas, il est vivement recommandé au Client de prévenir en amont (au minimum 15 jours ouvrés avant le 1er jour de l’intervention) s’il est porteur d’un handicap nécessitant un accès spécifique et/ou une adaptation pédagogique de la formation
 
 <h3>Confidentialité et propriété des résultats</h3>
 Le Prestataire considérera comme strictement confidentiels et s’interdit de divulguer, toute information, document, donnée ou concept, dont il pourrait avoir connaissance à l’occasion du présent contrat. De convention expresse, les résultats de la mission seront en la pleine maîtrise du Client, à dater du paiement intégral de la prestation et il pourra en disposer comme il l’entend. Pour sa part, le Prestataire s’interdit de faire état des résultats et de les utiliser de quelque manière, sauf à obtenir préalablement l’autorisation écrite du Client.
@@ -252,13 +261,29 @@ protection des données personnelles peuvent se faire par mail à l’adresse su
 <h3>Prix, modalités de paiement et de facturation</h3>
 Le prix de la commande est celui indiqué aux conditions particulières. Il peut être stipulé sous forme de forfait ou bien sous forme de modalité de calcul précisant des taux horaires ou journaliers ou encore sous forme de taux de rémunération basés sur des valeurs de référence définies en commun. Le prix est toujours stipulé hors TVA française. La facturation de la TVA s’effectue en application des règles légales en vigueur. Une modification de prix ne peut résulter que d’un avenant au présent contrat.
 A noter : si un ou plusieurs rendez-vous ne sont pas honorés par le client, et cela sans préavis, les séances seront facturées.
-Les factures sont adressées au service désigné par le Client et rappellent l’objet du contrat et le nom de l’Intervenant(e). Sauf stipulations contraires, le règlement des factures doit être effectué comptant à réception de facture. Lorsque le règlement n’est pas réceptionné dans le délai convenu, le Prestataire est en droit de poursuivre le recouvrement du principal et des intérêts de retard facturés et calculés de la date de facture à la date du paiement effectif, sur la base du taux d’intérêt légal augmenté de 7 points. Lorsque le Prestataire doit établir une facture de ces intérêts, il est en droit de facturer de plus une pénalité de retard égale à 10% du montant impayé afin de couvrir les frais de recouvrement de cette facture.
+Les factures sont adressées au service désigné par le Client et rappellent l’objet du contrat et le nom de l’Intervenant(e).<br />
+
+
+
+<h4>Cas particulier d’une prestation en collectif payée via une plateforme internet :</h4>
+Si le paiement a été effectué via une plateforme internet, le délai de Rétractation de 14 jours est valable : le stagiaire a le droit de se rétracter mais passé un délai de dix jours avant le 1er jour de la prestation, il ne pourra être remboursé. En effet, le stagiaire participant à un collectif, l’équilibre général serait alors ébranlé et son absence pourrait mettre en danger la réalisation même de la prestation.
+
+<h4>Cas d’une prestation en individuel payée via une plateforme internet  :</h4>
+Si le paiement a été effectué via une plateforme internet, le délai de Rétractation de 14 jours est valable : le stagiaire a le droit de se rétracter mais passé un délai de deux jours avant le 1er jour, il ne pourra être remboursé. En effet, le stagiaire en rdv individuel avec un coach engage une charge qui ne pourra être remplacée en 48h ; son absence pourrait mettre en danger l’équilibre général de la prestation.
+En cas d’inscription au dernier moment (en dessous du délai), il n’est pas possible de faire valoir une demande de remboursement.
+<br />
+Sauf stipulations contraires, le règlement des factures doit être effectué comptant à réception de facture. Lorsque le règlement n’est pas réceptionné dans le délai convenu, le Prestataire est en droit de poursuivre le recouvrement du principal et des intérêts de retard facturés et calculés de la date de facture à la date du paiement effectif, sur la base du taux d’intérêt légal augmenté de 7 points. Lorsque le Prestataire doit établir une facture de ces intérêts, il est en droit de facturer de plus une pénalité de retard égale à 10% du montant impayé afin de couvrir les frais de recouvrement de cette facture.
 
 <h3>Responsabilités</h3>
 Le Prestataire déclare être assuré en responsabilité civile professionnelle. Le Prestataire limite sa responsabilité résultant de l’exécution ou de l’inexécution des obligations décrites au présent contrat, à un montant égal au plafond annuel par sinistre défini par la police en vigueur à la date de la souscription du contrat. Le Client accepte de renoncer à un recours contre le Prestataire au-delà de la limite des sommes assurées et s’engage à y faire renoncer son assureur dans les mêmes conditions.
 
 <h3>Règlement Intérieur</h3>
-Le Règlement Intérieur établi conformément aux articles L6352-3 et L6352-4 et R6352-1 à R6352-15 du Code du Travail est affiché dans ses locaux et consultable/téléchargeable sur son site internet www.coheliance.com 
+Le Règlement Intérieur établi conformément aux articles L6352-3 et L6352-4 et R6352-1 à R6352-15 du Code du Travail est affiché dans ses locaux et consultable/téléchargeable sur son site internet : <br />
+https://www.coheliance.com/wp-content/uploads/2018/07/REGLEMENT_INTERIEUR_COHELIANCE_v5.pdf
+<br />
+Le Client s’engage à faire parvenir ce lien aux participants avant le début de la formation.
+
+<div style="page-break-before:always"/>
 
 <h3>Suspension du contrat</h3>
 Lorsque l’exécution du contrat est confiée à un Intervenant unique, la maladie ou l’accident entraînant un arrêt de travail d’une durée inférieure à trois (3) mois suspendent l’exécution du contrat et en prorogent d’autant la durée.
@@ -275,7 +300,7 @@ Dans tous les cas, les sommes perçues et celles facturées par le Prestataire p
 En cas d’interruption unilatérale du contrat par le client sans possibilité de trouver une solution amiable, celui-ci s’engage à verser au prestataire 50% du montant des actions suivantes non encore réalisées.
 
 <h3>Référencement</h3>
-Le Client autorise le Prestataire et ses Intervenants désignés au contrat à inscrire les travaux convenus une fois accomplis au nombre de leurs références.
+Le Client autorise le Prestataire et ses Intervenants désignés au contrat à inscrire les travaux convenus une fois accomplis au nombre de leurs références (nom du Client, logo du client, titre générique de la mission).
 
 <h3>Droit applicable et attribution de compétences. Interprétation du contrat.</h3>
 La loi du présent contrat est la loi française. Les litiges relatifs à sa formation, son interprétation et son exécution, même en cas d’appel de garantie, de pluralité de défendeurs ou de connexité, sont soumis à la compétence exclusive du tribunal de commerce de Dijon, lieu du siège social du Prestataire.

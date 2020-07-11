@@ -171,6 +171,7 @@
                                     <div class="titre2">OBJECTIFS DE LA FORMATION</div>
                                     <p class="texte" t-field="o.objectif" />
                                     <br />
+                                    Le Client s’engage à communiquer ces objectifs aux stagiaires avant le début de la formation.
                                     <div class="titre1">ARTICLE II - NATURE ET CARACTERISTIQUES DE L’ACTION DE FORMATION </div>
                                     <p class="texte">a) Les actions de formation envisagées entrent dans l’une des catégories prévues aux articles L6313-1 et 
                                         suivants du Code du Travail :</p>
@@ -217,6 +218,26 @@
                         <table style="width:100%">
                             <tr><th>Programme</th></tr>
                             <tr><td><span t-field="o.descriptif" /></td></tr>
+
+                            <tr><th>Prerequis</th></tr>
+                            <tr>
+                                <td>
+- Avoir lu le programme avant la session<br />
+- Être en mesure de donner des exemples tirés de l’entreprise en lien avec la thématique<br />
+- Aucun diplôme spécifique exigé<br />
+                                </td>
+                            </tr>
+
+                            <tr><th>Modalites d’évaluation </th></tr>
+                            <tr>
+                                <td>
+- Le prestataire propose une évaluation initiale facultative avec un Profil Payant (à ce jour : PPI, PXT, HBDI, PCM)<br />
+- Le stagiaire complète une évaluation des compétences acquises en fin de parcours (en cas de parcours comprenant plusieurs journées séparées, à la fin de chaque journée)<br />
+- Le stagiaire complète une évaluation du formateur et de la formation en générale en fin de parcours<br />
+Le Client s’engage à communiquer aux stagiaires ces éléments relatifs au programme et ce, avant le début de la formation
+                                </td>
+                            </tr>
+
                         </table>
                     </div>
                     <br />
@@ -233,8 +254,19 @@
                         </p>
                         <p class="texte">
                             Le Règlement Intérieur de <span t-field="res_company.name"/> établi conformément aux articles L6352-3 et L6352-4 et R6352-1 à 
-                            R6352-15 du Code du Travail est affiché dans ses locaux et consultable/téléchargeable sur son site internet www.coheliance.com
+                            R6352-15 du Code du Travail est affiché dans ses locaux et consultable/téléchargeable sur son site internet : <br />
+                            https://www.coheliance.com/wp-content/uploads/2018/07/REGLEMENT_INTERIEUR_COHELIANCE_v5.pdf
                         </p>
+
+
+                        <p class="texte">
+                            Le Client s’engage à faire parvenir ce lien aux stagiaires avant le début de la formation
+                        </p>
+                        <p class="texte">
+                            Coheliance garantit l’accès aux personnes handicapées dans ses locaux. Dans le cas d’une formation qui se situe dans l’entreprise ou dans un lieu choisi par l’entreprise, le Client doit alors vérifier cet accès handicapé.
+                            Dans tous les cas, le Client est invité à prévenir en amont (au minimum 15 jours ouvrés avant le 1er jour de l’intervention) si un stagiaire est porteur d’un handicap nécessitant un accès spécifique et/ou une adaptation pédagogique de la formation
+                        </p>
+
                     </div>
                     <br />
                     <div class="row cadre">
@@ -352,7 +384,7 @@
                     <div class="row cadre">
                         <div class="titre1">ARTICLE VI – REFERENCEMENT</div>
                         <p class="texte">
-                            Le Client autorise le Prestataire et ses Intervenants désignés à la présente convention à inscrire les travaux convenus une fois accomplis au nombre de leurs références.
+                            Le Client autorise le Prestataire et ses Intervenants désignés à la présente convention à inscrire les travaux convenus une fois accomplis au nombre de leurs références (nom du Client, logo du client, titre générique de la mission).
                         </p>
                     </div>
                     <br />
