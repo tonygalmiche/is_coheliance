@@ -13,7 +13,7 @@
                     <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 100px;"/>
                 </div>
                 <div class="col-xs-7 text-right">
-                    <img t-att-src="'/is_coheliance/static/img/logo-afnor-qualiopi.jpg'" style="max-height: 100px;"/>
+                    <!-- <img t-att-src="'/is_coheliance/static/img/logo-afnor-qualiopi.jpg'" style="max-height: 100px;"/> -->
                 </div>
             </div>
         </div>
