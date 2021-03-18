@@ -389,6 +389,9 @@ Paraphe des parties.
                                         Fait à Dijon en double exemplaire<br />
                                         Le <span t-field="o.date_signature" /><br />
 
+                                        <t t-if="o.pilote_id.login == 'c.jacquier@coheliance.com'">
+                                            <img t-att-src="'/is_coheliance/static/img/signature-clement-jacquier.jpg'" style="max-height: 20mm;"/>
+                                        </t>
 
                                         <t t-if="o.pilote_id.login == 'jp.fiasson@coheliance.com'">
                                             <img t-att-src="'/is_coheliance/static/img/signature-jean-pierre-fiasson.png'" style="max-height: 20mm;"/>
