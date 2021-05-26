@@ -19,7 +19,7 @@ class is_bilan_pedagogique(models.Model):
     heure_formation       = fields.Integer("E - Nombre d'heures de formation associés")
     heure_formation_st    = fields.Integer("E - Nombre d'heures de formation des sous-traitant")
 
-    type_stagiaire_ids    = fields.One2many('is.bilan.pedagogique.type.stagiaire', 'bilan_id', string="F1 - Type de stagiaires de l'organisme")
+    type_stagiaire_ids    = fields.One2many('is.bilan.pedagogique.type.stagiaire', 'bilan_id', string="F1a - Type de stagiaires de l'organisme")
 
     f2a_nb_stagiaire    = fields.Integer("F2a - Formés par votre organisme pour son propre compte - Nombre de stagiaires")
     f2a_heure_formation = fields.Integer("F2a - Formés par votre organisme pour son propre compte - Nombre total d'heures")
@@ -149,8 +149,10 @@ class is_bilan_pedagogique(models.Model):
                     select ia.id, max(ia.nb_stagiaire)
                     from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
                                                      inner join product_template pt on ia.article_id=pt.id
+                                                     left outer join is_origine_financement iof on ia.origine_financement_id=iof.id
                     where iai.date>='"""+str(obj.name)+"""-01-01' and 
                           iai.date<='"""+str(obj.name)+"""-12-31' and
+                          (iof.name not like '11%' or iof.name is null) and
                           (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
                 """
                 if type_stagiaire:
@@ -169,8 +171,10 @@ class is_bilan_pedagogique(models.Model):
                     select sum(iai.temps_formation)
                     from is_affaire_intervention iai inner join is_affaire ia on iai.affaire_id=ia.id
                                                      inner join product_template pt on ia.article_id=pt.id
+                                                     left outer join is_origine_financement iof on ia.origine_financement_id=iof.id
                     where iai.date>='"""+str(obj.name)+"""-01-01' and 
                           iai.date<='"""+str(obj.name)+"""-12-31' and
+                          (iof.name not like '11%' or iof.name is null) and
                           (pt.name ilike '%FORMATION%' or pt.name ilike '%STAGE%')
                 """
                 if type_stagiaire:
